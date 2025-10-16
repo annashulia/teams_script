@@ -1,0 +1,16 @@
+ID,Title,Preconditions,Steps,Expected Result,Priority,Type,,Trigger page URL:https://app.slotsense.ai/auth/signin
+AUTH-001,Successful login,Valid user exists,Open login page → Enter valid email & password → Click Sign in,"Redirect to dashboard, 200 response, session cookie created",High,Positive,,
+AUTH-002,Empty fields validation,-,Open login page → Leave fields empty → Click Sign in,"Validation error shown(required), no network call",High,Negative,,
+AUTH-003,Invalid password,Valid email exists,Enter valid email and wrong password → Click Sign in,"Error message 'Incorrect email or password', 422 response",High,Negative,,
+AUTH-004,Non-existing user,-,Enter non-existing email and any password → Sign in,Generic error message shown(Entered value does not match email format),High,Negative,,
+AUTH-005,Invalid email format,-,Enter 'abc' and any password → Sign in,"""Entered value does not match email format"" ",Medium,Negative,,
+AUTH-006,Empty password,-,Enter valid email and leave password empty → Sign in,"Validation error shown(required), no network call",Medium,Negative,,
+AUTH-007,Email with spaces,Valid user exists,Enter ' user@example.com ' and valid password → Sign in,"Spaces trimmed, successful login",Low,Boundary,,
+AUTH-008,Very long password,Valid email exists,Enter valid email and 300-char password → Sign in,"Error message 'Incorrect email or password', 422 response",Medium,Boundary,,
+AUTH-009,Enter key submits form,-,Fill fields and press Enter,"Form submitted successfully, successful login, Redirect to dashboard, 200 response, session cookie created",Low,UX,,
+AUTH-010,Forgot password link,-,Click 'Forgot password?',"Redirect to password reset page, after entering password ""Check your email"" and get back to Sign in",Low,UX,,
+AUTH-011,Rate limiting,-,Try 10 failed logins in a row,"Error message 'Incorrect email or password', 422 response",Medium,Security,,
+AUTH-012,Eye icon toggle password,-,Click eye icon in password field,Password visibility toggles,Low,UX,,
+AUTH-013,Sign up with existing user email,Valid user exists,Open sign up page  → Enter email of existing user → Click send code,"Error pop up, ""This email address is already registered. Please use a different email or try logging in.""
+",Medium,Negative,,
+AUTH-014,Sign up with new email,,Open sign up page  → Enter new email → Click send code,"6 digit code is sent to email, resend code in 60 sec, successful login with 6 digit code",High,Positive,,

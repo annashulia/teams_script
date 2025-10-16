@@ -1,0 +1,29 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "generate": "ts-node scripts/generate-from-csv.ts sheet.csv"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/annashulia/teams_script.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/annashulia/teams_script/issues"
+  },
+  "homepage": "https://github.com/annashulia/teams_script#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.8.0",
+    "@types/papaparse": "^5.3.16",
+    "papaparse": "^5.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
