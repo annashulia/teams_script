@@ -1,0 +1,3497 @@
+# Reviews Webhook Events
+
+<div id="review-request-eligible-on-fulfillment" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>review_request.eligible.on_fulfillment</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a review request becomes eligible after fulfillment.
+
+      ```json
+      {
+        "trigger": {
+          "type": "fulfilled",
+          "date": "2025-01-15T10:30:00Z"
+        },
+        "source_app_key": "B02uug6tF2uEA0Denhj0c9PV73y5PEOuKFmTCGb1",
+        "order_id": "ORD-12345",
+        "review_submission_url": "https://yotpo.com/go/aBcDeFg123",
+        "shopper_profile": {
+          "email": "name@example.com",
+          "name": "John Smith",
+          "locale": "en-US"
+        },
+        "products": [
+          {
+            "product_id": "prod_001",
+            "variant_id": "var_001_blue_medium",
+            "product_title": "Classic Cotton T-Shirt",
+            "product_image_url": "https://cdn-yotpo-images-production.yotpo.com/Product/12345/67890/thumb.png"
+          },
+          {
+            "product_id": "prod_002",
+            "variant_id": "var_002_black",
+            "product_title": "Premium Denim Jeans",
+            "product_image_url": "https://cdn-yotpo-images-production.yotpo.com/Product/12346/67891/thumb.jpg"
+          }
+        ]
+      }
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="review-request-eligible-on-delivery" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>review_request.eligible.on_delivery</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a review request becomes eligible after delivery.
+
+      ```json
+      {
+        "trigger": {
+          "type": "delivered",
+          "date": "2025-01-15T10:30:00Z"
+        },
+        "source_app_key": "B02uug6tF2uEA0Denhj0c9PV73y5PEOuKFmTCGb1",
+        "order_id": "ORD-12345",
+        "review_submission_url": "https://yotpo.com/go/aBcDeFg123",
+        "shopper_profile": {
+          "email": "name@example.com",
+          "name": "John Smith",
+          "locale": "en-US"
+        },
+        "products": [
+          {
+            "product_id": "prod_001",
+            "variant_id": "var_001_blue_medium",
+            "product_title": "Classic Cotton T-Shirt",
+            "product_image_url": "https://cdn-yotpo-images-production.yotpo.com/Product/12345/67890/thumb.png"
+          },
+          {
+            "product_id": "prod_002",
+            "variant_id": "var_002_black",
+            "product_title": "Premium Denim Jeans",
+            "product_image_url": "https://cdn-yotpo-images-production.yotpo.com/Product/12346/67891/thumb.jpg"
+          }
+        ]
+      }
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="review-create" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>review_create</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a new review is created in the Yotpo system.
+
+      ```json
+      {
+        "event": "review_create",
+        "data": {
+          "id": 12345,
+          "source_app_key": null,
+          "title": "Works great.",
+          "reviewer_display_name": "John Smith",
+          "content": "Works great.",
+          "user_id": 1001,
+          "score": 5,
+          "deleted": false,
+          "app_key": "B02uug6tF2uEA0Denhj0c9PV73y5PEOuKFmTCGb1",
+          "created_at": "2024-01-15T10:30:00Z",
+          "updated_at": "2024-01-20T14:45:00Z",
+          "new": false,
+          "user_type": "User",
+          "verified_buyer": true,
+          "archived": false,
+          "shop_owner": false,
+          "twitter_pushed": 0,
+          "facebook_pushed": 0,
+          "review_source_type_id": 4,
+          "votes_up": 0,
+          "votes_down": 0,
+          "review_type_id": 1,
+          "source_review_id": null,
+          "sentiment": null,
+          "escalated": false,
+          "customer_email": "name@example.com",
+          "order_id": 67890,
+          "external_order_id": "ORDER-12345",
+          "external_product_id": "PROD-67890",
+          "product_title": "Premium Wireless Headphones",
+          "language": "",
+          "custom_review_form": [
+            {
+              "question": "Pets Name",
+              "answer": "Max, Bella and Luna"
+            }
+          ]
+        }
+      }
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="review-updated" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>review_updated</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when: <br /> • Review is published <br /> • Review is unpublished (rejected) <br /> • (For reviews created in the PDP Reviews Widget) Email is verified by the customer and the reviewer badge changes from anonymous to <i>verified reviewer</i> <br /><br /> <b>Not triggered</b> in these scenarios: <br /> • Image is published / unpublished <br /> • Review is tagged <br /> • Review is pushed to a social channel <br /> • Review is anonymized as a result of a DSR (GDPR) <br /> • Review is deleted by Yotpo support (to fix import or another technical issue).
+
+      ```json
+      {
+        "event": "review_updated",
+        "data": {
+          "id": 12345,
+          "source_app_key": null,
+          "title": "Works great.",
+          "reviewer_display_name": "John Smith",
+          "content": "Works great.",
+          "user_id": 1001,
+          "score": 5,
+          "deleted": false,
+          "app_key": "B02uug6tF2uEA0Denhj0c9PV73y5PEOuKFmTCGb1",
+          "created_at": "2024-01-15T10:30:00Z",
+          "updated_at": "2024-01-20T14:45:00Z",
+          "new": false,
+          "user_type": "User",
+          "verified_buyer": true,
+          "archived": false,
+          "shop_owner": false,
+          "twitter_pushed": 0,
+          "facebook_pushed": 0,
+          "review_source_type_id": 4,
+          "votes_up": 0,
+          "votes_down": 0,
+          "review_type_id": 1,
+          "source_review_id": null,
+          "sentiment": null,
+          "escalated": false,
+          "customer_email": "name@example.com",
+          "order_id": 67890,
+          "external_order_id": "ORDER-12345",
+          "external_product_id": "PROD-67890",
+          "product_title": "Premium Wireless Headphones",
+          "language": "",
+          "custom_review_form": [
+            {
+              "question": "Pets Name",
+              "answer": "Max, Bella and Luna"
+            }
+          ]
+        }
+      }
+      ```
+    </div>
+  </details>
+</div>
+
+# Loyalty Webhook Events
+
+<div id="swell-redemption-created-awarded" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/redemption/created</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered any time a customer earns a discount from completing a campaign (e.g. Newsletter Signup). This event is useful for sending an email with the coupon code to the customer.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who earned the coupon.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>redemption.reward_text</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The coupon code earned or redeemed.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>redemption_option.name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Short description of what the coupon is for.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>perk.history_title</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              A short description of the action that leads them to earn this discount.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/redemption/created",
+          "name": "Swell Redemption Created",
+          "redemption": {
+              "id": 2,
+              "created_at": "2016-10-15T16:00:17.786Z",
+              "updated_at": "2016-10-15T16:00:17.786Z",
+              "reward_text": "TENPERCENT",
+              "approved": true,
+              "approved_at": "2016-10-15T16:00:17.915Z",
+              "is_admin": false,
+              "is_pos": false,
+              "at_checkout": false
+          },
+          "redemption_option": {
+              "id": 152,
+              "name": "10% Off",
+              "description": "Get 10% off your next purchase for 0 points",
+              "icon": "fa-percent",
+              "cost_text": "0 Points",
+              "amount": 0
+          },
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 2,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 5200,
+              "points_balance": 4700,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T16:00:17.000Z",
+              "third_party_id": "4302977345",
+              "referral_code": {
+                  "code": "117yu4g",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 0,
+                  "amount_cents": 0,
+                  "average_amount_cents": 0,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [],
+                  "email": "name@example.com",
+                  "unique_clicks": 0,
+                  "total_clicks": 0
+              }
+          },
+          "perk": {
+              "id": 3,
+              "campaign_id": 4,
+              "merchant_id": 1,
+              "customer_id": 139,
+              "reward_points": 0,
+              "completed": false,
+              "completed_at": null,
+              "awarded": false,
+              "awarded_at": null,
+              "pending": false,
+              "reversed": false,
+              "reversed_at": null,
+              "expired": false,
+              "expired_at": null,
+              "expires_at": null,
+              "redemption_option_id": 152,
+              "history_title": "Join our newsletter",
+              "created_at": "2016-10-15T16:00:17.000Z",
+              "redemption_option": {
+                  "id": 152,
+                  "name": "10% Off",
+                  "description": "Get 10% off your next purchase for 0 points",
+                  "icon": "fa-percent",
+                  "cost_text": "0 Points",
+                  "amount": 0
+              }
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-redemption-created-redeemed" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/redemption/created</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered any time a customer redeems points and receives a coupon code. This event is useful for sending an email with the coupon code to the customer.
+
+      > 🚧 Note: When the customer does not explicitly receive a coupon code, like during redemption at checkout, this event will not fire.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who earned points.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>redemption.reward_text</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The coupon code earned or redeemed.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>redemption_option.amount</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The amount of points redeemed.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>redemption_option.name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              A short description of what the coupon is for.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/redemption/created",
+          "name": "Swell Redemption Created",
+          "redemption": {
+              "id": 1,
+              "created_at": "2016-10-15T15:56:01.692Z",
+              "updated_at": "2016-10-15T15:56:01.692Z",
+              "reward_text": "FIVEOFF",
+              "approved": true,
+              "approved_at": "2016-10-15T15:56:01.734Z",
+              "is_admin": false,
+              "is_pos": false,
+              "at_checkout": false
+          },
+          "redemption_option": {
+              "id": 149,
+              "name": "$5.00 Off",
+              "description": "Get $5.00 off your next purchase for 500 points",
+              "icon": "fa-dollar",
+              "cost_text": "500 Points",
+              "amount": 500
+          },
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 2,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 5200,
+              "points_balance": 4700,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T15:54:43.000Z",
+              "third_party_id": "4302977345",
+              "referral_code": {
+                  "code": "117yu4g",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 0,
+                  "amount_cents": 0,
+                  "average_amount_cents": 0,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [],
+                  "email": "name@example.com",
+                  "unique_clicks": 0,
+                  "total_clicks": 0
+              }
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="loyalty-custom-reward-created" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>loyalty/custom/reward/created</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered any time a customer redeems their points for a custom reward redemption, or when they are awarded a custom reward when completing a campaign.
+
+      > 📘 Note: The Custom Reward event does not include a "coupon code" since the redemption does not generate a coupon code - as such, the reward text will always say "Redeemed".
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who redeemed points for a custom reward
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>redemption_option.name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              The name of the redemption option
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "loyalty/custom/reward/created",
+          "name": "Loyalty Custom Reward Created",
+          "redemption": {
+              "id": 1,
+              "created_at": "2016-10-15T15:56:01.692Z",
+              "updated_at": "2016-10-15T15:56:01.692Z",
+              "reward_text": "Redeemed",
+              "approved": true,
+              "approved_at": "2016-10-15T15:56:01.734Z",
+              "is_admin": false,
+              "is_pos": false,
+              "at_checkout": false
+          },
+          "redemption_option": {
+              "id": 149,
+              "name": "$10 Donation",
+              "description": "Get $5.00 off your next purchase for 500 points",
+              "icon": "fa-dollar",
+              "cost_text": "500 Points",
+              "amount": 500
+          },
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 2,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 5200,
+              "points_balance": 4700,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T15:54:43.000Z",
+              "third_party_id": "4302977345",
+              "referral_code": {
+                  "code": "117yu4g",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 0,
+                  "amount_cents": 0,
+                  "average_amount_cents": 0,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [],
+                  "email": "name@example.com",
+                  "unique_clicks": 0,
+                  "total_clicks": 0
+              }
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-customer-birthday" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/customer/birthday</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered on the birthday of a customer. This is great for sending an email to congratulate them and update them if they were awarded points or a coupon according to an existing Birthday Campaign.
+
+      > 📘 Note: The Customer Birthday events will be triggered each day at 1 pm UTC.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer whose birthday it is.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>perk.reward_points</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              If customer was gifted points, this is how many.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>redemption.reward_text</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              If customer was gifted a coupon, this is the coupon code.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>redemption_option.name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              If customer was gifted a coupon, this is the discount name.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/customer/birthday",
+          "name": "Swell Customer Birthday",
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 2500,
+              "total_purchases": 1,
+              "perks_redeemed": 5,
+              "last_purchase_at": "2016-09-23T00:55:35.000Z",
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 450,
+              "points_balance": 450,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-09-23T00:55:35.000Z",
+              "third_party_id": "4055305025"
+          },
+          "perk": {
+            "id": 2,
+            "campaign_id": 4,
+            "merchant_id": 1,
+            "customer_id": 128,
+            "reward_points": 0,
+            "completed": false,
+            "completed_at": null,
+            "awarded": false,
+            "awarded_at": null,
+            "pending": false,
+            "reversed": false,
+            "reversed_at": null,
+            "expired": false,
+            "expired_at": null,
+            "expires_at": null,
+            "redemption_option_id": 152,
+            "history_title": "Happy Birthday",
+            "created_at": "2016-09-23T00:47:40.000Z"
+          },
+          "redemption": {
+            "id": 2,
+            "created_at": "2016-09-23T00:47:40.758Z",
+            "updated_at": "2016-09-23T00:47:40.758Z",
+            "reward_text": "abc123",
+            "approved": true,
+            "approved_at": "2016-09-23T00:47:40.903Z"
+          },
+          "redemption_option": {
+            "id": 149,
+            "amount": 500,
+            "name": "$5.00 Off",
+            "description": "Get $5.00 off your next purchase for 500 points",
+            "icon": "fa-dollar",
+            "cost_text": "500 Points"
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-birthday-captured" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/birthday/captured</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer set their birthday through your storefront or if the birthday date was manually updated in Yotpo Loyalty.
+
+      ```json
+      {
+          "topic": "swell/birthday/captured",
+          "name": "Swell Birthday Captured",
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 2500,
+              "total_purchases": 1,
+              "perks_redeemed": 5,
+              "last_purchase_at": "2016-09-23T00:55:35.000Z",
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 450,
+              "points_balance": 450,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-09-23T00:55:35.000Z",
+              "third_party_id": "4055305025",
+              "birthday_month": 8,
+              "birth_day": 12,
+              "birth_year": ""
+          } 
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-customer-anniversary" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/customer/anniversary</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered on the anniversary of a customer. This is great for sending an email to congratulate them and update them if they were awarded points or a coupon according to an existing Anniversary Campaign.
+
+      > 📘 Note: The Anniversary Birthday events will be triggered each day at 11 am UTC.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who's anniversary it is.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>perk.reward_points</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              If customer was gifted points, this is how many.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>redemption.reward_text</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              If customer was gifted a coupon, this is the coupon code.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>redemption_option.name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              If customer was gifted a coupon, this is the discount name.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/customer/anniversary",
+          "name": "Swell Customer Anniversary",
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 2500,
+              "total_purchases": 1,
+              "perks_redeemed": 5,
+              "last_purchase_at": "2016-09-23T00:55:35.000Z",
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 450,
+              "points_balance": 450,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-09-23T00:55:35.000Z",
+              "third_party_id": "4055305025"
+          },
+          "perk": {
+            "id": 2,
+            "campaign_id": 4,
+            "merchant_id": 1,
+            "customer_id": 128,
+            "reward_points": 0,
+            "completed": false,
+            "completed_at": null,
+            "awarded": false,
+            "awarded_at": null,
+            "pending": false,
+            "reversed": false,
+            "reversed_at": null,
+            "expired": false,
+            "expired_at": null,
+            "expires_at": null,
+            "redemption_option_id": 152,
+            "history_title": "Happy Anniversary",
+            "created_at": "2016-09-23T00:47:40.000Z"
+          },
+          "redemption": {
+            "id": 2,
+            "created_at": "2016-09-23T00:47:40.758Z",
+            "updated_at": "2016-09-23T00:47:40.758Z",
+            "reward_text": "abc123",
+            "approved": true,
+            "approved_at": "2016-09-23T00:47:40.903Z"
+          },
+          "redemption_option": {
+            "id": 149,
+            "amount": 500,
+            "name": "$5.00 Off",
+            "description": "Get $5.00 off your next purchase for 500 points",
+            "icon": "fa-dollar",
+            "cost_text": "500 Points"
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-anniversary-captured" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/anniversary/captured</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer set their anniversary through your storefront.
+
+      ```json
+      {
+        "topic": "swell/anniversary/captured",
+        "name": "Swell Anniversary Captured",
+        "email": "name@example.com",
+        "customer": {
+          "total_spend_cents": 33000,
+          "total_purchases": 5,
+          "perks_redeemed": 7,
+          "last_purchase_at": "2020-08-03T16:58:44.000Z",
+          "email": "name@example.com",
+          "referred_by": "name@example.com",
+          "points_earned": 4050,
+          "points_balance": 4050,
+          "points_expire_at": "2021-01-30T16:58:44.000Z",
+          "first_name": "John",
+          "last_name": "Smith",
+          "is_member": true,
+          "accepts_marketing": false,
+          "last_seen_at": "2020-08-03T16:58:44.000Z",
+          "thirty_party_id": "3755023171721",
+          "third_party_id": "3755023171721",
+          "referral_link": "http://rwrd.io/xm2nxle",
+          "referral_discount_code": null,
+          "is_opt_in": true,
+          "loyalty_opt_in_date": "2020-08-03",
+          "has_store_account": true,
+          "credit_balance": "€0",
+          "is_affiliate": false,
+          "vip_tier_name": "Gold",
+          "vip_tier_ends_at": "2021-08-03",
+          "anniversary_month": 1,
+          "anniversary_day": 1,
+          "anniversary_year": "",
+          "referral_code": {
+            "code": "xm2nxle",
+            "shares": 0,
+            "facebook_shares": 0,
+            "twitter_shares": 0,
+            "email_shares": 0,
+            "emails_sent": 0,
+            "emails_viewed": 0,
+            "links_clicked_from_email": 0,
+            "links_clicked_from_twitter": 0,
+            "links_clicked_from_facebook": 0,
+            "orders": 0,
+            "amount_cents": 0,
+            "average_amount_cents": 0,
+            "expires_at": null,
+            "expired": false,
+            "completed_referral_customers": [],
+            "email": "name@example.com",
+            "unique_clicks": 0,
+            "total_clicks": 0
+          }
+        }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="loyalty-donation-created" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>loyalty/donation/created</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered any time a customer redeems their points for a donation to a non profit through our integration with Shopping Gives.
+
+      > 📘 Note: The donation event does not include a "coupon code" since the donation does not require a code to go through. So under <code>reward_text</code> it says "Donation".
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who donated their points.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>redemption_option.name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              The name of the donation redemption.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+        "topic":"loyalty/donation/created",
+        "name":"Loyalty Donation Created",
+        "redemption":{
+             	"id":16977423,
+              "created_at":"2020-09-16T11:39:28.974Z",
+              "updated_at":"2020-09-16T11:39:28.974Z",
+              "reward_text":"Donation",
+              "approved":false,
+              "approved_at":null,
+              "is_admin":false,
+              "is_pos":false,
+              "at_checkout":false,
+              "amount":null,
+              "token":"nnaq9CflljIMilATEhvwMVhvxwy1130v",
+              "third_party_id":null,
+              "third_party_rule_id":null},
+         "redemption_option":{
+           		"id":353572,
+              "name":"14$ off",
+              "description":"Get $14.00",
+              "icon":"fa-dollar",
+              "cost_text":"2 Points","amount":2,
+              "applies_to_product_type":"ALL",
+              "duration":"single_use",
+              "type":"Coupon",
+              "discount_amount_cents":2200,
+              "discount_rate_cents":null,
+              "discount_percentage":null,
+              "discount_type":"donation"},
+              "redemption_option_id":353572,
+              "redemption_option_name":"14$ off",
+              "email":"name@example.com",
+        "customer":
+        {
+          	  "total_spend_cents":0,
+              "total_purchases":0,
+              "perks_redeemed":1,
+              "last_purchase_at":null,
+              "email":"name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned":100,
+              "points_balance":63,
+              "points_expire_at":null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "is_member":true,
+              "accepts_marketing":false,
+              "last_seen_at":"2020-09-16T11:39:28.974Z",
+              "thirty_party_id":"3283482378286",
+              "third_party_id":"3283482378286",
+              "referral_link":"http://rwrd.io/oppjz9t",
+              "referral_discount_code":null,
+              "is_opt_in":true,
+              "loyalty_opt_in_date":"2020-07-22","has_store_account":true,
+              "credit_balance":"$0",
+              "is_affiliate":false,
+              "referral_code":{
+                "code":"oppjz9t",
+              	"shares":0,
+             	  "facebook_shares":0,
+              	"twitter_shares":0,
+              	"email_shares":0,
+              	"emails_sent":0,
+              	"emails_viewed":0,
+              	"links_clicked_from_email":0,
+              	"links_clicked_from_twitter":0,
+              	"links_clicked_from_facebook":0,
+              	"orders":0,
+                "amount_cents":0,
+              	"average_amount_cents":0,
+              	"expires_at":null,
+              	"expired":false,
+              	"completed_referral_customers":[],
+                "email":"name@example.com",
+                "unique_clicks":1,
+                "total_clicks":1
+           	}
+        }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="loyalty-opt-in" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>loyalty/opt_in</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer opts in to the loyalty program.
+
+      > 📘 Note: A customer that is opted in can earn points, get into tiers, redeem points, etc.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who's opted in.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>is_opt_in</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Whether the customer is opted in to the loyalty program following this event trigger. Should be <code>true</code>
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>loyalty_opt_in_date</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Date when the customer was opted in to the loyalty program.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>has_store_account</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              Whether the customer has an account with the ecommerce platform.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "loyalty/opt_in",
+          "name": "Loyalty Opt In",
+          "email": "elmoname@example.comemail.com",
+          "customer": {
+              "total_spend_cents": 3180,
+              "total_purchases": 4,
+              "perks_redeemed": 58,
+              "last_purchase_at": "2019-11-28T12:50:52.000Z",
+              "email": "elmoname@example.comemail.com",
+              "referred_by": "name@example.com",
+              "points_earned": 2460,
+              "points_balance": 460,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "is_member": true,
+              "accepts_marketing": false,
+              "last_seen_at": "2019-12-09T16:41:26.214Z",
+              "thirty_party_id": "2691804725305",
+              "referral_link": "http://rwrd.io/3120htx",
+              "referral_discount_code": null,
+              "is_opt_in": true,
+              "loyalty_opt_in_date": "2020-05-04",
+              "has_store_account": true,
+              "credit_balance": "$0",
+              "is_affiliate": false,
+              "vip_tier_name": "Power User",
+              "vip_tier_ends_at": "2019-12-31",
+              "referral_code": {
+                  "code": "3120htx",
+                  "shares": 1,
+                  "facebook_shares": 1,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 0,
+                  "amount_cents": 0,
+                  "average_amount_cents": 0,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [],
+                  "email": "elmoname@example.comemail.com",
+                  "unique_clicks": 0,
+                  "total_clicks": 0
+              }
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="loyalty-opt-out" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>loyalty/opt_out</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer opts out of the loyalty program.
+
+      > 📘 Note: A customer that is opted out cannot participate in any of the loyalty activities.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who's opted out.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>is_opt_in</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Whether the customer is opted in to the loyalty program following this event trigger. Should be <code>false</code>
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>loyalty_opt_in_date</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Date when the customer was opted in to the loyalty program.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>has_store_account</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              Whether the customer has an account with the ecommerce platform.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "loyalty/opt_out",
+          "name": "Loyalty Opt Out",
+          "email": "elmoname@example.comemail.com",
+          "customer": {
+              "total_spend_cents": 3180,
+              "total_purchases": 4,
+              "perks_redeemed": 58,
+              "last_purchase_at": "2019-11-28T12:50:52.000Z",
+              "email": "elmoname@example.comemail.com",
+              "referred_by": "name@example.com",
+              "points_earned": 2460,
+              "points_balance": 460,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "is_member": true,
+              "accepts_marketing": false,
+              "last_seen_at": "2019-12-09T16:41:26.214Z",
+              "thirty_party_id": "2691804725305",
+              "referral_link": "http://rwrd.io/3120htx",
+              "referral_discount_code": null,
+              "is_opt_in": true,
+              "loyalty_opt_in_date": "0001-01-01 00:00:00 +0200",
+              "has_store_account": true,
+              "credit_balance": "₪0",
+              "is_affiliate": false,
+              "vip_tier_name": "Power User",
+              "vip_tier_ends_at": "2019-12-31",
+              "referral_code": {
+                  "code": "3120htx",
+                  "shares": 1,
+                  "facebook_shares": 1,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 0,
+                  "amount_cents": 0,
+                  "average_amount_cents": 0,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [],
+                  "email": "elmoname@example.comemail.com(opens in new tab)",
+                  "unique_clicks": 0,
+                  "total_clicks": 0
+              }
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-points-changed" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/points/changed</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered every time a customer's point balance changes. The event will provide a customer's previous point balance, current point balance, and how many points it changed by. This event is useful for keeping an external system that stores a customer's point balance in sync.
+
+      > 📘 Note:
+      > The reason for the change in balance is included in the event and can be one of the following:
+      > <br />• Campaign Earned - based on campaign title
+      > <br />• Points Expired
+      > <br />• Manual adjustment of points - based on description
+      > <br />• Refund made
+      > <br />• Import
+      > <br />• Redemption Made
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer whose point balance changed.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>previous_balance</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The customer’s point balance <strong>before</strong> the change.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>current_balance</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The customer’s point balance <strong>after</strong> the change.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>difference</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              How many points were added or removed from the customer’s point balance.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>added_or_removed</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Delineates whether points were added or removed from the customer’s point balance.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>points_changed_reason</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              Describes why there was a change in point balance.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+        "topic": "swell/points/changed",
+        "name": "Swell Points Changed",
+        "email": "elmoname@example.comemail.com",
+        "related_order_ids": [
+           "5731669966948"
+      ],
+        "customer": {
+          "total_spend_cents": 3180,
+          "total_purchases": 4,
+          "perks_redeemed": 58,
+          "last_purchase_at": "2019-11-28T12:50:52.000Z",
+          "email": "elmoname@example.comemail.com",
+          "referred_by": "name@example.com",
+          "points_earned": 2460,
+          "points_balance": 460,
+          "points_expire_at": null,
+          "first_name": "John",
+          "last_name": "Smith",
+          "is_member": true,
+          "accepts_marketing": false,
+          "last_seen_at": "2019-12-09T16:41:26.214Z",
+          "thirty_party_id": "2691804725305",
+          "referral_link": "http://rwrd.io/3120htx",
+          "referral_discount_code": null,
+          "has_store_account": true,
+          "credit_balance": "₪0",
+          "is_affiliate": false,
+          "vip_tier_name": "Power User",
+          "vip_tier_ends_at": "2019-12-31",
+          "referral_code": {
+            "code": "3120htx",
+            "shares": 1,
+            "facebook_shares": 1,
+            "twitter_shares": 0,
+            "email_shares": 0,
+            "emails_sent": 0,
+            "emails_viewed": 0,
+            "links_clicked_from_email": 0,
+            "links_clicked_from_twitter": 0,
+            "links_clicked_from_facebook": 0,
+            "orders": 0,
+            "amount_cents": 0,
+            "average_amount_cents": 0,
+            "expires_at": null,
+            "expired": false,
+            "completed_referral_customers": [],
+            "email": "elmoname@example.comemail.com",
+            "unique_clicks": 0,
+            "total_clicks": 0
+          }
+        },
+        "previous_balance": 960,
+        "current_balance": 460,
+        "difference": -500,
+        "added_or_removed": "removed",
+        "points_changed_reason": "Get ₪5.00 off your next purchase for 500 points",
+        "timestamp": "2021-08-01T16:53:56.415+03:00"
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-points-earned" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/points/earned</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered any time a customer earns points. This event is useful for keeping a customers point balance up to date in your CRM or email marketing platform.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who earned points.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>customer.points_balance</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The customer’s updated point balance.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>perk.reward_points</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The number of points they just earned.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>perk.history_title</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              A short description of the action that led them to earn these points.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/points/earned",
+          "name": "Swell Points Earned",
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 0,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 200,
+              "points_balance": 200,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T15:29:27.000Z",
+              "third_party_id": "4302977345",
+              "referral_code": {
+                  "code": "117yu4g",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 0,
+                  "amount_cents": 0,
+                  "average_amount_cents": 0,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [],
+                  "email": "name@example.com",
+                  "unique_clicks": 0,
+                  "total_clicks": 0
+              }
+          },
+          "perk": {
+              "id": 1,
+              "campaign_id": 1,
+              "merchant_id": 1,
+              "customer_id": 139,
+              "reward_points": 200,
+              "completed": true,
+              "completed_at": "2016-10-15T15:29:27.911Z",
+              "awarded": true,
+              "awarded_at": "2016-10-15T15:29:27.911Z",
+              "pending": false,
+              "reversed": false,
+              "reversed_at": null,
+              "expired": false,
+              "expired_at": null,
+              "expires_at": null,
+              "redemption_option_id": null,
+              "history_title": "Create an account",
+              "created_at": "2016-10-15T15:29:27.828Z",
+              "source": null,
+              "related_order_ids": [
+                 "5731669966948"
+      ]
+
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-points-reminder" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/points/reminder</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered after a certain amount of days of inactivity. This is great for sending an email to remind the customer that they're close to earning a reward.
+
+      > 📘 Note: The Points Reminder events will be triggered each day at 5 pm UTC.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who made the referral.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>loyalty_next_points_expire_on</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The date when the points will expire.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>loyalty_next_points_expire_amount</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The number of points that are about to expire.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>days_to_point_expiration</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              The number of days left before the points will expire and will no longer be available to the customer.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/points/reminder",
+          "name": "Swell Points Reminder",
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 2,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 375,
+              "points_balance": 375,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T18:14:56.000Z",
+              "third_party_id": "4302977345",
+              "referral_code": {
+                  "code": "x09u052",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 1,
+                  "amount_cents": 3000,
+                  "average_amount_cents": 3000,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [{
+                      "email": "name@example.com",
+                      "first_name": "John",
+                      "last_name": "Smith",
+                      "referral_points_contributed": 0,
+                      "last_seen_at": "2016-10-15T16:38:20.000Z"
+                  }],
+                  "email": "name@example.com",
+                  "unique_clicks": 1,
+                  "total_clicks": 1
+              }
+          },
+          "points_needed": 125,
+          "redemption_option": {
+              "id": 149,
+              "name": "$5.00 Off",
+              "description": "Get $5.00 off your next purchase for 500 points",
+              "icon": "fa-dollar",
+              "cost_text": "500 Points",
+              "amount": 500
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="loyalty-expiration-reminder" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>loyalty/expiration/reminder</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer's points are about to expire This is great for sending an email to remind the customer that they should use their points while still available.
+
+      > 📘 Note: The Points Reminder events will be triggered each day at 5 pm UTC.
+
+      ```json
+      {
+        "topic": "loyalty/expiration/reminder",
+        "name": "Loyalty Expiration Reminder",
+        "website_url": "http://yotpo.myshopify.com",
+        "store_name":  "Yotpo",
+        "email": "name@example.com",
+        "customer": {
+          "total_spend_cents": 0,
+          "total_purchases": 0,
+          "perks_redeemed": 2,
+          "last_purchase_at": null,
+          "first_name": "John",
+          "last_name": "Smith",
+          "is_member": true,
+          "accepts_marketing": false,
+          "email": "name@example.com",
+          "points_balance": 100,
+          "points_earned": 100,
+          "last_seen_at": "2022-03-12T20:40:32.000Z",
+          "thirty_party_id": "3798152839268",
+          "third_party_id": "3798152839268",
+          "referral_link": "http://rwrd.io/y6nz1a6",
+          "referral_discount_code": null,
+          "is_opt_in": true,
+          "loyalty_opt_in_date": "2020-10-15",
+          "has_store_account": true,
+          "credit_balance": "$0",
+          "credit_balance_in_customer_currency": "$0",
+          "is_affiliate": false,
+          "points_expire_at": "2023-08-15T07:33:17.000Z",
+          "referred_by_customer": null,
+          "referral_code": {
+            "code": "y6nz1a6",
+            "shares": 3,
+            "facebook_shares": 0,
+            "twitter_shares": 0,
+            "email_shares": 2,
+            "emails_sent": 0,
+            "emails_viewed": 0,
+            "links_clicked_from_email": 0,
+            "links_clicked_from_twitter": 0,
+            "links_clicked_from_facebook": 0,
+            "orders": 1,
+            "amount_cents": 175915,
+            "average_amount_cents": 175915,
+            "expires_at": null,
+            "expired": false,
+            "completed_referral_customers": [
+              {
+                "email": "name@example.com",
+                "first_name": "John",
+                "last_name": "Smith",
+                "referral_points_contributed": 0,
+                "last_seen_at": "2022-03-12T20:38:29.000Z"
+              }
+            ],
+            "email": "name@example.com",
+            "unique_clicks": 2,
+            "total_clicks": 5
+          }
+        },
+        "loyalty_next_points_expire_on": "2023-08-25",
+        "loyalty_next_points_expire_amount": 100,
+        "days_to_point_expiration": 30,
+        "timestamp": 1690360527923
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-redemption-code-below-threshold" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/redemption_code/below_threshold</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when your "Custom Coupon" is running low on uploaded coupon codes. We will send a webhook notification when your unused codes are at the following values: \[threshold, threshold/2, threshold/4, threshold/8, 0]
+
+      > 📘 Note: This is determined by the threshold set in the "Custom Coupon" itself in your Yotpo Loyalty admin.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>redemption_option</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              An object describing the redemption option that is running low on redemption codes.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>redemption_option_id</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The unique identifier of the redemption option that has hit the thresholds.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>number_of_unused_codes</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              The number of unused codes left in the redemption option.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/redemption_code/below_threshold",
+          "name": "Swell Redemption Code Below Threshold",
+          "redemption_option": {
+              "id": 149,
+              "name": "$5.00 Off",
+              "description": "Get $5.00 off your next purchase for 500 points",
+              "icon": "fa-dollar",
+              "cost_text": "500 Points",
+              "amount": 500,
+            	"applies_to_product_type": "ALL",
+              "duration":"single_use",
+              "type":"Coupon",
+              "discount_amount_cents":0,
+              "discount_rate_cents":null,
+              "discount_percentage":null,
+              "discount_type":"custom"
+          },
+          "redemption_option_id":149,
+          "redemption_option_name": "$5.00 Off",
+          "number_of_unused_codes":0
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-point-redemption-cancellation-request" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/point_redemption/cancellation_request</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer wants to reverse their redemption and receive their points back. Important to note that the customer won't receive their points back until Yotpo receives an API call approving the cancellation request.
+
+      ```json
+      {
+          "topic": "swell/point_redemption/cancellation_request",
+          "name": "Swell Point Redemption Cancellation Request",
+          "point_redemption_id": "10869305",
+          "reward_text": "jkl",
+          "customer": {
+              "total_spend_cents": 1812,
+              "total_purchases": 1,
+              "perks_redeemed": 7,
+              "last_purchase_at": "2020-02-20T07:53:55.000Z",
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 675,
+              "points_balance": 675,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2020-02-20T07:53:55.000Z",
+              "third_party_id": "4302977345",
+              "referral_discount_code": null,
+      				"has_store_account": true,
+      				"credit_balance": "$0",
+      				"is_affiliate": false,
+              "referral_link": "http://rwrd.io/x09u052",
+              "referral_code": {
+                  "code": "x09u052",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 1,
+                  "amount_cents": 3000,
+                  "average_amount_cents": 3000,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [{
+                      "email": "name@example.com",
+                      "first_name": "John",
+                      "last_name": "Smith",
+                      "referral_points_contributed": 0,
+                      "last_seen_at": "2016-10-15T16:38:20.000Z"
+                  }],
+                  "email": "name@example.com",
+                  "unique_clicks": 1,
+                  "total_clicks": 1
+              }
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-redemption-reminder" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/redemption/reminder</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered after a certain amount of days of inactivity. This is great for sending an email to remind the customer that they have enough points for a reward.
+
+      > 📘 Note: The Redemption Reminder events will be triggered each day at 5 pm UTC.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who is qualified for a redemption.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>redemption_option</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              An object describing the reward option available to the customer.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/redemption/reminder",
+          "name": "Swell Redemption Reminder",
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 2,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 375,
+              "points_balance": 375,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T18:14:56.000Z",
+              "third_party_id": "4302977345",
+              "referral_code": {
+                  "code": "x09u052",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 1,
+                  "amount_cents": 3000,
+                  "average_amount_cents": 3000,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [{
+                      "email": "name@example.com",
+                      "first_name": "John",
+                      "last_name": "Smith",
+                      "referral_points_contributed": 0,
+                      "last_seen_at": "2016-10-15T16:38:20.000Z"
+                  }],
+                  "email": "name@example.com",
+                  "unique_clicks": 1,
+                  "total_clicks": 1
+              }
+          },
+          "redemption_option": {
+              "id": 149,
+              "name": "$5.00 Off",
+              "description": "Get $5.00 off your next purchase for 500 points",
+              "icon": "fa-dollar",
+              "cost_text": "500 Points",
+              "amount": 500,
+              "applies_to_product_type":"ALL",
+           	 	"duration":"single_use",
+            	"type":"Coupon",
+            	"discount_amount_cents":5000,
+            	"discount_rate_cents":100,
+            	"discount_percentage":0,
+            	"discount_type":"fixed_amount"
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-referral-share" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/referral/share</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer shares their referral link to their friends. This is great for telling new customers that someone they know likes your store.
+
+      ```json
+      {
+          "topic": "swell/referral/share",
+          "name": "Swell Referral Share",
+          "email": "name@example.com",
+          "from": "name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 4,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 675,
+              "points_balance": 675,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T18:43:24.000Z",
+              "third_party_id": "4302977345",
+              "referral_code": {
+                  "code": "x09u052",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 1,
+                  "amount_cents": 3000,
+                  "average_amount_cents": 3000,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [{
+                      "email": "name@example.com",
+                      "first_name": "John",
+                      "last_name": "Smith",
+                      "referral_points_contributed": 0,
+                      "last_seen_at": "2016-10-15T16:38:20.000Z"
+                  }],
+                  "email": "name@example.com",
+                  "unique_clicks": 1,
+                  "total_clicks": 1
+              }
+          },
+          "referral_link": "http://rwrd.io/x09u052"
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="yotpo-referral-shared" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>yotpo/referral/shared</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer shares their referral link to their friends. This is great for telling new customers that someone they know likes your store.
+
+      > 📘 Note: This webhook is relevant to Shopify merchants who joined Yotpo Loyalty & Referrals after August, 2024.
+      > If you're joined earlier, please use the event `swell/referral/share`.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referral_link</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The URL of the customer’s referral link being shared.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>from</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              The email address of the referring customer who shared their referral link.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+        "topic": "yotpo/referral/shared",
+        "name": "Yotpo Referral shared",
+        "website_url": null,
+        "store_name": "Dummy Store Name",
+        "from": "name@example.com",
+        "referral_link": "rwrd.io/ref_CODE33?e",
+        "referral_code": {
+          "code": "CODE33",
+          "customer_id": 139,
+          "total_shares": 6,
+          "email_shares": 6,
+          "sms_shares": 0,
+          "whatsapp_shares": 0,
+          "copy_link_shares": 1,
+          "personal_email_shares": 0,
+          "links_clicked_from_email": 48,
+          "links_clicked_from_sms": 0,
+          "links_clicked_from_whatsapp": 0,
+          "links_clicked_from_personal_email": 0,
+          "links_clicked_from_copy_link": 1,
+          "friends_orders": 0,
+          "friends_amount_spent_cents": 0,
+          "friends_average_amount_cents": 0,
+          "expired": false,
+          "customer": null,
+          "completed_referral_customers": [
+            {
+              "email": "name@example.com",
+              "first_name": "John",
+              "last_name": "Smith",
+              "reward_type": "REWARD_OPTION",
+              "referral_status": "COMPLETED",
+              "last_seen_at": "2024-08-04T06:45:17.000Z"
+            }
+          ],
+          "email": "name@example.com",
+          "unique_clicks": 21,
+          "total_clicks": 55
+        },
+        "redemption_option": {
+          "id": 1,
+          "cost_text": null,
+          "amount": null,
+          "applies_to_product_type": null,
+          "duration": null,
+          "type": "shopify_fixed_amount_coupon",
+          "discount_amount_cents": null,
+          "discount_rate_cents": null,
+          "discount_percentage": null,
+          "discount_type": null,
+          "discount_value_cents": null,
+          "name": "$10 off",
+          "description": null,
+          "unrendered_name": null,
+          "unrendered_description": null,
+          "cart_greater_than": null,
+          "discount_with_currency": null
+        },
+        "email": "name@example.com",
+        "customer": {
+          "total_spend_cents": 281990,
+          "total_purchases": 4,
+          "perks_redeemed": 21,
+          "last_purchase_at": "2024-08-08T06:09:15.000Z",
+          "first_name": "John",
+          "last_name": "Smith",
+          "is_member": false,
+          "accepts_marketing": false,
+          "email": "name@example.com",
+          "points_balance": 4743,
+          "points_earned": 4743,
+          "last_seen_at": "2024-08-08T06:12:32.000Z",
+          "thirty_party_id": "8201609314590",
+          "third_party_id": "8201609314590",
+          "referral_link": "",
+          "referral_discount_code": "",
+          "is_opt_in": true,
+          "loyalty_opt_in_date": "2024-07-31",
+          "has_store_account": false,
+          "credit_balance": "$0",
+          "credit_balance_in_customer_currency": "$0",
+          "is_affiliate": false,
+          "points_expire_at": null,
+          "referred_by_customer": null
+        },
+        "published_at": "2024-08-08T07:35:43.340+00:00"
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-referral-share-reminder" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/referral/share/reminder</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered after a certain amount of days that a referred customer had not submitted a purchase in. This is great for sending an email to remind the referred customer to use their friend's referral link to give both the referring and referred customer a reward.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the recipient of the referral link (the friend).
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>customer.first_name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The name of the customer who shared their referral link.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referral_link</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The URL of the customer’s referral link being shared.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>from</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              The email address of the customer who shared their referral link.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/referral/share/reminder",
+          "name": "Swell Referral Share Reminder",
+          "email": "name@example.com",
+          "referral_link":"http://rwrd.io/xcode2",
+          "referral_code":"xcode2",
+          "from":"name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 2,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 375,
+              "points_balance": 375,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T18:14:56.000Z",
+              "third_party_id": "4302977345",
+              "referral_code": {
+                  "code": "xcode2",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 1,
+                  "amount_cents": 3000,
+                  "average_amount_cents": 3000,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [{
+                      "email": "name@example.com",
+                      "first_name": "John",
+                      "last_name": "Smith",
+                      "referral_points_contributed": 0,
+                      "last_seen_at": "2016-10-15T16:38:20.000Z"
+                  }],
+                  "email": "name@example.com",
+                  "unique_clicks": 1,
+                  "total_clicks": 1
+              }
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="loyalty-referral-product-share" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>loyalty/referral/product_share</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      If you're using an ESP to send referral share emails, you can use this event to trigger the product share referral email.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email of the referred friend.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>from</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email of the referring customer.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>customer.first_name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The name of the referring customer.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>product_referral_link</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The referring customer's unique product referral link for this specific product.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>product_id</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The product ID of the shared product.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>product_name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The name of the shared product.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>image_url</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              The shared product's image URL.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+        "topic": "loyalty/referral/product_share",
+        "name": "Loyalty Referral Product Share",
+        "website_url": "http://example.myshopify.com",
+        "email": "name@example.com",
+        "from": "name@example.com",
+        "customer": {
+          "total_spend_cents": 24200,
+          "total_purchases": 1,
+          "perks_redeemed": 3,
+          "last_purchase_at": "2021-06-01T07:02:40.000Z",
+          "first_name": "John",
+          "last_name": "Smith",
+          "is_member": false,
+          "accepts_marketing": false,
+          "email": "name@example.com",
+          "referred_by": "name@example.com",
+          "points_balance": 2620,
+          "points_earned": 2620,
+          "last_seen_at": "2021-06-01T07:03:11.000Z",
+          "thirty_party_id": "5205258371095",
+          "third_party_id": "5205258371095",
+          "referral_link": "http://rwrd.io/9code7",
+          "referral_discount_code": "YOTPO-TEST162",
+          "is_opt_in": true,
+          "loyalty_opt_in_date": "2021-06-01",
+          "has_store_account": false,
+          "credit_balance": "$2,620",
+          "credit_balance_in_customer_currency": "$2,620",
+          "is_affiliate": false,
+          "points_expire_at": "2021-08-30T07:03:11.000Z",
+          "vip_tier_name": "zzzz",
+          "vip_tier_ends_at": "2022-06-01",
+          "referral_code": {
+            "code": "9eko7c7",
+            "shares": 1,
+            "facebook_shares": 0,
+            "twitter_shares": 0,
+            "email_shares": 1,
+            "emails_sent": 0,
+            "emails_viewed": 0,
+            "links_clicked_from_email": 0,
+            "links_clicked_from_twitter": 0,
+            "links_clicked_from_facebook": 0,
+            "orders": 0,
+            "amount_cents": 0,
+            "average_amount_cents": 0,
+            "expires_at": null,
+            "expired": false,
+            "completed_referral_customers": [],
+            "email": "name@example.com",
+            "unique_clicks": 0,
+            "total_clicks": 0
+          }
+        },
+        "referral_link": "http://rwrd.io/9code7",
+        "referral_code": "9code7",
+        "product_referral_link": "http://rwrd.io/9code7?e&pid=10077553923",
+        "product": {
+          "id": "10077553923",
+          "name": "Amazing product",
+          "image_url": "https://cdn-yotpo-images-production.yotpo.com/Product/34280041/27894349/thumb.jpg?1572908368"
+        },
+        "referral_discount_code": "YOTPO-TEST162"
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="loyalty-referral-product-share-reminder" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>loyalty/referral/product_share/reminder</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered if a referred friend hasn't submitted after a certain number of days. This is great for sending an email to remind the referred friend to use their referral link to give them and the referring customer a reward.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email of the referred friend.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>from</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email of the referring customer.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>customer.first_name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The name of the referring customer.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>product_referral_link</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The referring customer's unique product referral link for this specific product.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>product_id</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The product ID of the shared product.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>product_name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The name of the shared product.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>image_url</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              The shared product's image URL.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+        "topic": "loyalty/referral/product_share/reminder",
+        "name": "Loyalty Referral Product Share Reminder",
+        "website_url": "http://example.myshopify.com",
+        "email": "name@example.com",
+        "from": "name@example.com",
+        "customer": {
+          "total_spend_cents": 24200,
+          "total_purchases": 1,
+          "perks_redeemed": 3,
+          "last_purchase_at": "2021-06-01T07:02:40.000Z",
+          "first_name": "John",
+          "last_name": "Smith",
+          "is_member": false,
+          "accepts_marketing": false,
+          "email": "name@example.com",
+          "referred_by": "name@example.com",
+          "points_balance": 2620,
+          "points_earned": 2620,
+          "last_seen_at": "2021-06-01T07:03:11.000Z",
+          "thirty_party_id": "5205258371095",
+          "third_party_id": "5205258371095",
+          "referral_link": "http://rwrd.io/9code7",
+          "referral_discount_code": "YOTPO-TEST162",
+          "is_opt_in": true,
+          "loyalty_opt_in_date": "2021-06-01",
+          "has_store_account": false,
+          "credit_balance": "$2,620",
+          "credit_balance_in_customer_currency": "$2,620",
+          "is_affiliate": false,
+          "points_expire_at": "2021-08-30T07:03:11.000Z",
+          "vip_tier_name": "zzzz",
+          "vip_tier_ends_at": "2022-06-01",
+          "referral_code": {
+            "code": "9code7",
+            "shares": 1,
+            "facebook_shares": 0,
+            "twitter_shares": 0,
+            "email_shares": 1,
+            "emails_sent": 0,
+            "emails_viewed": 0,
+            "links_clicked_from_email": 0,
+            "links_clicked_from_twitter": 0,
+            "links_clicked_from_facebook": 0,
+            "orders": 0,
+            "amount_cents": 0,
+            "average_amount_cents": 0,
+            "expires_at": null,
+            "expired": false,
+            "completed_referral_customers": [],
+            "email": "name@example.com",
+            "unique_clicks": 0,
+            "total_clicks": 0
+          }
+        },
+        "referral_link": "http://rwrd.io/9code7",
+        "referral_code": "9code7",
+        "product_referral_link": "http://rwrd.io/9eko7c7?e&pid=10077553923",
+        "product": {
+          "id": "10077553923",
+          "name": "Amazing product",
+          "image_url": "https://cdn-yotpo-images-production.yotpo.com/Product/34280041/27894349/thumb.jpg?1572908368"
+        },
+        "referral_discount_code": "YOTPO-TEST162"
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-referral-completed" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/referral/completed</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered any time a customer refers a friend that satisfies the referral program requirements. This event is useful for sending an email thanking the customer for the referral.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who made the referral.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referral_code</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Object has information about their overall referral stats. Useful for including an overview in an email.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referral_code.completed_referral_customers</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              An array of customers they have referred so far.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referred_customer.email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer they referred.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referred_customer.first_name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The first name of the customer they referred.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>perk.reward_points</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              If referrer earned points, this is how many.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>redemption.reward_text</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              If referrer earned a coupon, this is the coupon code.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>redemption_option.name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              If referrer earned a coupon, this is the discount name.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/referral/completed",
+          "name": "Swell Referral Completed",
+          "perk": {
+              "id": 9,
+              "campaign_id": 7,
+              "merchant_id": 1,
+              "customer_id": 139,
+              "reward_points": 500,
+              "completed": true,
+              "completed_at": "2016-10-15T16:02:56.142Z",
+              "awarded": true,
+              "awarded_at": "2016-10-15T16:02:56.142Z",
+              "pending": false,
+              "reversed": false,
+              "reversed_at": null,
+              "expired": false,
+              "expired_at": null,
+              "expires_at": null,
+              "redemption_option_id": null,
+              "history_title": "Refer a friend",
+              "created_at": "2016-10-15T16:02:56.125Z"
+          },
+          "email": "name@example.com",
+          "referrer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 3,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 5700,
+              "points_balance": 5200,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T16:01:40.000Z",
+              "third_party_id": "4302977345",
+              "referral_code": {
+                  "code": "117yu4g",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 0,
+                  "amount_cents": 0,
+                  "average_amount_cents": 0,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [{
+                      "email": "name@example.com",
+                      "first_name": "John",
+                      "last_name": "Smith",
+                      "referral_points_contributed": 0,
+                      "last_seen_at": "2016-10-15T16:02:51.000Z"
+                  }],
+                  "email": "name@example.com",
+                  "unique_clicks": 1,
+                  "total_clicks": 1
+              }
+          },
+          "referral_code": {
+              "id": 139,
+              "code": "117yu4g",
+              "campaign_id": 7,
+              "clicks": 1,
+              "invalid_clicks": 0,
+              "customer_id": 139,
+              "shares": 0,
+              "facebook_shares": 0,
+              "twitter_shares": 0,
+              "email_shares": 0,
+              "emails_sent": 0,
+              "emails_viewed": 0,
+              "links_clicked": 1,
+              "links_clicked_from_email": 0,
+              "links_clicked_from_twitter": 0,
+              "links_clicked_from_facebook": 0,
+              "orders": 0,
+              "amount_cents": 0,
+              "average_amount_cents": 0,
+              "expires_at": null,
+              "expired": false,
+              "target_referrals": null,
+              "customer": {
+                  "id": 139,
+                  "user_id": null,
+                  "merchant_id": 1,
+                  "total_purchases": 0,
+                  "perks_redeemed": 3,
+                  "last_purchase_at": null,
+                  "is_member": false,
+                  "email": "name@example.com",
+                  "referred_by": "name@example.com",
+                  "name": "Smith",
+                  "total_spend_cents": 0,
+                  "subscribed": true,
+                  "email_sent_count": 0,
+                  "email_opened_count": 0,
+                  "email_clicked_count": 0,
+                  "email_bounced_count": 0,
+                  "email_soft_bounced_count": 0,
+                  "email_rejected_count": 0,
+                  "email_unsubscribed_count": 0,
+                  "email_marked_as_spam_count": 0,
+                  "email_delayed_count": 0,
+                  "points_earned": 5700,
+                  "points_balance": 5200,
+                  "source": "store_account",
+                  "points_expiration_job_id": null,
+                  "points_expire_at": null,
+                  "first_name": "John",
+                  "last_name": "Smith",
+                  "prettyTotalSpend": "$0",
+                  "last_seen_at": "2016-10-15T16:01:40.000Z"
+              },
+              "completed_referral_customers": [{
+                  "email": "name@example.com",
+                  "first_name": "John",
+                  "last_name": "Smith",
+                  "referral_points_contributed": 0,
+                  "last_seen_at": "2016-10-15T16:02:51.000Z"
+              }],
+              "email": "name@example.com"
+          },
+          "referred_customer": {
+              "total_spend_cents": 2500,
+              "total_purchases": 1,
+              "perks_redeemed": 5,
+              "last_purchase_at": "2016-10-15T16:02:51.000Z",
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 450,
+              "points_balance": 450,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T16:02:51.000Z",
+              "third_party_id": "4303221377",
+              "referral_code": {
+                  "code": "77jspfy",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 0,
+                  "amount_cents": 0,
+                  "average_amount_cents": 0,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [],
+                  "email": "name@example.com",
+                  "unique_clicks": 0,
+                  "total_clicks": 0
+              }
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="yotpo-referral-completed" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>yotpo/referral/completed</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered any time a customer refers a friend that satisfies the referral program requirements. This event is useful for sending an email thanking the customer for the referral.
+
+      > 📘 Note: This webhook is relevant to Shopify merchants who joined Yotpo Loyalty & Referrals after August, 2024.
+      > If you're joined earlier, please use the event `swell/referral/completed`.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who made the referral.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referral_code</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Object has information about their overall referral stats. Useful for including an overview in an email.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referral_code.completed_referral_customers</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              An array of friends the referring customer has referred so far.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referred_customer.email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the referred friend.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>referred_customer.first_name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The first name of the referred friend.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>perk.reward_points</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The number of points the referring customer earned for a successful referral.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>perk.redemption.reward_text</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The discount code the referring customer earned for a successful referral.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>perk.redemption_option.name</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              The name of the discount code the referring customer earned for a successful referral.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+        "topic": "yotpo/referral/completed",
+        "name": "Yotpo Referral completed",
+        "website_url": "http://sara-yotpo.myshopify.com",
+        "store_name": "Sara Yotpo",
+        "perk": {
+          "id": 1,
+          "campaign_id": null,
+          "merchant_id": 69962,
+          "customer_id": 1,
+          "reward_points": null,
+          "completed": true,
+          "completed_at": "2024-08-08T07:38:27.000Z",
+          "awarded": true,
+          "awarded_at": "2024-08-08T07:38:27.000Z",
+          "pending": false,
+          "reversed": false,
+          "reversed_at": null,
+          "expired": false,
+          "expired_at": null,
+          "expires_at": null,
+          "redemption_option_id": 1,
+          "history_title": "Refer a friend",
+          "created_at": "2024-08-08T07:38:27.000Z",
+          "redemption_option": {
+            "id": 1,
+            "cost_text": "0 points",
+            "amount": 0,
+            "applies_to_product_type": "ALL",
+            "duration": "single_use",
+            "type": "Coupon",
+            "discount_amount_cents": 1000,
+            "discount_rate_cents": 100,
+            "discount_percentage": null,
+            "discount_type": "fixed_amount",
+            "discount_value_cents": null,
+            "name": "$10 off",
+            "description": "Get $10.00 off your next purchase for 0 points",
+            "unrendered_name": "$10 off",
+            "unrendered_description": "Get $10.00 off your next purchase for 0 points",
+            "cart_greater_than": "0",
+            "discount_with_currency": "$10"
+          },
+          "redemption": {
+            "id": 1,
+            "reward_text": "CODEXWEX",
+            "approved": true,
+            "approved_at": "2024-08-08T07:38:28.000Z",
+            "is_admin": false,
+            "is_pos": false,
+            "at_checkout": false,
+            "amount": null,
+            "token": "1",
+            "third_party_id": null,
+            "third_party_rule_id": null,
+            "code": "CODEXWEX"
+          }
+        },
+        "referral_code": {
+          "code": "CODE22",
+          "customer_id": 1,
+          "total_shares": 31,
+          "email_shares": 30,
+          "sms_shares": 0,
+          "whatsapp_shares": 0,
+          "copy_link_shares": 1,
+          "personal_email_shares": 0,
+          "links_clicked_from_email": 49,
+          "links_clicked_from_sms": 0,
+          "links_clicked_from_whatsapp": 0,
+          "links_clicked_from_personal_email": 0,
+          "links_clicked_from_copy_link": 1,
+          "friends_orders": 0,
+          "friends_amount_spent_cents": 0,
+          "friends_average_amount_cents": 0,
+          "expired": false,
+          "customer": {
+            "total_spend_cents": 281990,
+            "total_purchases": 4,
+            "perks_redeemed": 22,
+            "last_purchase_at": "2024-08-08T06:09:15.000Z",
+            "first_name": "John",
+            "last_name": "Smith",
+            "is_member": false,
+            "accepts_marketing": false,
+            "email": "name@example.com",
+            "points_balance": 4743,
+            "points_earned": 4843,
+            "last_seen_at": "2024-08-08T07:38:27.000Z",
+            "thirty_party_id": null,
+            "third_party_id": null,
+            "referral_link": "rwrd.io/ref_CODE22",
+            "referral_discount_code": null,
+            "is_opt_in": true,
+            "loyalty_opt_in_date": "2024-07-31",
+            "has_store_account": false,
+            "credit_balance": "$0",
+            "credit_balance_in_customer_currency": "$0",
+            "is_affiliate": false,
+            "points_expire_at": null,
+            "referred_by_customer": null,
+            "vip_tier_name": null,
+            "vip_tier_ends_at": null,
+            "payout_percentage": null,
+            "has_provided_tax_details": null,
+            "affiliate_email": null,
+            "total_amount_earned": null,
+            "birthday_month": null,
+            "birth_day": null,
+            "birth_year": null,
+            "anniversary_month": null,
+            "anniversary_day": null,
+            "anniversary_year": null
+          },
+          "completed_referral_customers": [
+            {
+              "email": "name@example.com",
+              "first_name": "John",
+              "last_name": "Smith",
+              "reward_type": "REWARD_OPTION",
+              "referral_status": "COMPLETED",
+              "last_seen_at": "2024-08-04T06:45:17.000Z"
+            },
+            {
+              "email": "name@example.com",
+              "first_name": "John",
+              "last_name": "Smith",
+              "reward_type": "REWARD_OPTION",
+              "referral_status": "COMPLETED",
+              "last_seen_at": "2024-08-01T10:12:27.000Z"
+            }
+          ],
+          "email": "name@example.com",
+          "unique_clicks": 22,
+          "total_clicks": 56
+        },
+        "friend_referral_code": {
+          "code": "CODE33",
+          "customer_id": 1,
+          "total_shares": 0,
+          "email_shares": 0,
+          "sms_shares": 0,
+          "whatsapp_shares": 0,
+          "copy_link_shares": 0,
+          "personal_email_shares": 0,
+          "links_clicked_from_email": 0,
+          "links_clicked_from_sms": 0,
+          "links_clicked_from_whatsapp": 0,
+          "links_clicked_from_personal_email": 0,
+          "links_clicked_from_copy_link": 0,
+          "friends_orders": 0,
+          "friends_amount_spent_cents": 0,
+          "friends_average_amount_cents": 0,
+          "expired": false,
+          "customer": null,
+          "completed_referral_customers": [],
+          "email": "name@example.com",
+          "unique_clicks": 0,
+          "total_clicks": 0
+        },
+        "email": "name@example.com",
+        "friend": {
+          "total_spend_cents": 62000,
+          "total_purchases": 1,
+          "perks_redeemed": 3,
+          "last_purchase_at": "2024-08-08T07:38:18.000Z",
+          "first_name": "John",
+          "last_name": "Smith",
+          "is_member": false,
+          "accepts_marketing": false,
+          "email": "name@example.com",
+          "points_balance": 645,
+          "points_earned": 645,
+          "last_seen_at": "2024-08-08T07:38:23.000Z",
+          "thirty_party_id": null,
+          "third_party_id": null,
+          "referral_link": "",
+          "referral_discount_code": "",
+          "is_opt_in": true,
+          "loyalty_opt_in_date": "2024-08-08",
+          "has_store_account": false,
+          "credit_balance": "$0",
+          "credit_balance_in_customer_currency": "$0",
+          "is_affiliate": false,
+          "points_expire_at": null,
+          "referred_by_customer": "name@example.com"
+        },
+        "published_at": "2024-08-08T07:38:37.748+00:00"
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-tier-earned" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/tier/earned</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer meets the requirement for a new tier. This is great for letting a customer know they reached a certain status level.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who earned the new tier.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>customer</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The customer object who earned the new tier.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>new_tier</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Object describing the new tier they just earned.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>old_tier</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              Object describing the tier they came from. Attribute won’t be present if they had no previous tier.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/tier/earned",
+          "name": "Swell Tier Earned",
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 2,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 375,
+              "points_balance": 375,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T18:14:56.000Z",
+              "third_party_id": "4302977345",
+              "vip_tier_name": "SILVER",
+              "vip_tier_ends_at": "2017-10-31",
+              "referral_code": {
+                  "code": "x09u052",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 1,
+                  "amount_cents": 3000,
+                  "average_amount_cents": 3000,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [{
+                      "email": "name@example.com",
+                      "first_name": "John",
+                      "last_name": "Smith",
+                      "referral_points_contributed": 0,
+                      "last_seen_at": "2016-10-15T16:38:20.000Z"
+                  }],
+                  "email": "name@example.com",
+                  "unique_clicks": 1,
+                  "total_clicks": 1
+              }
+          },
+          "new_tier": {
+              "id": 2,
+              "name": "GOLD",
+              "description": "Earn Gold status after spending $100",
+              "points_earned": 0,
+              "amount_spent_cents": 10000,
+              "purchases_made": 0,
+              "points_multiplier": 1.50,
+              "rank": 2
+          },
+          "old_tier": {
+              "id": 1,
+              "name": "SILVER",
+              "description": "Earn Silver status after spending $50",
+              "points_earned": 0,
+              "amount_spent_cents": 5000,
+              "purchases_made": 0,
+              "points_multiplier": 1.20,
+              "rank": 1
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-tier-lost" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/tier/lost</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer fails to meet the requirement for a tier after the specified period of time has passed.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer who earned the new tier.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>customer</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The customer object who earned the new tier.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>new_tier</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Object describing the new tier they dropped to. Attribute won’t be present if they now have no tier.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>old_tier</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              Object describing the tier they just lost.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+          "topic": "swell/tier/lost",
+          "name": "Swell Tier Lost",
+          "email": "name@example.com",
+          "customer": {
+              "total_spend_cents": 0,
+              "total_purchases": 0,
+              "perks_redeemed": 2,
+              "last_purchase_at": null,
+              "email": "name@example.com",
+              "referred_by": "name@example.com",
+              "points_earned": 375,
+              "points_balance": 375,
+              "points_expire_at": null,
+              "first_name": "John",
+              "last_name": "Smith",
+              "last_seen_at": "2016-10-15T18:14:56.000Z",
+              "third_party_id": "4302977345",
+              "vip_tier_name": "SILVER",
+              "vip_tier_ends_at": "2017-10-31",
+              "referral_code": {
+                  "code": "x09u052",
+                  "shares": 0,
+                  "facebook_shares": 0,
+                  "twitter_shares": 0,
+                  "email_shares": 0,
+                  "emails_sent": 0,
+                  "emails_viewed": 0,
+                  "links_clicked_from_email": 0,
+                  "links_clicked_from_twitter": 0,
+                  "links_clicked_from_facebook": 0,
+                  "orders": 1,
+                  "amount_cents": 3000,
+                  "average_amount_cents": 3000,
+                  "expires_at": null,
+                  "expired": false,
+                  "completed_referral_customers": [{
+                      "email": "name@example.com",
+                      "first_name": "John",
+                      "last_name": "Smith",
+                      "referral_points_contributed": 0,
+                      "last_seen_at": "2016-10-15T16:38:20.000Z"
+                  }],
+                  "email": "name@example.com",
+                  "unique_clicks": 1,
+                  "total_clicks": 1
+              }
+          },
+          "old_tier": {
+              "id": 2,
+              "name": "GOLD",
+              "description": "Earn Gold status after spending $100",
+              "points_earned": 0,
+              "amount_spent_cents": 10000,
+              "purchases_made": 0,
+              "points_multiplier": 1.50,
+              "rank": 2
+          },
+          "new_tier": {
+              "id": 1,
+              "name": "SILVER",
+              "description": "Earn Silver status after spending $50",
+              "points_earned": 0,
+              "amount_spent_cents": 5000,
+              "purchases_made": 0,
+              "points_multiplier": 1.20,
+              "rank": 1
+          }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="swell-tier-status-changed" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>swell/tier/status/changed</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      Triggered when a customer gets closer or farther from retaining their current tier, and from entering the next tier.
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Important Attributes</th>
+            <th style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>email</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The email address of the customer whose VIP status changed.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>customer</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              The customer whose VIP status changed.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>vip_stats</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Object reflecting the customer's accumulations towards earning a tier:
+
+              <ul style={{ margin: '0.5em 0 0.5em 1.5em' }}>
+                <li>Points Earned</li>
+                <li>Amount Spent (in cents) — This refers to the annual amount spent by the customer (a rolling year or calendar year, according to your settings)</li>
+                <li>How many purchases the customer made</li>
+                <li>How many referrals were completed</li>
+              </ul>
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}><code>vip_stats_needed_maintain</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em', borderBottom: '1px solid #3B3A3A' }}>
+              Object conveying how much is needed for the customer to maintain their current tier.
+            </td>
+          </tr>
+
+          <tr>
+            <td style={{ textAlign: 'left', padding: '0.5em' }}><code>vip_stats_needed_next</code></td>
+
+            <td style={{ textAlign: 'left', padding: '0.5em' }}>
+              Object conveying how much is needed for the customer to obtain the next tier.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      ```json
+      {
+         "topic":"swell/tier/status/changed",
+         "name":"Swell Tier Status Changed",
+         "email":"name@example.com",
+         "customer":{
+            "total_spend_cents":0,
+            "total_purchases":0,
+            "perks_redeemed":2,
+            "last_purchase_at":null,
+            "email":"name@example.com",
+            "referred_by": "name@example.com",
+            "points_earned":375,
+            "points_balance":375,
+            "points_expire_at":null,
+            "first_name": "John",
+            "last_name": "Smith",
+            "last_seen_at":"2016-10-15T18:14:56.000Z",
+            "third_party_id":"4302977345",
+            "vip_tier_name":"SILVER",
+            "vip_tier_ends_at":"2017-10-31",
+            "referral_code":{
+               "code":"x09u052",
+               "shares":0,
+               "facebook_shares":0,
+               "twitter_shares":0,
+               "email_shares":0,
+               "emails_sent":0,
+               "emails_viewed":0,
+               "links_clicked_from_email":0,
+               "links_clicked_from_twitter":0,
+               "links_clicked_from_facebook":0,
+               "orders":1,
+               "amount_cents":3000,
+               "average_amount_cents":3000,
+               "expires_at":null,
+               "expired":false,
+               "completed_referral_customers":[
+                  {
+                     "email":"name@example.com",
+                     "first_name": "John",
+                     "last_name": "Smith",
+                     "referral_points_contributed":0,
+                     "last_seen_at":"2016-10-15T16:38:20.000Z"
+                  }
+               ],
+               "email":"name@example.com",
+               "unique_clicks":1,
+               "total_clicks":1
+            }
+         },
+         "vip_stats":{
+            "pointsEarned":0,
+            "amountSpentCents":500,
+            "purchasesMade":0,
+            "referralsCompleted":0
+         },
+         "vip_stats_needed_maintain":{
+            "points_needed":0,
+            "amount_cents_needed":0,
+            "purchases_needed":0,
+            "referrals_needed":0
+         },
+         "vip_stats_needed_next":{
+            "points_needed":0,
+            "amount_cents_needed":0,
+            "purchases_needed":0,
+            "referrals_needed":0
+         }
+      }
+
+      ```
+    </div>
+  </details>
+</div>
+
+<div id="loyalty-integrations-integration-disabled" style={{ border: '1px solid #3B3A3A', margin: '12px 0', borderRadius: '6px', overflow: 'hidden' }}>
+  <details>
+    <summary style={{ padding: '0.75em 1em', cursor: 'pointer', borderBottom: '0px solid #3B3A3A', fontWeight: '500' }}><code>loyalty/integrations/integration_disabled</code></summary>
+
+    <div style={{ padding: '1em' }}>
+      This event is triggered when the integration gets disabled due to <a href="https://support.yotpo.com/en/article/setting-up-loyalty-referrals-on-salesforce-commerce-cloud#registration-error" target="_blank">authorization errors</a>
+
+      > 📘 Note: For Commerce Cloud merchants, the user login and password credentials used when setting up the integration expire after 90 days.
+
+      ```json
+      {
+       "topic": "loyalty/integrations/integration_disabled",
+       "name": "Loyalty Integrations Integration Disabled",
+       "website_url": "http://test.com",
+       "integration_name": "Commerce Cloud"
+      }
+
+      ```
+    </div>
+  </details>
+</div>
