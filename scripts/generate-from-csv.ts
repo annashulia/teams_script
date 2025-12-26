@@ -113,7 +113,8 @@ function emitTest(row: CsvRow): string {
     lines.push("  await expect(page).toHaveURL(/\\/dashboard/); ");
   }
   if (expected.includes('validation error')) {
-    lines.push("  await expect(page.getByText(/required/i)).toBeVisible();");
+    lines.push("  // We might have multiple 'Required' errors, so we check if at least one is visible");
+    lines.push("  await expect(page.getByText(/required/i).first()).toBeVisible();");
   }
   if (expected.includes('incorrect email or password')) {
     lines.push("  await expect(page.getByText(/incorrect email or password/i)).toBeVisible();");
@@ -135,6 +136,9 @@ function emitTest(row: CsvRow): string {
   }
   if (isSignup && titleLower.includes('new email')) {
     lines.push("  await expect(page.getByText(/resend code/i)).toBeVisible();");
+  }
+  if (expected.includes('email field is focused')) {
+    lines.push("  await expect(page.getByLabel('Email')).toBeFocused();");
   }
 
   lines.push('});');

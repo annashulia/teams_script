@@ -17,7 +17,8 @@ test('AUTH-002 - Empty fields validation', async ({ page, request, context }) =>
   await page.goto((process.env.BASE_URL || 'https://app.slotsense.ai') + '/auth/signin');
   await page.getByLabel('Email').fill('');
   await page.getByRole('button', { name: /sign in/i }).click();
-  await expect(page.getByText(/required/i)).toBeVisible();
+  // We might have multiple 'Required' errors, so we check if at least one is visible
+  await expect(page.getByText(/required/i).first()).toBeVisible();
 });
 
 
@@ -58,7 +59,8 @@ test('AUTH-006 - Empty password', async ({ page, request, context }) => {
   await page.getByLabel('Password').fill(process.env.TEST_PASSWORD || 'Passw0rd!');
   await page.getByLabel('Email').fill(process.env.TEST_EMAIL || 'user@example.com');
   await page.getByLabel('Password').fill('');
-  await expect(page.getByText(/required/i)).toBeVisible();
+  // We might have multiple 'Required' errors, so we check if at least one is visible
+  await expect(page.getByText(/required/i).first()).toBeVisible();
 });
 
 
