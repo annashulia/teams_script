@@ -27,7 +27,12 @@ function sanitizeFilename(name: string): string {
 }
 
 function emitHeader(): string {
-  return `import { test, expect } from '@playwright/test';\n`;
+  return `import { test, expect } from '@playwright/test';
+
+test.beforeEach(async ({ page }) => {
+  await page.addStyleTag({ content: '.LandingBlock-link_viewAll3A3QMhGS-MW0 { display: none; }' });
+});
+`;
 }
 
 function emitTest(row: CsvRow): string {

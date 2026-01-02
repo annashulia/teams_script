@@ -1,5 +1,9 @@
 import { test, expect } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.addStyleTag({ content: '.LandingBlock-link_viewAll3A3QMhGS-MW0 { display: none; }' });
+});
+
 
 test('AUTH-001 - Successful login', async ({ page, request, context }) => {
   await page.goto((process.env.BASE_URL || 'https://app.slotsense.ai') + '/auth/signin');
