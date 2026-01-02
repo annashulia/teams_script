@@ -35,7 +35,7 @@
   - generic [ref=e46] [cursor=pointer]:
     - alert [ref=e47]:
       - img [ref=e49]
-      - generic [ref=e52]: validation.exists
+      - generic [ref=e52]: Incorrect email or password
     - img [ref=e54]
     - progressbar "notification timer" [ref=e56]
 ```

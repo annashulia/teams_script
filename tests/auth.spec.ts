@@ -8,6 +8,10 @@ test('AUTH-001 - Successful login', async ({ page, request, context }) => {
   await page.getByLabel('Email').fill(process.env.TEST_EMAIL || 'user@example.com');
   await page.getByRole('button', { name: /sign in/i }).click();
   await expect(page).toHaveURL(/\/dashboard/); 
+  
+  // Remove "Guidos test" element using CSS rule
+  await page.addStyleTag({ content: 'li:has(a[href*="guidos-test"]) { display: none !important; }' });
+
   const cookies = await context.cookies();
   expect(cookies.some(c => /session/i.test(c.name))).toBeTruthy();
 });
