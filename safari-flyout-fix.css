@@ -1,14 +1,10 @@
 @supports (-webkit-touch-callout: none) {
   [class*="Flyout_overlay"] {
-    position: fixed !important;
-    inset: 0 !important;
     z-index: 9999 !important;
   }
 
   [class*="Flyout_opened"][data-testid="flyout"],
   [class*="Flyout_opened"] [data-testid="flyout"] {
-    position: fixed !important;
-    inset: 0 !important;
     z-index: 10000 !important;
   }
 
