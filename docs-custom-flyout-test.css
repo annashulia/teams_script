@@ -6,14 +6,23 @@
     content: none !important;
   }
 
+  [class*="Flyout_overlay"] {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9999 !important;
+  }
+
   [class*="Flyout_opened"][data-testid="flyout"],
   [class*="Flyout_opened"] [data-testid="flyout"] {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    max-height: 100dvh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    transform: none !important;
+    translate: none !important;
+    z-index: 10000 !important;
   }
 }
