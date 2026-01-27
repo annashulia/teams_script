@@ -7,6 +7,10 @@
     height: 100dvh !important;
     max-height: 100dvh !important;
     overflow: hidden !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
     z-index: 9999 !important;
   }
 
@@ -20,10 +24,19 @@
     max-height: 100dvh !important;
     overflow: auto !important;
     -webkit-overflow-scrolling: touch !important;
+    display: block !important;
     transform: translateZ(0) !important;
+    translate: none !important;
+    left: 0 !important;
+    right: 0 !important;
     visibility: visible !important;
     opacity: 1 !important;
     pointer-events: auto !important;
     z-index: 10000 !important;
+  }
+
+  [class*="Flyout_opened"] [data-testid="flyout"],
+  [data-testid="flyout"][class*="Flyout_opened"] {
+    transform: none !important;
   }
 }
