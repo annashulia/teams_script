@@ -5,4 +5,15 @@
   main.rm-Container:has(.rm-Sidebar)::after {
     content: none !important;
   }
+
+  [class*="Flyout_opened"][data-testid="flyout"],
+  [class*="Flyout_opened"] [data-testid="flyout"] {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    max-height: 100dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
