@@ -1,0 +1,34 @@
+@supports (-webkit-touch-callout: none) {
+  [class*="Flyout_overlay"] {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  [class*="Flyout_opened"] [class*="MobileFlyout_item"],
+  [class*="Flyout_opened"] [class*="NavItem_item"],
+  [class*="Flyout_opened"] [class*="NavItem_dropdown"] {
+    display: flex;
+    align-items: center;
+  }
+
+  [class*="Flyout_opened"] [class*="MobileFlyout_item"] svg,
+  [class*="Flyout_opened"] [class*="NavItem_item"] svg,
+  [class*="Flyout_opened"] [class*="NavItem_dropdown"] svg {
+    display: block;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  [class*="Flyout_opened"] [class*="Icon"],
+  [class*="Flyout_opened"] [class*="icon"] {
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+  }
+}
