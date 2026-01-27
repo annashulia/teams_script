@@ -39,4 +39,9 @@
   [data-testid="flyout"][class*="Flyout_opened"] {
     transform: none !important;
   }
+
+  button[aria-label="Toggle navigation menu"] {
+    position: relative !important;
+    z-index: 10001 !important;
+  }
 }
