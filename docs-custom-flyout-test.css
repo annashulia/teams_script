@@ -1,0 +1,8 @@
+/* Minimal test override for mobile flyout. */
+
+@media (max-width: 768px) {
+  main > .rm-Container:has(.rm-Sidebar)::after,
+  main.rm-Container:has(.rm-Sidebar)::after {
+    content: none !important;
+  }
+}
