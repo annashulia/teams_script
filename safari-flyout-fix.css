@@ -2,11 +2,6 @@
   [class*="Flyout_overlay"] {
     position: fixed !important;
     inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    max-height: 100dvh !important;
-    overflow: hidden !important;
     z-index: 9999 !important;
   }
 
@@ -14,12 +9,6 @@
   [class*="Flyout_opened"] [data-testid="flyout"] {
     position: fixed !important;
     inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    max-height: 100dvh !important;
-    overflow: auto !important;
-    -webkit-overflow-scrolling: touch !important;
     z-index: 10000 !important;
   }
 
