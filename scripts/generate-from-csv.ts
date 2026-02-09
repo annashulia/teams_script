@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import AdmZip from 'adm-zip';
 import Papa from 'papaparse';
 
 interface CsvRow {
@@ -24,6 +25,44 @@ function sanitizeFilename(name: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+}
+
+function readCsvFromZip(zipPath: string): string {
+  const zip = new AdmZip(zipPath);
+  const entries = zip.getEntries().filter(entry => {
+    return !entry.isDirectory && entry.entryName.toLowerCase().endsWith('.csv');
+  });
+
+  if (!entries.length) {
+    throw new Error(`No .csv entries found in zip file: ${zipPath}`);
+  }
+
+  const zipBase = path.basename(zipPath, path.extname(zipPath)).toLowerCase();
+  const preferred = entries.find(entry => path.basename(entry.entryName).toLowerCase() === 'sheet.csv')
+    || entries.find(entry => path.basename(entry.entryName).toLowerCase() === `${zipBase}.csv`);
+
+  const selected = preferred || entries.sort((a, b) => a.entryName.localeCompare(b.entryName))[0];
+  if (entries.length > 1 && !preferred) {
+    console.warn(
+      `Multiple CSV files found in ${zipPath}. Using ${selected.entryName}. ` +
+      'Specify a zip with a single CSV to avoid ambiguity.'
+    );
+  }
+
+  return selected.getData().toString('utf8');
+}
+
+function readCsvInput(filePath: string): string {
+  const resolvedPath = path.resolve(filePath);
+  if (!fs.existsSync(resolvedPath)) {
+    throw new Error(`CSV input file not found: ${resolvedPath}`);
+  }
+
+  if (path.extname(resolvedPath).toLowerCase() === '.zip') {
+    return readCsvFromZip(resolvedPath);
+  }
+
+  return fs.readFileSync(resolvedPath, 'utf8');
 }
 
 function emitHeader(): string {
@@ -142,7 +181,7 @@ function emitTest(row: CsvRow): string {
 }
 
 function generate(filePath: string) {
-  const csv = fs.readFileSync(filePath, 'utf8');
+  const csv = readCsvInput(filePath);
   const parsed = Papa.parse<CsvRow>(csv, { header: true, skipEmptyLines: true }) as unknown as Papa.ParseResult<CsvRow>;
   if (parsed.errors.length) {
     console.error('CSV parse errors:', parsed.errors);
