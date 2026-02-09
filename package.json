@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
-    "generate": "ts-node scripts/generate-from-csv.ts sheet.csv"
+    "generate": "ts-node scripts/generate-from-csv.ts"
   },
   "repository": {
     "type": "git",
