@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import AdmZip from 'adm-zip';
 import Papa from 'papaparse';
 
 interface CsvRow {
@@ -24,6 +25,69 @@ function sanitizeFilename(name: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+}
+
+const ZIP_ENTRY_SEPARATOR = '::';
+
+function parseZipSpecifier(inputPath: string): { resolvedPath: string; entryName?: string } {
+  const separatorIndex = inputPath.indexOf(ZIP_ENTRY_SEPARATOR);
+  if (separatorIndex === -1) {
+    return { resolvedPath: inputPath };
+  }
+
+  const resolvedPath = inputPath.slice(0, separatorIndex);
+  const entryName = inputPath.slice(separatorIndex + ZIP_ENTRY_SEPARATOR.length);
+  if (!entryName) {
+    throw new Error(`Missing zip entry after "${ZIP_ENTRY_SEPARATOR}" in "${inputPath}".`);
+  }
+
+  return { resolvedPath, entryName };
+}
+
+function loadCsvInput(inputPath: string): { csv: string; source: string } {
+  const { resolvedPath, entryName } = parseZipSpecifier(inputPath);
+
+  if (resolvedPath.toLowerCase().endsWith('.zip')) {
+    const zip = new AdmZip(resolvedPath);
+    const entries = zip
+      .getEntries()
+      .filter(entry => !entry.isDirectory && entry.entryName.toLowerCase().endsWith('.csv'));
+
+    if (!entries.length) {
+      throw new Error(`No CSV files found in ${resolvedPath}.`);
+    }
+
+    let selectedEntry = entries[0];
+    if (entryName) {
+      selectedEntry =
+        entries.find(entry => entry.entryName === entryName) ||
+        entries.find(entry => path.basename(entry.entryName) === entryName);
+      if (!selectedEntry) {
+        const available = entries.map(entry => entry.entryName).join(', ');
+        throw new Error(
+          `CSV entry "${entryName}" not found in ${resolvedPath}. Available entries: ${available}`
+        );
+      }
+    } else if (entries.length > 1) {
+      const available = entries.map(entry => entry.entryName).join(', ');
+      throw new Error(
+        `Multiple CSV files found in ${resolvedPath}. ` +
+          `Specify one using "${resolvedPath}${ZIP_ENTRY_SEPARATOR}path/in/zip.csv". ` +
+          `Available entries: ${available}`
+      );
+    }
+
+    return {
+      csv: selectedEntry.getData().toString('utf8'),
+      source: `${resolvedPath}${ZIP_ENTRY_SEPARATOR}${selectedEntry.entryName}`,
+    };
+  }
+
+  if (entryName) {
+    throw new Error(`Zip entry provided but "${resolvedPath}" is not a .zip file.`);
+  }
+
+  return { csv: fs.readFileSync(resolvedPath, 'utf8'), source: resolvedPath };
 }
 
 function emitHeader(): string {
@@ -142,7 +206,7 @@ function emitTest(row: CsvRow): string {
 }
 
 function generate(filePath: string) {
-  const csv = fs.readFileSync(filePath, 'utf8');
+  const { csv } = loadCsvInput(filePath);
   const parsed = Papa.parse<CsvRow>(csv, { header: true, skipEmptyLines: true }) as unknown as Papa.ParseResult<CsvRow>;
   if (parsed.errors.length) {
     console.error('CSV parse errors:', parsed.errors);
@@ -172,5 +236,10 @@ function generate(filePath: string) {
 
 if (require.main === module) {
   const csvPath = process.argv[2] || 'sheet.csv';
-  generate(csvPath);
+  try {
+    generate(csvPath);
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : error);
+    process.exitCode = 1;
+  }
 }

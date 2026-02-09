@@ -20,8 +20,10 @@
   "homepage": "https://github.com/annashulia/teams_script#readme",
   "devDependencies": {
     "@playwright/test": "^1.56.0",
+    "@types/adm-zip": "^0.5.7",
     "@types/node": "^24.8.0",
     "@types/papaparse": "^5.3.16",
+    "adm-zip": "^0.5.16",
     "papaparse": "^5.5.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
