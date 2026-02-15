@@ -37,6 +37,7 @@ python3 "/Users/anna/Desktop/T script/teams_alarm_badge.py" --debug
 - `--interval 3` : check every 3 seconds
 - `--min-unread 2` : alert only if unread count is at least 2
 - `--alarm-repeat 3` : play alarm 3 times
+- `--confirm-samples 2` : require stable repeated badge reads before changing state
 - `--dry-run` : log only, no sound
 
 Example:
