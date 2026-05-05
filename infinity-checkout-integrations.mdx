@@ -1,0 +1,1030 @@
+## Choose Your Integration Mode
+
+Select the integration method that best fits your needs. Both Redirect and Iframe modes follow the same integration steps.
+
+<HTMLBlock>{`
+<style>
+.integration-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mode-selector {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.mode-tab {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: #fff;
+  text-align: left;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.mode-tab:hover {
+  color: #003434;
+  border-color: #003434;
+}
+
+.mode-tab.active {
+  color: #003434;
+  border-color: #003434;
+  background-color: #f0faf7;
+}
+
+.mode-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.mode-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: #4b5563;
+}
+
+.mode-tab.active .mode-icon {
+  color: #003434;
+}
+
+.mode-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  color: #003434;
+}
+
+.mode-description {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #4b5563;
+}
+
+.alert {
+  margin-bottom: 2rem;
+  border: 1px solid #e2e8f0;
+  background-color: #C4ECE0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: none;
+}
+
+.alert.visible {
+  display: block;
+}
+
+.alert-description { width: 100%; }
+
+.alert-title {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #003434;
+  font-size: 1rem;
+}
+
+.differences-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .differences-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.difference-item { display: flex; flex-direction: column; }
+
+.difference-key {
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+}
+
+.difference-value { line-height: 1.5; }
+</style>
+
+<div class="integration-container">
+  <div class="mode-selector">
+    <button class="mode-tab active" id="tab-redirect" onclick="selectMode('redirect')">
+      <div class="mode-card-header">
+        <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+      </div>
+      <div class="mode-title">Redirect</div>
+      <div class="mode-description">Redirect customers to a hosted checkout page</div>
+    </button>
+
+    <button class="mode-tab" id="tab-iframe" onclick="selectMode('iframe')">
+      <div class="mode-card-header">
+        <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+      </div>
+      <div class="mode-title">Iframe</div>
+      <div class="mode-description">Embed checkout directly in your page</div>
+    </button>
+  </div>
+
+  <div class="alert visible" id="alert-redirect">
+    <div class="alert-description">
+      <div class="alert-title">Integration Mode: Redirect</div>
+      <div class="differences-grid">
+        <div class="difference-item">
+          <div class="difference-key">Setup:</div>
+          <div class="difference-value">No additional setup required</div>
+        </div>
+        <div class="difference-item">
+          <div class="difference-key">User Experience:</div>
+          <div class="difference-value">Redirects to hosted page</div>
+        </div>
+        <div class="difference-item">
+          <div class="difference-key">Customization:</div>
+          <div class="difference-value">Limited to theme colors</div>
+        </div>
+        <div class="difference-item">
+          <div class="difference-key">Security:</div>
+          <div class="difference-value">Fully managed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert" id="alert-iframe">
+    <div class="alert-description">
+      <div class="alert-title">Integration Mode: Iframe</div>
+      <div class="differences-grid">
+        <div class="difference-item">
+          <div class="difference-key">Setup:</div>
+          <div class="difference-value">Configure iframe dimensions</div>
+        </div>
+        <div class="difference-item">
+          <div class="difference-key">User Experience:</div>
+          <div class="difference-value">Embedded in your page</div>
+        </div>
+        <div class="difference-item">
+          <div class="difference-key">Customization:</div>
+          <div class="difference-value">Limited to theme colors</div>
+        </div>
+        <div class="difference-item">
+          <div class="difference-key">Security:</div>
+          <div class="difference-value">Fully managed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function selectMode(mode) {
+  var modes = ['redirect', 'iframe'];
+  modes.forEach(function(m) {
+    var tab = document.getElementById('tab-' + m);
+    var alert = document.getElementById('alert-' + m);
+    if (m === mode) {
+      tab.classList.add('active');
+      alert.classList.add('visible');
+    } else {
+      tab.classList.remove('active');
+      alert.classList.remove('visible');
+    }
+  });
+}
+</script>
+`}</HTMLBlock>
+
+> 📘 Note:
+>
+> - The integration steps remain the same for both the modes. Only the `integration_mode` value changes \[`REDIRECT` , `IFRAME`].
+
+## Integration Steps
+
+Follow the below steps to integrate with Pine Labs Infinity checkout APIs in your application.
+
+1. <a style={{ textDecoration: "underline" }} href ="https://developer.pinelabsonline.com/docs/infinity-checkout-integrations#1-prerequisite-generate-token" >\[Prerequisite] Generate Token</a>
+2. <a style={{ textDecoration: "underline" }} href ="https://developer.pinelabsonline.com/docs/infinity-checkout-integrations#2-generate-checkout-link" >Generate Checkout Link</a>
+3. <a style={{ textDecoration: "underline" }} href ="https://developer.pinelabsonline.com/docs/infinity-checkout-integrations#3-launch-checkout" >Launch Checkout</a>
+
+> 📘 Note
+>
+> - Ensure you store your Client ID and Secret in your Backend securely.
+> - Integrate our APIs on your backend system.
+> - We strictly recommend not to call our APIs from the frontend.
+> - Failure to adhere to the above guidelines may result in legal implications. In such cases, you will be held responsible for any damage or loss arising from non-compliance.
+
+***
+
+### 1. \[Prerequisite] Generate Token
+
+Integrate our Generate Token API in your backend servers to generate the access token. Use the token generated to authenticate Pine Labs APIs.
+
+Below are the sample requests and response for the Generate Token API.
+
+```curl cURL – UAT
+curl --request POST \
+--url https://pluraluat.v2.pinepg.in/api/auth/v1/token \
+--header 'accept: application/json' \
+--header 'content-type: application/json' \
+--header 'Request-Timestamp: 2024-07-09T07:57:08.022Z' \
+--header 'Request-ID: c17ce30f-f88e-4f81-ada1-c3b4909ed235' \
+--data '
+{
+  "client_id": "a17ce30e-f88e-4f81-ada1-c3b4909ed232",
+  "client_secret": "fgwei7egyhuggwp39w8rh",
+  "grant_type": "client_credentials"
+}
+'
+```
+```curl cURL – PROD
+curl --request POST \
+--url https://api.pluralpay.in/api/auth/v1/token \
+--header 'accept: application/json' \
+--header 'content-type: application/json' \
+--header 'Request-Timestamp: 2024-07-09T07:57:08.022Z' \
+--header 'Request-ID: c17ce30f-f88e-4f81-ada1-c3b4909ed235' \
+--data '
+{
+  "client_id": "a17ce30e-f88e-4f81-ada1-c3b4909ed232",
+  "client_secret": "fgwei7egyhuggwp39w8rh",
+  "grant_type": "client_credentials"
+}
+'
+```
+```json Sample Response
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+  "expires_in": 3600
+}
+```
+
+<GenerateToken />
+
+<br />Refer to our <a style={{ textDecoration: "underline" }} href="https://developer.pinelabsonline.com/v3.0/reference/generate-token" >Generate Token API</a> documentation to learn more.
+
+***
+
+### 2. Generate Checkout Link
+
+To generate a Pine Labs infinity checkout link, use our Generate Checkout Link API. Include the access token in the request headers for Bearer Authentication.
+
+Below are the sample requests and response for a Generate Checkout Link API.
+
+```curl cURL - UAT
+curl --request POST \
+--url https://pluraluat.v2.pinepg.in/api/checkout/v1/orders \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' \
+--header 'Content-Type: application/json' \
+--header 'Request-ID: c17ce30f-f88e-4f81-ada1-c3b4909ed235' \
+--header 'Request-Timestamp: 2024-07-09T07:57:08.022Z' \
+--header 'accept: application/json' \
+--data '
+{
+  "merchant_order_reference": "112345",
+  "order_amount": {
+    "value": 1100,
+    "currency": "INR"
+  },
+  "integration_mode": "REDIRECT",
+  "pre_auth": false,
+  "allowed_payment_methods": [
+    "CARD",
+    "UPI",
+    "NETBANKING",
+    "POINTS",
+    "WALLET"
+  ],
+  "notes": "order1",
+  "callback_url": "https://sample-callback-url",
+  "failure_callback_url": "https://sample-failure-callback-url",
+  "purchase_details": {
+    "customer": {
+      "email_id": "kevin.bob@example.com",
+      "first_name": "Kevin",
+      "last_name": "Bob",
+      "customer_id": "123456",
+      "mobile_number": "9876543210",
+      "country_code": "91",
+      "billing_address": {
+        "address1": "10 Downing Street Westminster London",
+        "address2": "Oxford Street Westminster London",
+        "address3": "Baker Street Westminster London",
+        "pincode": "51524036",
+        "city": "Westminster",
+        "state": "Westminster",
+        "country": "London",
+        "full_name": "Kevin Bob",
+        "adddress_type": "Home",
+        "address_category": "billing"
+      },
+      "shipping_address": {
+        "address1": "10 Downing Street Westminster London",
+        "address2": "Oxford Street Westminster London",
+        "address3": "Baker Street Westminster London",
+        "pincode": "51524036",
+        "city": "Westminster",
+        "state": "Westminster",
+        "country": "London",
+        "full_name": "Kevin Bob",
+        "adddress_type": "Home",
+        "address_category": "shipping"
+      }
+    },
+    "merchant_metadata": {
+      "express_checkout_enabled": "TRUE",
+      "express_checkout_allowed_action": "checkoutCollectAddress",
+      "key1": "DD",
+      "key2": "XOF"
+    },
+    "cart_details": {
+      "cart_items": [
+        {
+          "item_id": "cart_id_1",
+          "item_name": "T Shirt",
+          "item_description": "Test Description",
+          "item_details_url": "https://chriscross.in/cdn/shop/files/95_800x.jpg",
+          "item_image_url": "https://chriscross.in/cdn/shop/files/95_800x.jpg",
+          "item_original_unit_price": 1,
+          "item_discounted_unit_price": 1,
+          "item_quantity": 1,
+          "item_currency": "INR"
+        }
+      ]
+    }
+  }
+}
+'
+```
+```curl cURL - PROD
+curl --request POST \
+--url https://api.pluralpay.in/api/checkout/v1/orders \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' \
+--header 'Content-Type: application/json' \
+--header 'Request-ID: c17ce30f-f88e-4f81-ada1-c3b4909ed235' \
+--header 'Request-Timestamp: 2024-07-09T07:57:08.022Z' \
+--header 'accept: application/json' \
+--data '
+{
+  "merchant_order_reference": 112345171,
+  "order_amount": {
+    "value": 500,
+    "currency": "INR"
+  },
+  "pre_auth": false,
+  "allowed_payment_methods": [
+    "CARD",
+    "UPI",
+    "NETBANKING",
+    "POINTS",
+    "WALLET"
+  ],
+  "notes": "order1",
+  "callback_url": "https://sample-callback-url",
+  "failure_callback_url": "https://sample-failure-callback-url",
+  "purchase_details": {
+    "customer": {
+      "email_id": "kevin.bob@example.com",
+      "first_name": "Kevin",
+      "last_name": "Bob",
+      "customer_id": "192212",
+      "mobile_number": "9876543210",
+      "country_code": "91",
+      "billing_address": {
+        "address1": "H.No 15, Sector 17",
+        "address2": "",
+        "address3": "",
+        "pincode": "61232112",
+        "city": "CHANDIGARH",
+        "state": "PUNJAB",
+        "country": "INDIA",
+        "full_name": "harsh kumar",
+        "address_type": "HOME/WORK/OTHER",
+        "address_category": "BILLING"
+      },
+      "shipping_address": {
+        "address1": "H.No 15, Sector 17",
+        "address2": "",
+        "address3": "",
+        "pincode": "144001123",
+        "city": "CHANDIGARH",
+        "state": "PUNJAB",
+        "country": "INDIA",
+        "full_name": "harsh kumar",
+        "address_type": "HOME/WORK/OTHER",
+        "address_category": "BILLING"
+      }
+    },
+    "merchant_metadata": {
+      "key1": "DD",
+      "key2": "XOF",
+      "express_checkout_enabled": "TRUE",
+      "express_checkout_allowed_action": "checkoutCollectAddress"
+    }
+  },
+  "cart_details": {
+    "cart_items": [
+      {
+        "item_id": "cart_id_1",
+        "item_name": "T Shirt",
+        "item_description": "Test Description",
+        "item_details_url": "https://chriscross.in/cdn/shop/files/95_800x.jpg",
+        "item_image_url": "https://chriscross.in/cdn/shop/files/95_800x.jpg",
+        "item_original_unit_price": 1,
+        "item_discounted_unit_price": 1,
+        "item_quantity": 1,
+        "item_currency": "INR"
+      }
+    ]
+  }
+}
+'
+```
+```json Sample Response
+{
+  "token": "<<Redirect Token>>",
+  "order_id": "<<Order ID>>",
+  "redirect_url": "https://api.pluralonline.com/api/v3/checkout-bff/redirect/checkout?token=<<Redirect Token>>",
+  "response_code": 200,
+  "response_message": "Order Creation Successful."
+}
+```
+
+> 📘 Note:
+>
+> - You can set `pre-auth` as true to use pre-authorization flow for card payments only through hosted checkout.
+
+<Checkout />
+
+<br />Refer to our <a style={{ textDecoration: "underline" }} href="https://developer.pinelabsonline.com/reference/generate-checkout-link" >Generate Checkout Link API</a> documentation to learn more.
+
+Refer to our <a style={{ textDecoration: "underline" }} href="https://developer.pinelabsonline.com/docs/payments-test-card-details" >Test Card Details</a> documentation to learn more.
+
+***
+
+### 3. Launch Checkout
+
+After successfully generating the checkout link, launch the checkout using the `redirect_url`. This can be done as listed below.
+
+<details><summary>Redirect Checkout</summary><br>
+
+In the response to the Generate Checkout Link API, a `redirect_url` is returned. Use this URL to redirect your customers to the Pine Labs - infinity checkout page to accept payment.
+
+After successfully completing the payment to know the status of the payment we sent the response to the callback\_url.
+
+##### 3.1.1. Handle Callback
+
+On a successful and failed payment we return the following fields to the return url.
+
+###### 3.1.1.1. Store Payment Details on Your Server
+
+- We recommend you to store the payment details on your server.
+- You must validate the authenticity of the payment details returned. You can authenticate by verifying the signature.
+
+```json Success Callback Response
+{
+  "order_id": "v1-4405071524-aa-qlAtAf",
+  "status": "AUTHORIZED",
+  "signature": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+}
+```
+```json Failure Callbak Response
+{
+  "order_id": "v1-4405071524-aa-qlAtAf",
+  "status": "AUTHORIZED",
+  "error_code": "USER_AUTHENTICATION_REQUIRED",
+  "error_message": "Consumer Authentication Required",
+  "signature": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+}
+```
+
+###### 3.1.1.2. Verify Payment Signature
+
+Ensure you follow this as a mandatory step to verify the authenticity of the details returned to the checkout form for successful payments.
+
+Follow the below steps to verify the signature.
+
+1. Create a signature on your server using the following parameters using the SHA256 algorithm.
+   1. `order_id`: Unique Identifier generated for an order request on Pine Labs database.
+   2. `payment_status`: Payment status.
+   3. `error_code`: Short code for the error returned.
+   4. `error_message`: Corresponding error message for the code.
+   5. `secret_key`: The Onboarding team has provided you with this information as part of the onboarding process.
+
+Use the below sample code to construct HashMap signature using the SHA256 algorithm.
+
+```java Java
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+ 
+public class hash {
+    public static void main(String[] args) {
+        // Test the GenerateHash method
+        String input = "<string>";
+        String secretKey = "<secret_key>";  // Example key in hex
+ 
+        String hash = GenerateHash(input, secretKey);
+        System.out.println("Generated Hash: " + hash);
+    }
+    public static String GenerateHash(String input, String strSecretKey) {
+        String strHash = "";
+        try {
+            if (!isValidString(input) || !isValidString(strSecretKey)) {
+                return strHash;
+            }
+            byte[] convertedHashKey = new byte[strSecretKey.length() / 2];
+ 
+            for (int i = 0; i < strSecretKey.length() / 2; i++) {
+                convertedHashKey[i] =
+                        (byte)Integer.parseInt(strSecretKey.substring(i * 2, (i*2)+2),16); //hexNumber radix
+            }
+            strHash = hmacDigest(input.toString(), convertedHashKey,
+                    "HmacSHA256");
+        } catch (Exception ex) {
+            strHash = "";
+        }
+        return strHash.toUpperCase();
+    }
+    private static String hmacDigest(String msg, byte[] keyString, String algo) {
+        String digest = null;
+        try {
+            SecretKeySpec key = new SecretKeySpec(keyString, algo);
+            Mac mac = Mac.getInstance(algo);
+            mac.init(key);
+            byte[] bytes = mac.doFinal(msg.getBytes("UTF-8"));
+            StringBuffer hash = new StringBuffer();
+            for (int i = 0; i < bytes.length; i++) {
+                String hex = Integer.toHexString(0xFF & bytes[i]);
+                if (hex.length() == 1) {
+                    hash.append('0');
+                }
+                hash.append(hex);
+            }
+            digest = hash.toString();
+        } catch (UnsupportedEncodingException e) {
+// logger.error("Exception occured in hashing the pine payment gateway request"+e);
+        } catch (InvalidKeyException e) {
+// logger.error("Exception occured in hashing the pine payment gateway request"+e);
+        } catch (NoSuchAlgorithmException e) {
+// logger.error("Exception occured in hashing the pine payment gateway request"+e);
+        }
+        return digest;
+    }
+    public static boolean isValidString(String str){
+        if(str != null && !"".equals(str.trim())){
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+> 📘 Note:
+>
+> To create a request string, format the key-value pairs of data returned to the return URL. The pairs are separated by `&` and arranged in ascending order based on a lexicographical comparison of the keys.
+
+Shown below is a example to create a request string.
+
+```text Success
+"key1=value1&key2=value2", ["order_id=random_order_id&status=AUTHORIZED"]
+```
+```text Failed
+"key1=value1&key2=value2&key3=value3&key4=value4", ["error_code=USER_AUTHENTICATION_FAILED&error_message=Consumer Authentication required&order_id=<order_id>&status=FAILED"]
+```
+
+2. If the signature generated on your server matches the Pine Labs signature returned in the return URL, it confirms that the payment details are from Pine Labs.
+3. Capture the status returned on your database. Once the payment status is `AUTHORIZED` you can either capture or cancel an order.
+
+</details>
+
+<details><summary>I-Frame Checkout</summary><br>
+
+After successfully generating the checkout link, launch the checkout using the `redirect_url` in an iframe.
+
+#### 3.2.1. Open Checkout in an I-Frame
+
+Once the Generate Checkout Link API returns a successful response, use the redirect\_url received in the response to open Pine Labs Infinity Checkout in an iframe. The redirect\_url is the checkout link generated by Pine Labs for the order.
+
+After the checkout process is completed, the payment gateway submits the payment result to the merchant's return URL using an HTTP POST request. The browser automatically submits an HTML form to the provided return URL.
+
+> 📘 Note:
+>
+> - For I-Frame Checkout, ensure that the Generate Checkout Link API request has `integration_mode`: `IFRAME`. If this value is not passed, the default integration mode is `REDIRECT`.
+
+Below is a sample Implementation to open the checkout in an I-Frame
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pine Labs I-Frame Checkout</title>
+  </head>
+
+  <body>
+    <button id="pay_button">Pay</button>
+
+    <script src="https://checkout.pluralonline.com/v3/web-sdk-checkout.js"></script>
+
+    <script>
+      function handleCheckout(redirectUrl) {
+        const options = {
+          redirectUrl: redirectUrl,
+
+          successHandler: async function (response) {
+            console.log("SuccessResponse:", response);
+
+            // Recommended:
+            // Send this response to your backend and verify the payment status/signature
+            // before marking the order as paid.
+          },
+
+          failedHandler: async function (response) {
+            console.log("FailedResponse:", response);
+
+            // Recommended:
+            // Send this response to your backend and update the order status accordingly.
+          },
+        };
+
+        const plural = new Plural(options);
+        plural.open(options);
+      }
+
+      document.getElementById("pay_button").onclick = function () {
+        // Replace this with the redirect_url returned by the Generate Checkout Link API.
+        handleCheckout("<<redirect_url>>");
+      };
+    </script>
+  </body>
+</html>
+```
+
+</details>
+
+***
+
+## Manage Transactions
+
+Track and verify transaction status using Pine Labs APIs. To retrieve the latest status, use the Fetch APIs or subscribe to webhooks for real-time transaction updates.
+
+<HTMLBlock>{`
+<style>
+.api-resources-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .api-resources-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.api-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  transition: border-color 0.2s ease;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  font-size: 0.875rem;
+  color: #475569;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0f766e;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  margin-top: auto;
+}
+
+.card-link:hover { color: #115e59; }
+
+.link-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+</style>
+<div class="api-resources-grid">
+  <div class="api-card">
+    <h3 class="card-title">Get Order by Order ID</h3>
+    <p class="card-description">Fetch real-time transaction status by order ID.</p>
+    <a href="https://developer.pinelabsonline.com/reference/orders-get-by-order-id" rel="noopener noreferrer" class="card-link">
+      Learn More
+      <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+      </svg>
+    </a>
+  </div>
+  <div class="api-card">
+    <h3 class="card-title">Webhooks</h3>
+    <p class="card-description">Configure webhook events for automatic transaction updates.</p>
+    <a href="https://developer.pinelabsonline.com/reference/developer-tools-webhook" rel="noopener noreferrer" class="card-link">
+      Learn More
+      <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+      </svg>
+    </a>
+  </div>
+  <div class="api-card">
+    <h3 class="card-title">Refunds</h3>
+    <p class="card-description">Automatically process customer refunds whenever required.</p>
+    <a href="https://developer.pinelabsonline.com/reference/about-refunds" rel="noopener noreferrer" class="card-link">
+      Learn More
+      <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+      </svg>
+    </a>
+  </div>
+</div>
+`}</HTMLBlock>
+
+## Pre Authorization Flow
+
+Our Orders API includes an optional **pre-authorization** feature. When pre-authorization is enabled (`pre_auth` = true), you can **Capture a Payment** for an order after successful delivery, ensuring that settlement remains on hold until then.
+
+> 📘 Note:
+>
+> **For&#x20;**`pre_auth`**&#x20;true**
+>
+> - On successful payment we send the webhook event `ORDER_AUTHORIZED` and the status of the payment is updated to `AUTHORIZED`.
+> - You can capture or cancel an order only when the order status is `AUTHORIZED`.
+>
+> **For&#x20;**`pre_auth`**&#x20;false**
+>
+> - On successful payment we send the webhook event `ORDER_PROCESSED` and the status of the payment is updated to `PROCESSED`
+
+Once pre-authorization is enabled and the payment is successfully authorized, you have the following options:
+
+**Capture Order**: Utilize the Pine Labs Online capture order API in your backend to capture the payment against an order.
+
+**Cancel Order**: Use the Pine Labs Online cancel order API in your backend to cancel the payment against an order.
+
+### 1. Capture Order
+
+Use this API to capture the payment against an order. On successful capture of an order the order status is updated as `processed`.
+
+Shown below are the sample requests and sample response for a Capture Order API.
+
+```curl cURL - UAT
+curl --request PUT \
+     --url https://pluraluat.v2.pinepg.in/api/pay/v1/orders/order_id/capture \
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' \
+     --header 'Content-Type: application/json' \
+     --header 'Request-ID: c17ce30f-f88e-4f81-ada1-c3b4909ed235' \
+     --header 'Request-Timestamp: 2024-07-09T07:57:08.022Z' \
+     --header 'accept: application/json' \
+     --data '
+{
+  "merchant_capture_reference": "merchant-capture-ref-r4y",
+  "capture_amount": {
+    "value": 4000,
+    "currency": "INR"
+  }
+}
+'
+```
+```curl cURL - PROD
+curl --request PUT \
+     --url https://api.pluralpay.in/api/pay/v1/orders/order_id/capture \
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' \
+     --header 'Content-Type: application/json' \
+     --header 'Request-ID: c17ce30f-f88e-4f81-ada1-c3b4909ed235' \
+     --header 'Request-Timestamp: 2024-07-09T07:57:08.022Z' \
+     --header 'accept: application/json' \
+     --data '
+{
+  "merchant_capture_reference": "merchant-capture-ref-r4y",
+  "capture_amount": {
+    "value": 4000,
+    "currency": "INR"
+  }
+}
+'
+```
+```json Sample Response
+{
+  "data":{
+    "order_id":"v1-5757575757-aa-hU1rUd",
+    "merchant_order_reference":"f4548bbf-a029-43d3-9209-e3385c80b1e9",
+    "type":"CHARGE",
+    "status":"PROCESSED",
+    "merchant_id":"123456",
+    "order_amount":{
+      "value":1100,
+      "currency":"INR"
+    },
+    "pre_auth":true,
+    "callback_url":"https://sample-callback-url",
+    "failure_callback_url": "https://sample-failure-callback-url",
+    "allowed_payment_methods":[
+      "CARD",
+      "UPI",
+      "NETBANKING",
+      "POINTS",
+      "WALLET",
+      "CREDIT_EMI"
+    ],
+    "notes":"order1",
+    "purchase_details":{
+      "customer":{
+        "email_id":"kevin.bob@example.com",
+        "first_name":"Kevin",
+        "last_name":"Bob",
+        "customer_id":"232323",
+        "mobile_number":"9876543210",
+        "country_code": "91",
+        "billing_address": {
+          "address1": "10 Downing Street Westminster London",
+          "address2": "Oxford Street Westminster London",
+          "address3": "Baker Street Westminster London",
+          "pincode": "51524036",
+          "city": "Westminster",
+          "state": "Westminster",
+          "country": "London",
+          "full_name": "Kevin Bob",
+          "adddress_type": "Home",
+          "address_category": "billing"
+        },
+        "shipping_address": {
+          "address1": "10 Downing Street Westminster London",
+          "address2": "Oxford Street Westminster London",
+          "address3": "Baker Street Westminster London",
+          "pincode": "51524036",
+          "city": "Westminster",
+          "state": "Westminster",
+          "country": "London",
+          "full_name": "Kevin Bob",
+          "adddress_type": "Home",
+          "address_category": "shipping"
+        }
+      },
+      "merchant_metadata":{
+        "key1":"DD",
+        "key2":"XOF"
+      }
+    },
+    "payments":[
+      {
+        "id":"v1-1111071924-aa-zzSkOA-cc-G",
+        "status":"PROCESSED",
+        "payment_amount":{
+          "value":1100,
+          "currency":"INR"
+        },
+        "payment_method":"CARD",
+        "payment_option":{
+          "card_data":{
+            "card_type":"CREDIT",
+            "network_name":"VISA",
+            "issuer_name":"NONE",
+            "card_category":"CONSUMER",
+            "country_code":"IND",
+            "token_txn_type":"ALT_TOKEN"
+          }
+        },
+        "acquirer_data":{
+          "approval_code":"000000",
+          "acquirer_reference":"202456643801053",
+          "rrn":"420145000226"
+        },
+        "capture_data":[
+          {
+            "merchant_capture_reference":"f31d8c60-0dc8-4788-a577-5ced930cc175",
+            "capture_amount":{
+              "value":1100,
+              "currency":"INR"
+            },
+            "created_at":"2024-07-19T11:13:21.523Z"
+          }
+        ],
+        "created_at":"2024-07-19T11:11:48.944Z",
+        "updated_at":"2024-07-19T11:13:23.962Z"
+      }
+    ],
+    "created_at":"2024-07-19T11:11:48.944Z",
+    "updated_at":"2024-07-19T11:13:23.962Z"
+  }
+}
+```
+
+<CaptureOrder />
+
+Refer to our <a style={{ textDecoration: "none" }} href="https://developer.pinelabsonline.com/v3.0/reference/orders-capture" >Capture Order API</a> documentation to learn more.
+
+### 2. Cancel Order
+
+Use this API to cancel the payment against an order.
+
+Use the below endpoint to cancel the payment against the order.
+
+```text Cancel Order Endpoint for UAT
+PUT: https://pluraluat.v2.pinepg.in/api/pay/v1/orders/{order_id}/cancel
+```
+```text Cancel Order Endpoint for PROD
+PUT: https://api.pluralpay.in/api/pay/v1/orders/{order_id}/cancel
+```
+
+Shown below is a sample request and sample response for a Cancel Order API.
+
+```json Sample Response
+{
+  "data":{
+    "order_id":"v1-250124055307-aa-6OZ8sm",
+    "merchant_order_reference":"53cf1451-4dfd-417d-a1c8-c8bd603d5200",
+    "type":"CHARGE",
+    "status":"CANCELLED",
+    "challenge_url":"https://pluraluat.v2.pinepg.in/web/auth/landing/?token=S50f2FXi%2FYAGe2bLZEW%2FA2VHzXthz0m9igmtsP61ODtY5u4pR6RYB5IlJwK0%2Fuo%2FBs9",
+    "merchant_id":"111163",
+    "order_amount":{
+      "value":1600000,
+      "currency":"INR"
+    },
+    "pre_auth":false,
+    "callback_url":"https://sample-callback-url",
+    "failure_callback_url": "https://sample-failure-callback-url",
+    "allowed_payment_methods":[
+      "CARD",
+      "UPI",
+      "NETBANKING",
+      "POINTS",
+      "WALLET",
+      "CREDIT_EMI"
+    ],
+    "purchase_details":{
+      "customer":{
+        "country_code":"91",
+        "billing_address":{},
+        "shipping_address":{},
+        "is_edit_customer_details_allowed":false
+      }
+    },
+    "payments":[
+      {
+        "id":"v1-250124055307-aa-6OZ8sm-ce-a",
+        "merchant_payment_reference":"c7a7f778-b68f-462b-a6af-50698df12a4a",
+        "status":"FAILED",
+        "payment_amount":{
+          "value":1550000,
+          "currency":"INR"
+        },
+        "payment_method":"CREDIT_EMI",
+        "error_detail":{
+          "code":"INTERNAL_ERROR",
+          "message":"Payment processor is unavailable"
+        },
+        "created_at":"2025-01-24T05:53:24.476Z",
+        "updated_at":"2025-01-24T05:53:25.492Z"
+      }
+    ],
+    "created_at":"2025-01-24T05:53:07.740Z",
+    "updated_at":"2025-01-24T05:53:59.680Z",
+    "integration_mode":"SEAMLESS",
+    "payment_retries_remaining":8
+  }
+}
+```
+
+<CancelOrder />
+
+Refer to our <a style={{ textDecoration: "none" }} href="https://developer.pinelabsonline.com/v3.0/reference/orders-cancel" >Cancel Order API</a> documentation to learn more.
