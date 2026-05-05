@@ -13,7 +13,7 @@ ReadMe is a React SPA, so the "Copy Page" button is injected into the DOM after 
 Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the snippet below.  
 *(Footer HTML is injected just before `</body>` on every page — the observer only acts when the URL matches `/docs/roadmap`.)*
 
-### The snippet
+### The snippet — paste into Admin Settings → Footer HTML
 
 ```html
 <script>
@@ -21,39 +21,36 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
   function fixRoadmapLayout() {
     if (!window.location.pathname.includes('/docs/roadmap')) return;
 
-    // Hide the Copy Page dropdown — walk up the tree to the column-level container
-    // (the direct child of the flex content-container that holds ONLY the Copy Page)
     document.querySelectorAll('button, [role="button"]').forEach(function (el) {
       if (!/copy page/i.test(el.textContent)) return;
 
-      var node = el;
-      while (node.parentElement) {
-        var p = node.parentElement;
-        if (
-          p.classList.contains('content-container') ||
-          p.classList.contains('rm-Article') ||
-          p === document.body
-        ) {
-          // node is the right-column wrapper — hide it
-          if (!node.dataset.rmHidden) {
-            node.dataset.rmHidden = '1';
-            node.style.setProperty('display', 'none', 'important');
-          }
-          break;
-        }
-        node = p;
-      }
-    });
+      // Anchor walk-up on the stable ID — never overshoot it
+      var container = document.getElementById('content-container');
+      if (!container) return;
 
-    // Expand the main article to fill the vacated space
-    ['.rm-Article', 'section[class*="content-toc"]', '.content-body'].forEach(function (sel) {
-      var el = document.querySelector(sel);
-      if (el && !el.dataset.rmExpanded) {
-        el.dataset.rmExpanded = '1';
-        el.style.setProperty('max-width', '100%', 'important');
-        el.style.setProperty('width', '100%', 'important');
-        el.style.setProperty('flex', '1 1 100%', 'important');
+      var col = el;
+      while (col.parentElement && col.parentElement !== container) {
+        col = col.parentElement;
       }
+
+      // If we never reached #content-container, bail — don't hide anything
+      if (col.parentElement !== container) return;
+
+      // If this column contains the page's own HTML root, it's the article — skip it
+      if (col.querySelector('#aira-roadmap-root, iframe, article')) return;
+
+      if (col.dataset.cpDone) return;
+      col.dataset.cpDone = '1';
+      col.style.setProperty('display', 'none', 'important');
+
+      // Expand every sibling column to fill the freed space
+      [].forEach.call(container.children, function (sib) {
+        if (sib !== col) {
+          sib.style.setProperty('max-width', '100%', 'important');
+          sib.style.setProperty('flex', '1 1 100%', 'important');
+          sib.style.setProperty('width', '100%', 'important');
+        }
+      });
     });
   }
 
@@ -67,10 +64,11 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 </script>
 ```
 
-### Why this works
+### What was wrong before and what this fixes
 
-- **Walks up to the column container** — instead of hiding just the `<button>` or the `Dropdown` div, it walks up the DOM tree until it finds the direct child of `.content-container` (the right column), and hides that whole node. This removes all the space the column occupied.
-- **Expands the article** — sets `max-width: 100%`, `width: 100%`, and `flex: 1 1 100%` on `.rm-Article`, `section[class*="content-toc"]`, and `.content-body` so the main content stretches into the vacated space.
-- **`data-rm-hidden` / `data-rm-expanded` guards** — marks elements once processed so repeated MutationObserver calls don't cause an infinite style-mutation loop.
-- **`document.documentElement` not `document.body`** — `body` can be `null` at Footer HTML execution time.
-- **URL guard** — only runs on `/docs/roadmap`.
+The previous "walk up" loop kept going even when it couldn't find a matching class name, eventually reaching a top-level page wrapper and hiding that (taking the whole page with it). The fix:
+
+1. **`getElementById('content-container')` as anchor** — stops the walk exactly at the grid container; if that ID is missing the function exits cleanly instead of destructively.
+2. **Hard bail if we overshoot** — `if (col.parentElement !== container) return` means if the walk-up ever passes `#content-container`, nothing gets hidden.
+3. **Content safety check** — `col.querySelector('#aira-roadmap-root, iframe, article')` identifies the article column (which contains your custom HTML root) and skips it, so only the Copy Page column is hidden.
+4. **Expand siblings** — once the right column is gone, all other direct children of `#content-container` are set to `100%` width so the content fills the space.
