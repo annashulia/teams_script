@@ -21,18 +21,20 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
   function hideCopyPageButton() {
     if (!window.location.pathname.includes('/docs/roadmap')) return;
 
-    // Cast a wide net: ReadMe may render this as a button, div, or span
-    document.querySelectorAll('button, [role="button"], div, span, a').forEach(function (el) {
-      if (el.childElementCount === 0 && /^Copy Page/i.test(el.textContent.trim())) {
-        el.style.setProperty('display', 'none', 'important');
+    document.querySelectorAll('button, [role="button"]').forEach(function (el) {
+      if (/copy page/i.test(el.textContent)) {
+        // Hide the whole Dropdown wrapper (covers the button + chevron together)
+        var wrapper = el.closest('[class*="Dropdown"]') ||
+                      el.closest('[data-testid*="dropdown"]') ||
+                      el.parentElement ||
+                      el;
+        wrapper.style.setProperty('display', 'none', 'important');
       }
     });
   }
 
   hideCopyPageButton();
 
-  // IMPORTANT: use documentElement, not body — body may be null in ReadMe's
-  // Footer HTML execution context, causing a TypeError that breaks the observer.
   new MutationObserver(hideCopyPageButton).observe(document.documentElement, {
     childList: true,
     subtree: true
@@ -43,8 +45,9 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 
 ### Why this works reliably
 
-- **`document.documentElement` not `document.body`** — `body` can be `null` when ReadMe's Footer HTML script runs, which throws `TypeError: parameter 1 is not of type 'Node'` and silently kills the observer. `documentElement` (`<html>`) is always a valid Node.
-- **`childElementCount === 0` guard** — limits matches to leaf nodes so we don't accidentally hide a large wrapper that merely contains the words "Copy Page" somewhere inside it.
-- **Text matching** — survives ReadMe's hashed class renames (e.g. `CopyPageButton-x7f2a`) which change on every deploy.
+- **No `childElementCount === 0` guard** — the Copy Page button contains child elements (icon + text span), so the previous leaf-node guard was silently skipping it entirely.
+- **Hides the Dropdown wrapper** — the button and its chevron live inside a shared `Dropdown` container; hiding the wrapper removes both in one shot.
+- **`document.documentElement` not `document.body`** — `body` can be `null` at script execution time in ReadMe's Footer HTML, causing a `TypeError` that kills the observer.
+- **Text matching** — survives ReadMe's hashed class renames which change on every deploy.
 - **`MutationObserver`** — fires after every React re-render and SPA route change.
 - **URL guard** — only acts on `/docs/roadmap`; every other page is untouched.
