@@ -4,20 +4,33 @@ Select the integration method that best fits your needs. Both Redirect and Ifram
 
 <HTMLBlock>{`
 <style>
-.integration-container {
+/* Scoped to this widget only */
+.ic-container {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.mode-selector {
-  display: grid;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-  grid-template-columns: repeat(2, 1fr);
+/* Hide the actual radio inputs but keep them in the tab-order / focusable */
+.ic-container .ic-radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
 }
 
-.mode-tab {
-  padding: 0.75rem 1.5rem;
+/* Two-column tab grid */
+.ic-container .ic-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Each tab is a <label> styled as a card */
+.ic-container .ic-tab {
+  display: block;
+  padding: 0.75rem 1.25rem 1rem;
   font-size: 0.875rem;
   font-weight: 500;
   color: #6b7280;
@@ -25,190 +38,181 @@ Select the integration method that best fits your needs. Both Redirect and Ifram
   border: 2px solid #e5e7eb;
   border-radius: 0.5rem;
   background: #fff;
-  text-align: left;
-  transition: all 0.2s ease;
-  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 
-.mode-tab:hover {
+.ic-container .ic-tab:hover {
   color: #003434;
   border-color: #003434;
 }
 
-.mode-tab.active {
-  color: #003434;
-  border-color: #003434;
-  background-color: #f0faf7;
-}
-
-.mode-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+.ic-container .ic-tab-header {
   margin-bottom: 0.5rem;
 }
 
-.mode-icon {
+.ic-container .ic-tab-icon {
   height: 1.5rem;
   width: 1.5rem;
   color: #4b5563;
 }
 
-.mode-tab.active .mode-icon {
-  color: #003434;
-}
-
-.mode-title {
+.ic-container .ic-tab-title {
   font-weight: 600;
-  margin-bottom: 0.25rem;
   font-size: 1rem;
   color: #003434;
+  margin-bottom: 0.2rem;
 }
 
-.mode-description {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+.ic-container .ic-tab-desc {
+  font-size: 0.8rem;
   color: #4b5563;
+  line-height: 1.4;
 }
 
-.alert {
+/* Info panels hidden by default */
+.ic-container .ic-panel {
+  display: none;
   margin-bottom: 2rem;
   border: 1px solid #e2e8f0;
   background-color: #C4ECE0;
   border-radius: 0.5rem;
   padding: 1rem;
-  display: none;
 }
 
-.alert.visible {
-  display: block;
-}
-
-.alert-description { width: 100%; }
-
-.alert-title {
+.ic-container .ic-panel-title {
   font-weight: 600;
   margin-bottom: 1rem;
   color: #003434;
   font-size: 1rem;
 }
 
-.differences-grid {
+.ic-container .ic-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
   font-size: 0.875rem;
 }
 
 @media (min-width: 768px) {
-  .differences-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  .ic-container .ic-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-.difference-item { display: flex; flex-direction: column; }
+.ic-container .ic-grid-item { display: flex; flex-direction: column; }
 
-.difference-key {
+.ic-container .ic-grid-key {
   font-weight: 500;
   text-transform: capitalize;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
-.difference-value { line-height: 1.5; }
+.ic-container .ic-grid-val { line-height: 1.5; }
+
+/* ── Pure-CSS tab switching via :checked + ~ sibling combinator ──
+   Structure inside .ic-container:
+     input#ic-r  (radio, sibling 1)
+     input#ic-i  (radio, sibling 2)
+     .ic-tabs    (sibling 3 — contains the labels)
+     .ic-panel.ic-redirect-panel  (sibling 4)
+     .ic-panel.ic-iframe-panel    (sibling 5)
+
+   All are direct children of .ic-container, so ~ works correctly.
+*/
+
+/* Show the matching panel */
+.ic-container #ic-r:checked ~ .ic-redirect-panel { display: block; }
+.ic-container #ic-i:checked ~ .ic-iframe-panel   { display: block; }
+
+/* Highlight the active tab label */
+.ic-container #ic-r:checked ~ .ic-tabs label[for="ic-r"],
+.ic-container #ic-i:checked ~ .ic-tabs label[for="ic-i"] {
+  color: #003434;
+  border-color: #003434;
+  background-color: #f0faf7;
+}
+
+.ic-container #ic-r:checked ~ .ic-tabs label[for="ic-r"] .ic-tab-icon,
+.ic-container #ic-i:checked ~ .ic-tabs label[for="ic-i"] .ic-tab-icon {
+  color: #003434;
+}
 </style>
 
-<div class="integration-container">
-  <div class="mode-selector">
-    <button class="mode-tab active" id="tab-redirect" onclick="selectMode('redirect')">
-      <div class="mode-card-header">
-        <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<div class="ic-container">
+  <!-- Radio inputs MUST come first as direct children so ~ reaches everything below -->
+  <input class="ic-radio" type="radio" id="ic-r" name="ic-mode" checked>
+  <input class="ic-radio" type="radio" id="ic-i" name="ic-mode">
+
+  <!-- Tab labels -->
+  <div class="ic-tabs">
+    <label for="ic-r" class="ic-tab">
+      <div class="ic-tab-header">
+        <svg class="ic-tab-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
           <polyline points="15 3 21 3 21 9"></polyline>
           <line x1="10" y1="14" x2="21" y2="3"></line>
         </svg>
       </div>
-      <div class="mode-title">Redirect</div>
-      <div class="mode-description">Redirect customers to a hosted checkout page</div>
-    </button>
+      <div class="ic-tab-title">Redirect</div>
+      <div class="ic-tab-desc">Redirect customers to a hosted checkout page</div>
+    </label>
 
-    <button class="mode-tab" id="tab-iframe" onclick="selectMode('iframe')">
-      <div class="mode-card-header">
-        <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <label for="ic-i" class="ic-tab">
+      <div class="ic-tab-header">
+        <svg class="ic-tab-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
           <line x1="8" y1="21" x2="16" y2="21"></line>
           <line x1="12" y1="17" x2="12" y2="21"></line>
         </svg>
       </div>
-      <div class="mode-title">Iframe</div>
-      <div class="mode-description">Embed checkout directly in your page</div>
-    </button>
+      <div class="ic-tab-title">Iframe</div>
+      <div class="ic-tab-desc">Embed checkout directly in your page</div>
+    </label>
   </div>
 
-  <div class="alert visible" id="alert-redirect">
-    <div class="alert-description">
-      <div class="alert-title">Integration Mode: Redirect</div>
-      <div class="differences-grid">
-        <div class="difference-item">
-          <div class="difference-key">Setup:</div>
-          <div class="difference-value">No additional setup required</div>
-        </div>
-        <div class="difference-item">
-          <div class="difference-key">User Experience:</div>
-          <div class="difference-value">Redirects to hosted page</div>
-        </div>
-        <div class="difference-item">
-          <div class="difference-key">Customization:</div>
-          <div class="difference-value">Limited to theme colors</div>
-        </div>
-        <div class="difference-item">
-          <div class="difference-key">Security:</div>
-          <div class="difference-value">Fully managed</div>
-        </div>
+  <!-- Panels — siblings of the inputs above, so ~ selector reaches them -->
+  <div class="ic-panel ic-redirect-panel">
+    <div class="ic-panel-title">Integration Mode: Redirect</div>
+    <div class="ic-grid">
+      <div class="ic-grid-item">
+        <div class="ic-grid-key">Setup:</div>
+        <div class="ic-grid-val">No additional setup required</div>
+      </div>
+      <div class="ic-grid-item">
+        <div class="ic-grid-key">User Experience:</div>
+        <div class="ic-grid-val">Redirects to hosted page</div>
+      </div>
+      <div class="ic-grid-item">
+        <div class="ic-grid-key">Customization:</div>
+        <div class="ic-grid-val">Limited to theme colors</div>
+      </div>
+      <div class="ic-grid-item">
+        <div class="ic-grid-key">Security:</div>
+        <div class="ic-grid-val">Fully managed</div>
       </div>
     </div>
   </div>
 
-  <div class="alert" id="alert-iframe">
-    <div class="alert-description">
-      <div class="alert-title">Integration Mode: Iframe</div>
-      <div class="differences-grid">
-        <div class="difference-item">
-          <div class="difference-key">Setup:</div>
-          <div class="difference-value">Configure iframe dimensions</div>
-        </div>
-        <div class="difference-item">
-          <div class="difference-key">User Experience:</div>
-          <div class="difference-value">Embedded in your page</div>
-        </div>
-        <div class="difference-item">
-          <div class="difference-key">Customization:</div>
-          <div class="difference-value">Limited to theme colors</div>
-        </div>
-        <div class="difference-item">
-          <div class="difference-key">Security:</div>
-          <div class="difference-value">Fully managed</div>
-        </div>
+  <div class="ic-panel ic-iframe-panel">
+    <div class="ic-panel-title">Integration Mode: Iframe</div>
+    <div class="ic-grid">
+      <div class="ic-grid-item">
+        <div class="ic-grid-key">Setup:</div>
+        <div class="ic-grid-val">Configure iframe dimensions</div>
+      </div>
+      <div class="ic-grid-item">
+        <div class="ic-grid-key">User Experience:</div>
+        <div class="ic-grid-val">Embedded in your page</div>
+      </div>
+      <div class="ic-grid-item">
+        <div class="ic-grid-key">Customization:</div>
+        <div class="ic-grid-val">Limited to theme colors</div>
+      </div>
+      <div class="ic-grid-item">
+        <div class="ic-grid-key">Security:</div>
+        <div class="ic-grid-val">Fully managed</div>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-function selectMode(mode) {
-  var modes = ['redirect', 'iframe'];
-  modes.forEach(function(m) {
-    var tab = document.getElementById('tab-' + m);
-    var alert = document.getElementById('alert-' + m);
-    if (m === mode) {
-      tab.classList.add('active');
-      alert.classList.add('visible');
-    } else {
-      tab.classList.remove('active');
-      alert.classList.remove('visible');
-    }
-  });
-}
-</script>
 `}</HTMLBlock>
 
 > 📘 Note:
