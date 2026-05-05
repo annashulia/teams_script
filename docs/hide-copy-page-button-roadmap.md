@@ -19,30 +19,32 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 <script>
 (function () {
   function hideCopyPageButton() {
-    // Only act on the roadmap page
     if (!window.location.pathname.includes('/docs/roadmap')) return;
 
-    // Match by button text so the selector survives ReadMe's hashed class renames
-    document.querySelectorAll('button, [role="button"]').forEach(function (el) {
-      if (el.textContent.trim().startsWith('Copy Page')) {
+    // Cast a wide net: ReadMe may render this as a button, div, or span
+    document.querySelectorAll('button, [role="button"], div, span, a').forEach(function (el) {
+      if (el.childElementCount === 0 && /^Copy Page/i.test(el.textContent.trim())) {
         el.style.setProperty('display', 'none', 'important');
       }
     });
   }
 
-  // Run once on initial load
   hideCopyPageButton();
 
-  // Re-run on every DOM mutation (React re-renders + SPA navigation)
-  var observer = new MutationObserver(hideCopyPageButton);
-  observer.observe(document.body, { childList: true, subtree: true });
+  // IMPORTANT: use documentElement, not body — body may be null in ReadMe's
+  // Footer HTML execution context, causing a TypeError that breaks the observer.
+  new MutationObserver(hideCopyPageButton).observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
 })();
 </script>
 ```
 
 ### Why this works reliably
 
-- **Text-content matching** — searches for any button whose visible text starts with "Copy Page". This survives ReadMe's hashed class renames (e.g. `CopyPageButton-abc123`) which change on every deploy.
-- **`MutationObserver`** — fires after every React re-render and after SPA route changes, so the button never sneaks back in.
-- **URL guard** — the observer is global but the hide logic only runs on `/docs/roadmap`, so no other pages are affected.
-- **`!important` via `setProperty`** — overrides any inline style ReadMe may apply.
+- **`document.documentElement` not `document.body`** — `body` can be `null` when ReadMe's Footer HTML script runs, which throws `TypeError: parameter 1 is not of type 'Node'` and silently kills the observer. `documentElement` (`<html>`) is always a valid Node.
+- **`childElementCount === 0` guard** — limits matches to leaf nodes so we don't accidentally hide a large wrapper that merely contains the words "Copy Page" somewhere inside it.
+- **Text matching** — survives ReadMe's hashed class renames (e.g. `CopyPageButton-x7f2a`) which change on every deploy.
+- **`MutationObserver`** — fires after every React re-render and SPA route change.
+- **URL guard** — only acts on `/docs/roadmap`; every other page is untouched.
