@@ -18,24 +18,48 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 ```html
 <script>
 (function () {
-  function hideCopyPageButton() {
+  function fixRoadmapLayout() {
     if (!window.location.pathname.includes('/docs/roadmap')) return;
 
+    // Hide the Copy Page dropdown — walk up the tree to the column-level container
+    // (the direct child of the flex content-container that holds ONLY the Copy Page)
     document.querySelectorAll('button, [role="button"]').forEach(function (el) {
-      if (/copy page/i.test(el.textContent)) {
-        // Hide the whole Dropdown wrapper (covers the button + chevron together)
-        var wrapper = el.closest('[class*="Dropdown"]') ||
-                      el.closest('[data-testid*="dropdown"]') ||
-                      el.parentElement ||
-                      el;
-        wrapper.style.setProperty('display', 'none', 'important');
+      if (!/copy page/i.test(el.textContent)) return;
+
+      var node = el;
+      while (node.parentElement) {
+        var p = node.parentElement;
+        if (
+          p.classList.contains('content-container') ||
+          p.classList.contains('rm-Article') ||
+          p === document.body
+        ) {
+          // node is the right-column wrapper — hide it
+          if (!node.dataset.rmHidden) {
+            node.dataset.rmHidden = '1';
+            node.style.setProperty('display', 'none', 'important');
+          }
+          break;
+        }
+        node = p;
+      }
+    });
+
+    // Expand the main article to fill the vacated space
+    ['.rm-Article', 'section[class*="content-toc"]', '.content-body'].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el && !el.dataset.rmExpanded) {
+        el.dataset.rmExpanded = '1';
+        el.style.setProperty('max-width', '100%', 'important');
+        el.style.setProperty('width', '100%', 'important');
+        el.style.setProperty('flex', '1 1 100%', 'important');
       }
     });
   }
 
-  hideCopyPageButton();
+  fixRoadmapLayout();
 
-  new MutationObserver(hideCopyPageButton).observe(document.documentElement, {
+  new MutationObserver(fixRoadmapLayout).observe(document.documentElement, {
     childList: true,
     subtree: true
   });
@@ -43,11 +67,10 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 </script>
 ```
 
-### Why this works reliably
+### Why this works
 
-- **No `childElementCount === 0` guard** — the Copy Page button contains child elements (icon + text span), so the previous leaf-node guard was silently skipping it entirely.
-- **Hides the Dropdown wrapper** — the button and its chevron live inside a shared `Dropdown` container; hiding the wrapper removes both in one shot.
-- **`document.documentElement` not `document.body`** — `body` can be `null` at script execution time in ReadMe's Footer HTML, causing a `TypeError` that kills the observer.
-- **Text matching** — survives ReadMe's hashed class renames which change on every deploy.
-- **`MutationObserver`** — fires after every React re-render and SPA route change.
-- **URL guard** — only acts on `/docs/roadmap`; every other page is untouched.
+- **Walks up to the column container** — instead of hiding just the `<button>` or the `Dropdown` div, it walks up the DOM tree until it finds the direct child of `.content-container` (the right column), and hides that whole node. This removes all the space the column occupied.
+- **Expands the article** — sets `max-width: 100%`, `width: 100%`, and `flex: 1 1 100%` on `.rm-Article`, `section[class*="content-toc"]`, and `.content-body` so the main content stretches into the vacated space.
+- **`data-rm-hidden` / `data-rm-expanded` guards** — marks elements once processed so repeated MutationObserver calls don't cause an infinite style-mutation loop.
+- **`document.documentElement` not `document.body`** — `body` can be `null` at Footer HTML execution time.
+- **URL guard** — only runs on `/docs/roadmap`.
