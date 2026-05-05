@@ -4,52 +4,45 @@
 
 The `/docs/roadmap` page uses a full-width custom HTML block. ReadMe renders a "Copy Page" button in the top-right corner of every guide page. On this page the button wastes horizontal space that the HTML content could otherwise use.
 
-## Solution — add one CSS rule to the page's existing `<style>` block
+## Solution — JavaScript snippet in Admin Settings → Footer HTML
 
-The roadmap page already contains a large `<style>` tag inside its `<HTMLBlock>`. Appending the rule below hides the Copy Page button **only on this page** — no admin-level custom CSS required, and no risk of affecting other pages.
+ReadMe is a React SPA, so the "Copy Page" button is injected into the DOM after the initial page load and also on every client-side navigation. A `MutationObserver` is the right tool: it watches the DOM continuously and removes the button whenever it appears, on any page transition.
 
-Open the page in Edit mode in ReadMe, locate the `<style>` tag inside `<HTMLBlock>`, and add this rule anywhere inside it:
+### Where to add it
 
-```css
-/* Hide the Copy Page button on this custom HTML page */
-.rm-CopyPageButton {
-  display: none !important;
-}
-```
+Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the snippet below.  
+*(Footer HTML is injected just before `</body>` on every page — the observer only acts when the URL matches `/docs/roadmap`.)*
 
-### Where to put it
-
-The style block starts with `#aira-roadmap-root {` — just append the rule before the closing `}` of the style tag, or at the very end of the `<style>` block:
+### The snippet
 
 ```html
-<style>
-  /* ... existing rules ... */
+<script>
+(function () {
+  function hideCopyPageButton() {
+    // Only act on the roadmap page
+    if (!window.location.pathname.includes('/docs/roadmap')) return;
 
-  /* Hide Copy Page button */
-  .rm-CopyPageButton {
-    display: none !important;
+    // Match by button text so the selector survives ReadMe's hashed class renames
+    document.querySelectorAll('button, [role="button"]').forEach(function (el) {
+      if (el.textContent.trim().startsWith('Copy Page')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
   }
-</style>
+
+  // Run once on initial load
+  hideCopyPageButton();
+
+  // Re-run on every DOM mutation (React re-renders + SPA navigation)
+  var observer = new MutationObserver(hideCopyPageButton);
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
 ```
 
-That is all. Save and publish. The button will disappear and the content area will fill the full right-hand column.
+### Why this works reliably
 
-## Why this works reliably
-
-- `.rm-CopyPageButton` is a stable ReadMe class (prefixed with `rm-`) — ReadMe's own documentation explicitly says to use `.rm-` selectors since hashed selectors change on every deploy.
-- The `<style>` tag is scoped to the page because custom HTML pages only load their own inline styles.
-- No JavaScript, no MutationObserver, no admin-level custom JS required.
-
-## Alternative — ReadMe Admin Settings › Custom CSS (if you prefer a global stylesheet approach)
-
-If you would rather manage it centrally, go to **Admin Settings → Appearance → Custom CSS** and add:
-
-```css
-/* Hide Copy Page button on the roadmap page only */
-body[data-page="roadmap"] .rm-CopyPageButton,
-.rm-Guides [data-slug="roadmap"] ~ * .rm-CopyPageButton {
-  display: none !important;
-}
-```
-
-However, the inline approach described above is simpler and guaranteed to be scoped to only this page.
+- **Text-content matching** — searches for any button whose visible text starts with "Copy Page". This survives ReadMe's hashed class renames (e.g. `CopyPageButton-abc123`) which change on every deploy.
+- **`MutationObserver`** — fires after every React re-render and after SPA route changes, so the button never sneaks back in.
+- **URL guard** — the observer is global but the hide logic only runs on `/docs/roadmap`, so no other pages are affected.
+- **`!important` via `setProperty`** — overrides any inline style ReadMe may apply.
