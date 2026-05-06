@@ -15,23 +15,15 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 
 ### The snippet — paste into Admin Settings → Footer HTML
 
+One script block per page. Change `SLUG` to whichever page you need. To cover a second page, drop a second copy of the block with a different `SLUG`.
+
 ```html
 <script>
 (function ($) {
-  // List every slug that should have Copy Page hidden + full-width content
-  var HIDDEN_SLUGS = [
-    '/docs/roadmap',
-    '/docs/agent-automatic-backups-archive'
-  ];
-
-  function shouldFix() {
-    return HIDDEN_SLUGS.some(function (slug) {
-      return window.location.pathname.includes(slug);
-    });
-  }
+  var SLUG = '/docs/agent-automatic-backups-archive';
 
   function fixLayout() {
-    if (!shouldFix()) return;
+    if (!window.location.pathname.includes(SLUG)) return;
 
     var container = document.getElementById('content-container');
     if (!container) return;
@@ -44,8 +36,6 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
         col = col.parentElement;
       }
       if (col.parentElement !== container) return;
-
-      // Skip the article/main-content column — it contains an <article> or .rm-Article
       if (col.querySelector('article, .rm-Article, iframe')) return;
 
       col.style.setProperty('display', 'none', 'important');
@@ -60,10 +50,10 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
     });
   }
 
-  // 1. Direct page visits (pageLoad does NOT fire on initial load)
+  // Fires on direct page visits (pageLoad does NOT fire here)
   $(document).ready(function () { setTimeout(fixLayout, 800); });
 
-  // 2. SPA navigations (clicking links within ReadMe)
+  // Fires on SPA navigations (clicking links inside ReadMe)
   $(window).on('pageLoad', function () { setTimeout(fixLayout, 800); });
 
 }(jQuery));
