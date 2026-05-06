@@ -54,18 +54,26 @@ On every ReadMe page the layout is:
     body.style.setProperty('width',     '100%',     'important');
   }
 
-  var ensure = debounce(function () {
-    if (!window.location.pathname.includes(SLUG)) { cleanup(); return; }
+  // Start immediately — no debounce delay on load
+  function tryApply() {
+    if (!window.location.pathname.includes(SLUG)) return;
     applyFix();
     if (!applied && !watchObs) {
       watchObs = new MutationObserver(function () { applyFix(); });
       watchObs.observe(document.body, { childList: true, subtree: true });
     }
+  }
+
+  // Debounce only for SPA navigation (prevents thrashing from rapid pushState calls)
+  var ensure = debounce(function () {
+    if (!window.location.pathname.includes(SLUG)) { cleanup(); return; }
+    tryApply();
   }, 50);
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ensure);
-  else ensure();
-  window.addEventListener('pageshow', ensure);
+  // Initial load — immediate, no debounce
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryApply);
+  else tryApply();
+  window.addEventListener('pageshow', tryApply);
 
   // Shared history patch — co-exists with search script via _historyPatched guard
   (function patchHistory() {
