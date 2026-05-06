@@ -20,10 +20,12 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 (function () {
   var SLUG = '/docs/roadmap';
   var observer = null;
+  var hiddenCol = null;
+  var expandedSibs = [];
 
   function fixLayout() {
     document.querySelectorAll('button, [role="button"]').forEach(function (el) {
-      if (!/copy page/i.test(el.textContent)) return;
+      if (hiddenCol || !/copy page/i.test(el.textContent)) return;
 
       var container = document.getElementById('content-container');
       if (!container) return;
@@ -34,9 +36,8 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
       }
       if (col.parentElement !== container) return;
       if (col.querySelector('#aira-roadmap-root, iframe, article')) return;
-      if (col.dataset.cpDone) return;
 
-      col.dataset.cpDone = '1';
+      hiddenCol = col;
       col.style.setProperty('display', 'none', 'important');
 
       [].forEach.call(container.children, function (sib) {
@@ -44,9 +45,23 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
           sib.style.setProperty('max-width', '100%', 'important');
           sib.style.setProperty('flex', '1 1 100%', 'important');
           sib.style.setProperty('width', '100%', 'important');
+          expandedSibs.push(sib);
         }
       });
     });
+  }
+
+  function cleanup() {
+    if (hiddenCol) {
+      hiddenCol.style.removeProperty('display');
+      hiddenCol = null;
+    }
+    expandedSibs.forEach(function (sib) {
+      sib.style.removeProperty('max-width');
+      sib.style.removeProperty('flex');
+      sib.style.removeProperty('width');
+    });
+    expandedSibs = [];
   }
 
   function start() {
@@ -59,12 +74,11 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 
   function stop() {
     if (observer) { observer.disconnect(); observer = null; }
+    cleanup(); // remove all inline styles so other pages are untouched
   }
 
-  // Direct page visit
   start();
 
-  // SPA navigation — stop the old observer, start fresh for the new page
   jQuery(window).on('pageLoad', function () { stop(); start(); });
 })();
 </script>
