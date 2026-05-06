@@ -10,70 +10,39 @@ On every ReadMe page the layout is:
   section.content-toc.grid-25    ← Copy Page button lives here
 ```
 
-`content-toc` and `content-body` are **stable class names** (not hashed). No DOM walking, no button-text search, no article detection needed — just target these two sections directly.
+`content-toc` and `content-body` are **stable class names** (not hashed).
 
 ## Solution — paste into Admin Settings → Footer HTML
 
 ```html
 <script>
 (function () {
-  var SLUG    = '/docs/roadmap';
-  var applied = false;
-  var watchObs = null;
-
-  var debounce = function (fn, ms) {
-    var t;
-    return function () { clearTimeout(t); t = setTimeout(fn, ms); };
-  };
-
-  // Query fresh on every cleanup — handles both reused and replaced React nodes
-  function cleanup() {
-    applied = false;
-    if (watchObs) { watchObs.disconnect(); watchObs = null; }
-    var toc  = document.querySelector('section.content-toc');
-    var body = document.querySelector('section.content-body');
-    if (toc)  toc.style.removeProperty('display');
-    if (body) {
-      body.style.removeProperty('max-width');
-      body.style.removeProperty('flex');
-      body.style.removeProperty('width');
-    }
-  }
+  var SLUG     = '/docs/roadmap';
+  var STYLE_ID = 'roadmap-cp-fix';
 
   function applyFix() {
-    if (!window.location.pathname.includes(SLUG)) return;
-    if (applied) return;
-    var toc  = document.querySelector('section.content-toc');
-    var body = document.querySelector('section.content-body');
-    if (!toc || !body) return;       // not rendered yet — observer will retry
-    applied = true;
-    if (watchObs) { watchObs.disconnect(); watchObs = null; }
-    toc.style.setProperty('display',    'none',     'important');
-    body.style.setProperty('max-width', '100%',     'important');
-    body.style.setProperty('flex',      '1 1 100%', 'important');
-    body.style.setProperty('width',     '100%',     'important');
+    if (document.getElementById(STYLE_ID)) return;
+    var s = document.createElement('style');
+    s.id = STYLE_ID;
+    s.textContent =
+      'section.content-toc{display:none!important}' +
+      'section.content-body{max-width:100%!important;flex:1 1 100%!important;width:100%!important}';
+    document.head.appendChild(s);
   }
 
-  // Start immediately — no debounce delay on load
-  function tryApply() {
-    if (!window.location.pathname.includes(SLUG)) return;
-    applyFix();
-    if (!applied && !watchObs) {
-      watchObs = new MutationObserver(function () { applyFix(); });
-      watchObs.observe(document.body, { childList: true, subtree: true });
-    }
+  function cleanup() {
+    var s = document.getElementById(STYLE_ID);
+    if (s) s.parentNode.removeChild(s);
   }
 
-  // Debounce only for SPA navigation (prevents thrashing from rapid pushState calls)
-  var ensure = debounce(function () {
-    if (!window.location.pathname.includes(SLUG)) { cleanup(); return; }
-    tryApply();
-  }, 50);
+  function check() {
+    if (window.location.pathname.includes(SLUG)) applyFix();
+    else cleanup();
+  }
 
-  // Initial load — immediate, no debounce
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryApply);
-  else tryApply();
-  window.addEventListener('pageshow', tryApply);
+  // Initial load
+  check();
+  window.addEventListener('pageshow', check);
 
   // Shared history patch — co-exists with search script via _historyPatched guard
   (function patchHistory() {
@@ -87,7 +56,16 @@ On every ReadMe page the layout is:
     window.addEventListener('popstate', fire);
   })();
 
-  window.addEventListener('app:navigate', ensure);
+  // app:navigate fires right after pushState changes the URL,
+  // before React renders the new page — perfect timing to inject/remove the style
+  window.addEventListener('app:navigate', check);
 })();
 </script>
 ```
+
+## Why a `<style>` tag instead of inline styles
+
+- **No blink on roadmap**: the `<style>` is injected the moment `pushState` fires (before React renders), so `section.content-toc` is hidden from the very first paint
+- **No widen on other pages**: `cleanup()` removes the `<style>` the moment `pushState` fires (before React renders the new page), so other pages never see our rules
+- **No MutationObserver needed**: CSS applies to elements that don't exist yet — when React renders `section.content-toc`, the rule is already there waiting
+- **No debounce needed**: acting on `app:navigate` (synchronous post-`pushState`) is always ahead of React's render cycle
