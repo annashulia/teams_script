@@ -17,33 +17,39 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 
 ```html
 <script>
-(function () {
-  function fixRoadmapLayout() {
-    if (!window.location.pathname.includes('/docs/roadmap')) return;
+(function ($) {
+  // List every slug that should have Copy Page hidden + full-width content
+  var HIDDEN_SLUGS = [
+    '/docs/roadmap',
+    '/docs/agent-automatic-backups-archive'
+  ];
+
+  function shouldFix() {
+    return HIDDEN_SLUGS.some(function (slug) {
+      return window.location.pathname.includes(slug);
+    });
+  }
+
+  function fixLayout() {
+    if (!shouldFix()) return;
+
+    var container = document.getElementById('content-container');
+    if (!container) return;
 
     document.querySelectorAll('button, [role="button"]').forEach(function (el) {
       if (!/copy page/i.test(el.textContent)) return;
-
-      // Anchor walk-up on the stable ID — never overshoot it
-      var container = document.getElementById('content-container');
-      if (!container) return;
 
       var col = el;
       while (col.parentElement && col.parentElement !== container) {
         col = col.parentElement;
       }
-
-      // If we never reached #content-container, bail — don't hide anything
       if (col.parentElement !== container) return;
 
-      // If this column contains the page's own HTML root, it's the article — skip it
-      if (col.querySelector('#aira-roadmap-root, iframe, article')) return;
+      // Skip the article/main-content column — it contains an <article> or .rm-Article
+      if (col.querySelector('article, .rm-Article, iframe')) return;
 
-      if (col.dataset.cpDone) return;
-      col.dataset.cpDone = '1';
       col.style.setProperty('display', 'none', 'important');
 
-      // Expand every sibling column to fill the freed space
       [].forEach.call(container.children, function (sib) {
         if (sib !== col) {
           sib.style.setProperty('max-width', '100%', 'important');
@@ -54,13 +60,13 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
     });
   }
 
-  fixRoadmapLayout();
+  // 1. Direct page visits (pageLoad does NOT fire on initial load)
+  $(document).ready(function () { setTimeout(fixLayout, 800); });
 
-  new MutationObserver(fixRoadmapLayout).observe(document.documentElement, {
-    childList: true,
-    subtree: true
-  });
-})();
+  // 2. SPA navigations (clicking links within ReadMe)
+  $(window).on('pageLoad', function () { setTimeout(fixLayout, 800); });
+
+}(jQuery));
 </script>
 ```
 
