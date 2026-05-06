@@ -19,11 +19,28 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 <script>
 (function () {
   var SLUG = '/docs/roadmap';
-  var observer = null;
-  var hiddenCol = null;
+  var hiddenCol  = null;
   var expandedSibs = [];
+  var watchObs = null;
 
-  function fixLayout() {
+  var debounce = function (fn, ms) {
+    var t;
+    return function () { clearTimeout(t); t = setTimeout(fn, ms); };
+  };
+
+  function cleanup() {
+    if (hiddenCol) { hiddenCol.style.removeProperty('display'); hiddenCol = null; }
+    expandedSibs.forEach(function (s) {
+      s.style.removeProperty('max-width');
+      s.style.removeProperty('flex');
+      s.style.removeProperty('width');
+    });
+    expandedSibs = [];
+    if (watchObs) { watchObs.disconnect(); watchObs = null; }
+  }
+
+  function applyFix() {
+    if (hiddenCol) return; // already applied
     document.querySelectorAll('button, [role="button"]').forEach(function (el) {
       if (hiddenCol || !/copy page/i.test(el.textContent)) return;
 
@@ -51,35 +68,43 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
     });
   }
 
-  function cleanup() {
-    if (hiddenCol) {
-      hiddenCol.style.removeProperty('display');
-      hiddenCol = null;
+  var ensure = debounce(function () {
+    if (!window.location.pathname.includes(SLUG)) {
+      // Navigated away — undo everything so other pages are clean
+      cleanup();
+      return;
     }
-    expandedSibs.forEach(function (sib) {
-      sib.style.removeProperty('max-width');
-      sib.style.removeProperty('flex');
-      sib.style.removeProperty('width');
+
+    applyFix();
+
+    // Button not in DOM yet — watch for it, then disconnect once found
+    if (!hiddenCol && !watchObs) {
+      watchObs = new MutationObserver(debounce(function () {
+        applyFix();
+        if (hiddenCol) { watchObs.disconnect(); watchObs = null; }
+      }, 50));
+      watchObs.observe(document.body, { childList: true, subtree: true });
+    }
+  }, 50);
+
+  // Initial load
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ensure);
+  else ensure();
+  window.addEventListener('pageshow', ensure);
+
+  // History patch — shared with other scripts via _historyPatched guard
+  (function patchHistory() {
+    if (window._historyPatched) return;
+    window._historyPatched = true;
+    var fire = function () { window.dispatchEvent(new Event('app:navigate')); };
+    ['pushState', 'replaceState'].forEach(function (fn) {
+      var orig = history[fn];
+      history[fn] = function () { var r = orig.apply(this, arguments); fire(); return r; };
     });
-    expandedSibs = [];
-  }
+    window.addEventListener('popstate', fire);
+  })();
 
-  function start() {
-    if (!window.location.pathname.includes(SLUG)) return;
-    fixLayout();
-    if (observer) return;
-    observer = new MutationObserver(fixLayout);
-    observer.observe(document.documentElement, { childList: true, subtree: true });
-  }
-
-  function stop() {
-    if (observer) { observer.disconnect(); observer = null; }
-    cleanup(); // remove all inline styles so other pages are untouched
-  }
-
-  start();
-
-  jQuery(window).on('pageLoad', function () { stop(); start(); });
+  window.addEventListener('app:navigate', ensure);
 })();
 </script>
 ```
