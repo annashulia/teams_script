@@ -15,32 +15,29 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 
 ### The snippet — paste into Admin Settings → Footer HTML
 
-One script block per page. Change `SLUG` to whichever page you need.
-
 ```html
 <script>
-(function ($) {
+(function () {
   var SLUG = '/docs/roadmap';
+  var observer = null;
 
   function fixLayout() {
-    if (!window.location.pathname.includes(SLUG)) return true;
-
-    var container = document.getElementById('content-container');
-    if (!container) return false;
-
-    var fixed = false;
     document.querySelectorAll('button, [role="button"]').forEach(function (el) {
-      if (fixed || !/copy page/i.test(el.textContent)) return;
+      if (!/copy page/i.test(el.textContent)) return;
+
+      var container = document.getElementById('content-container');
+      if (!container) return;
 
       var col = el;
       while (col.parentElement && col.parentElement !== container) {
         col = col.parentElement;
       }
       if (col.parentElement !== container) return;
-      if (col.querySelector('article, .rm-Article, iframe')) return;
+      if (col.querySelector('#aira-roadmap-root, iframe, article')) return;
+      if (col.dataset.cpDone) return;
 
+      col.dataset.cpDone = '1';
       col.style.setProperty('display', 'none', 'important');
-      fixed = true;
 
       [].forEach.call(container.children, function (sib) {
         if (sib !== col) {
@@ -50,24 +47,26 @@ One script block per page. Change `SLUG` to whichever page you need.
         }
       });
     });
-
-    return fixed;
   }
 
-  // Poll every 200ms until the button is found (max 4 seconds), then stop
-  function runWithRetry() {
-    var attempts = 0;
-    var timer = setInterval(function () {
-      if (fixLayout() || ++attempts >= 20) clearInterval(timer);
-    }, 200);
+  function start() {
+    if (!window.location.pathname.includes(SLUG)) return;
+    fixLayout();
+    if (observer) return;
+    observer = new MutationObserver(fixLayout);
+    observer.observe(document.documentElement, { childList: true, subtree: true });
   }
 
-  // Direct page visits
-  $(document).ready(runWithRetry);
-  // SPA navigations
-  $(window).on('pageLoad', runWithRetry);
+  function stop() {
+    if (observer) { observer.disconnect(); observer = null; }
+  }
 
-}(jQuery));
+  // Direct page visit
+  start();
+
+  // SPA navigation — stop the old observer, start fresh for the new page
+  jQuery(window).on('pageLoad', function () { stop(); start(); });
+})();
 </script>
 ```
 
