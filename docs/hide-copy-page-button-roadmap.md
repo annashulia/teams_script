@@ -1,89 +1,64 @@
 # Hide "Copy Page" button on the Roadmap page
 
-## The problem
+## DOM structure (confirmed from DevTools)
 
-The `/docs/roadmap` page uses a full-width custom HTML block. ReadMe renders a "Copy Page" button in the top-right corner of every guide page. On this page the button wastes horizontal space that the HTML content could otherwise use.
+On every ReadMe page the layout is:
 
-## Solution — JavaScript snippet in Admin Settings → Footer HTML
+```
+#content-container
+  section.content-body.grid-75   ← main article
+  section.content-toc.grid-25    ← Copy Page button lives here
+```
 
-ReadMe is a React SPA, so the "Copy Page" button is injected into the DOM after the initial page load and also on every client-side navigation. A `MutationObserver` is the right tool: it watches the DOM continuously and removes the button whenever it appears, on any page transition.
+`content-toc` and `content-body` are **stable class names** (not hashed). No DOM walking, no button-text search, no article detection needed — just target these two sections directly.
 
-### Where to add it
-
-Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the snippet below.  
-*(Footer HTML is injected just before `</body>` on every page — the observer only acts when the URL matches `/docs/roadmap`.)*
-
-### The snippet — paste into Admin Settings → Footer HTML
+## Solution — paste into Admin Settings → Footer HTML
 
 ```html
 <script>
 (function () {
-  var SLUG = '/docs/roadmap';
-  var hiddenCol    = null;
-  var expandedSibs = [];
-  var watchObs     = null;
+  var SLUG    = '/docs/roadmap';
+  var applied = false;
+  var watchObs = null;
 
   var debounce = function (fn, ms) {
     var t;
     return function () { clearTimeout(t); t = setTimeout(fn, ms); };
   };
 
+  // Query fresh on every cleanup — handles both reused and replaced React nodes
   function cleanup() {
-    if (hiddenCol) { hiddenCol.style.removeProperty('display'); hiddenCol = null; }
-    expandedSibs.forEach(function (s) {
-      s.style.removeProperty('max-width');
-      s.style.removeProperty('flex');
-      s.style.removeProperty('width');
-    });
-    expandedSibs = [];
+    applied = false;
     if (watchObs) { watchObs.disconnect(); watchObs = null; }
+    var toc  = document.querySelector('section.content-toc');
+    var body = document.querySelector('section.content-body');
+    if (toc)  toc.style.removeProperty('display');
+    if (body) {
+      body.style.removeProperty('max-width');
+      body.style.removeProperty('flex');
+      body.style.removeProperty('width');
+    }
   }
 
   function applyFix() {
-    // Always guard by URL — MutationObserver callbacks can fire after navigation
     if (!window.location.pathname.includes(SLUG)) return;
-    if (hiddenCol) return;
-
-    document.querySelectorAll('button, [role="button"]').forEach(function (el) {
-      if (hiddenCol || !/copy page/i.test(el.textContent)) return;
-
-      var container = document.getElementById('content-container');
-      if (!container) return;
-
-      var col = el;
-      while (col.parentElement && col.parentElement !== container) {
-        col = col.parentElement;
-      }
-      if (col.parentElement !== container) return;
-      if (col.querySelector('#aira-roadmap-root, iframe, article')) return;
-
-      hiddenCol = col;
-      col.style.setProperty('display', 'none', 'important');
-
-      [].forEach.call(container.children, function (sib) {
-        if (sib !== col) {
-          sib.style.setProperty('max-width', '100%', 'important');
-          sib.style.setProperty('flex', '1 1 100%', 'important');
-          sib.style.setProperty('width', '100%', 'important');
-          expandedSibs.push(sib);
-        }
-      });
-    });
+    if (applied) return;
+    var toc  = document.querySelector('section.content-toc');
+    var body = document.querySelector('section.content-body');
+    if (!toc || !body) return;       // not rendered yet — observer will retry
+    applied = true;
+    if (watchObs) { watchObs.disconnect(); watchObs = null; }
+    toc.style.setProperty('display',    'none',     'important');
+    body.style.setProperty('max-width', '100%',     'important');
+    body.style.setProperty('flex',      '1 1 100%', 'important');
+    body.style.setProperty('width',     '100%',     'important');
   }
 
   var ensure = debounce(function () {
-    if (!window.location.pathname.includes(SLUG)) {
-      cleanup();
-      return;
-    }
-
+    if (!window.location.pathname.includes(SLUG)) { cleanup(); return; }
     applyFix();
-
-    if (!hiddenCol && !watchObs) {
-      watchObs = new MutationObserver(function () {
-        applyFix(); // has its own URL guard — safe to call any time
-        if (hiddenCol) { watchObs.disconnect(); watchObs = null; }
-      });
+    if (!applied && !watchObs) {
+      watchObs = new MutationObserver(function () { applyFix(); });
       watchObs.observe(document.body, { childList: true, subtree: true });
     }
   }, 50);
@@ -92,6 +67,7 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
   else ensure();
   window.addEventListener('pageshow', ensure);
 
+  // Shared history patch — co-exists with search script via _historyPatched guard
   (function patchHistory() {
     if (window._historyPatched) return;
     window._historyPatched = true;
@@ -107,12 +83,3 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 })();
 </script>
 ```
-
-### What was wrong before and what this fixes
-
-The previous "walk up" loop kept going even when it couldn't find a matching class name, eventually reaching a top-level page wrapper and hiding that (taking the whole page with it). The fix:
-
-1. **`getElementById('content-container')` as anchor** — stops the walk exactly at the grid container; if that ID is missing the function exits cleanly instead of destructively.
-2. **Hard bail if we overshoot** — `if (col.parentElement !== container) return` means if the walk-up ever passes `#content-container`, nothing gets hidden.
-3. **Content safety check** — `col.querySelector('#aira-roadmap-root, iframe, article')` identifies the article column (which contains your custom HTML root) and skips it, so only the Copy Page column is hidden.
-4. **Expand siblings** — once the right column is gone, all other direct children of `#content-container` are set to `100%` width so the content fills the space.
