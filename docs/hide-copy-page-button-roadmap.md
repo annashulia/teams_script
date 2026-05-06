@@ -19,9 +19,9 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 <script>
 (function () {
   var SLUG = '/docs/roadmap';
-  var hiddenCol  = null;
+  var hiddenCol    = null;
   var expandedSibs = [];
-  var watchObs = null;
+  var watchObs     = null;
 
   var debounce = function (fn, ms) {
     var t;
@@ -40,7 +40,10 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
   }
 
   function applyFix() {
-    if (hiddenCol) return; // already applied
+    // Always guard by URL — MutationObserver callbacks can fire after navigation
+    if (!window.location.pathname.includes(SLUG)) return;
+    if (hiddenCol) return;
+
     document.querySelectorAll('button, [role="button"]').forEach(function (el) {
       if (hiddenCol || !/copy page/i.test(el.textContent)) return;
 
@@ -70,29 +73,25 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 
   var ensure = debounce(function () {
     if (!window.location.pathname.includes(SLUG)) {
-      // Navigated away — undo everything so other pages are clean
       cleanup();
       return;
     }
 
     applyFix();
 
-    // Button not in DOM yet — watch for it, then disconnect once found
     if (!hiddenCol && !watchObs) {
-      watchObs = new MutationObserver(debounce(function () {
-        applyFix();
+      watchObs = new MutationObserver(function () {
+        applyFix(); // has its own URL guard — safe to call any time
         if (hiddenCol) { watchObs.disconnect(); watchObs = null; }
-      }, 50));
+      });
       watchObs.observe(document.body, { childList: true, subtree: true });
     }
   }, 50);
 
-  // Initial load
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ensure);
   else ensure();
   window.addEventListener('pageshow', ensure);
 
-  // History patch — shared with other scripts via _historyPatched guard
   (function patchHistory() {
     if (window._historyPatched) return;
     window._historyPatched = true;
