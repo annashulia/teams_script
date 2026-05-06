@@ -15,21 +15,22 @@ Go to **Admin Settings → Custom CSS, JS, HTML → Footer HTML** and paste the 
 
 ### The snippet — paste into Admin Settings → Footer HTML
 
-One script block per page. Change `SLUG` to whichever page you need. To cover a second page, drop a second copy of the block with a different `SLUG`.
+One script block per page. Change `SLUG` to whichever page you need.
 
 ```html
 <script>
 (function ($) {
-  var SLUG = '/docs/agent-automatic-backups-archive';
+  var SLUG = '/docs/roadmap';
 
   function fixLayout() {
-    if (!window.location.pathname.includes(SLUG)) return;
+    if (!window.location.pathname.includes(SLUG)) return true;
 
     var container = document.getElementById('content-container');
-    if (!container) return;
+    if (!container) return false;
 
+    var fixed = false;
     document.querySelectorAll('button, [role="button"]').forEach(function (el) {
-      if (!/copy page/i.test(el.textContent)) return;
+      if (fixed || !/copy page/i.test(el.textContent)) return;
 
       var col = el;
       while (col.parentElement && col.parentElement !== container) {
@@ -39,6 +40,7 @@ One script block per page. Change `SLUG` to whichever page you need. To cover a 
       if (col.querySelector('article, .rm-Article, iframe')) return;
 
       col.style.setProperty('display', 'none', 'important');
+      fixed = true;
 
       [].forEach.call(container.children, function (sib) {
         if (sib !== col) {
@@ -48,13 +50,22 @@ One script block per page. Change `SLUG` to whichever page you need. To cover a 
         }
       });
     });
+
+    return fixed;
   }
 
-  // Fires on direct page visits (pageLoad does NOT fire here)
-  $(document).ready(function () { setTimeout(fixLayout, 800); });
+  // Poll every 200ms until the button is found (max 4 seconds), then stop
+  function runWithRetry() {
+    var attempts = 0;
+    var timer = setInterval(function () {
+      if (fixLayout() || ++attempts >= 20) clearInterval(timer);
+    }, 200);
+  }
 
-  // Fires on SPA navigations (clicking links inside ReadMe)
-  $(window).on('pageLoad', function () { setTimeout(fixLayout, 800); });
+  // Direct page visits
+  $(document).ready(runWithRetry);
+  // SPA navigations
+  $(window).on('pageLoad', runWithRetry);
 
 }(jQuery));
 </script>
