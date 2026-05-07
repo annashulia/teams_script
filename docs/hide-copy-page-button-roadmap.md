@@ -13,9 +13,9 @@
 Edit the roadmap page in ReadMe. The `<HTMLBlock>` already has a large `<style>` tag at the top (starting with `#aira-roadmap-root {`). Add these two rules anywhere inside it:
 
 ```css
-/* Hide Copy Page column and fill the space */
-section.content-toc  { display: none !important; }
-section.content-body { max-width: 100% !important; flex: 1 1 100% !important; width: 100% !important; }
+/* Scoped to roadmap page only via :has() — #aira-roadmap-root only exists here */
+body:has(#aira-roadmap-root) section.content-toc  { display: none !important; }
+body:has(#aira-roadmap-root) section.content-body { max-width: 100% !important; flex: 1 1 100% !important; width: 100% !important; }
 ```
 
 **Remove any Copy Page script from Admin Settings → Footer HTML** — it is no longer needed.
