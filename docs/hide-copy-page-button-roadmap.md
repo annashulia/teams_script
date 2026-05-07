@@ -17,7 +17,7 @@ body.rm-roadmap-active section.content-toc  { display: none !important; }
 body.rm-roadmap-active section.content-body { max-width: 100% !important; flex: 1 1 100% !important; width: 100% !important; }
 ```
 
-### 2. Footer HTML — replace everything with just this
+### 2. Footer HTML — replace everything with this
 
 ```html
 <script>
@@ -25,22 +25,27 @@ $(function () {
   function check() {
     $('body').toggleClass('rm-roadmap-active', location.pathname === '/docs/roadmap');
   }
+
   check();
-  $(window).on('pageLoad pageshow', check);
+  $(window).on('pageshow', check);
+
+  // pageLoad fires BEFORE pathname updates — wait for it to settle
+  $(window).on('pageLoad', function () { setTimeout(check, 200); });
+
+  // pushState fires with pathname already updated — immediate and accurate
+  if (!window._rmPushPatch) {
+    window._rmPushPatch = true;
+    var orig = history.pushState;
+    history.pushState = function () { orig.apply(this, arguments); check(); };
+  }
 });
 </script>
 ```
 
 Remove any inline script from the HTML block. Remove any `:has()` rules from the `<style>` tag.
 
-## Why this works
+## Why pageLoad alone was not enough
 
-- `pageLoad` is ReadMe's own official SPA navigation event — fires on every page change
-- `pageshow` covers hard refresh and bfcache restores
-- jQuery is already loaded by ReadMe — no extra dependency
-- `toggleClass` is atomic — class is either on or off, no timing window
-- No history patching, no MutationObserver, no custom events
+`pageLoad` fires **before** `location.pathname` updates to the new page URL. So when navigating away from roadmap, `check()` still sees `/docs/roadmap` and keeps the class on — the CSS stays applied on the new page.
 
-## Why `:has(#aira-roadmap-root)` was applying globally
-
-React keeps `#aira-roadmap-root` alive in the DOM after navigating away (cached for fast back navigation). So `:has(#aira-roadmap-root)` matches on every page after the first roadmap visit. The body class approach avoids this entirely since `document.body` is always the same element and we toggle the class directly.
+`history.pushState` fires with the URL **already updated**. By patching it and calling `check()` immediately after, the class toggles at the exact right moment before React renders the new page. `pageLoad` with a 200ms delay is kept as a safety net for edge cases.
