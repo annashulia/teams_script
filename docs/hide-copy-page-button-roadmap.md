@@ -10,14 +10,9 @@
 
 ## Solution — two layers inside the HTML block
 
-### 1. In the `<style>` tag — instant visual application (zero flash)
+### Just before the closing `</div>` of `#aira-roadmap-root`
 
-```css
-body:has(#aira-roadmap-root) section.content-toc  { display: none !important; }
-body:has(#aira-roadmap-root) section.content-body { max-width: 100% !important; flex: 1 1 100% !important; width: 100% !important; }
-```
-
-### 2. Just before the closing `</div>` of `#aira-roadmap-root` — reliable cleanup
+Do NOT use `:has()` CSS for the layout — if React keeps `#aira-roadmap-root` in the DOM (hidden) during transitions, those rules keep firing on other pages.
 
 ```html
 <script>
@@ -31,24 +26,34 @@ body:has(#aira-roadmap-root) section.content-body { max-width: 100% !important; 
   body.style.setProperty('flex',      '1 1 100%', 'important');
   body.style.setProperty('width',     '100%',     'important');
 
+  // Kill any previous observer (in case script re-ran on SPA navigation back to this page)
+  if (window._rmRoadmapObs) window._rmRoadmapObs.disconnect();
+
   var obs = new MutationObserver(function () {
-    if (document.getElementById('aira-roadmap-root')) return;
+    // Check URL, not element presence — React updates the URL before touching the DOM,
+    // so the URL is always correct by the time the first post-navigation mutation fires
+    if (window.location.pathname === '/docs/roadmap') return;
     toc.style.removeProperty('display');
     body.style.removeProperty('max-width');
     body.style.removeProperty('flex');
     body.style.removeProperty('width');
+    delete window._rmRoadmapObs;
     obs.disconnect();
   });
   obs.observe(document.body, { childList: true, subtree: true });
+  window._rmRoadmapObs = obs;
 })();
 </script>
 ```
 
 **Remove any Copy Page script from Admin Settings → Footer HTML** — it is no longer needed.
 
-## Why two layers
+## Why URL check instead of element presence check
 
-- **`:has()` CSS** fires before JS runs — no flash of the Copy Page button even on SPA navigation
-- **Inline script** removes the inline styles the moment React actually removes `#aira-roadmap-root` — handles the transition bleed that CSS alone can't prevent
-- `:has()` alone bleeds because ReadMe briefly keeps `#aira-roadmap-root` in the DOM during transitions; the script catches the actual removal and cleans up inline styles immediately
-- The observer disconnects after one use — no ongoing overhead
+React sometimes keeps `#aira-roadmap-root` in the DOM (hidden, not removed) when navigating away. Checking `getElementById('aira-roadmap-root')` would find it still present and never clean up.
+
+React always calls `pushState` (URL change) **before** making DOM changes for the new page. So by the time the first DOM mutation fires after navigation, `window.location.pathname` already reflects the new page. Checking the URL is always reliable.
+
+## Do you need JS?
+
+Yes for a SPA. Pure CSS cannot read the URL, and ReadMe keeps DOM nodes alive across navigation. The minimum viable JS is: apply inline styles, watch for any DOM mutation after leaving the page (URL is already correct by then), clean up.
