@@ -24,6 +24,18 @@ body:has(#aira-roadmap-root:not([data-rmhide])) section.content-body { max-width
 (function () {
   var SLUG = '/docs/roadmap';
 
+  // Wipe any inline styles left by previous script versions on every page/navigation
+  function clearStale() {
+    var toc  = document.querySelector('section.content-toc');
+    var body = document.querySelector('section.content-body');
+    if (toc)  toc.style.removeProperty('display');
+    if (body) {
+      body.style.removeProperty('max-width');
+      body.style.removeProperty('flex');
+      body.style.removeProperty('width');
+    }
+  }
+
   function sync() {
     var root = document.getElementById('aira-roadmap-root');
     if (!root) return;
@@ -34,15 +46,14 @@ body:has(#aira-roadmap-root:not([data-rmhide])) section.content-body { max-width
     }
   }
 
-  sync();
-  window.addEventListener('pageshow', sync);
+  clearStale(); sync();
+  window.addEventListener('pageshow', function () { clearStale(); sync(); });
 
   if (!window._rmNavPatch) {
     window._rmNavPatch = true;
     ['pushState', 'replaceState'].forEach(function (fn) {
       var orig = history[fn];
       history[fn] = function () {
-        // Set flag BEFORE orig.apply so CSS deactivates before React renders
         if (window.location.pathname === SLUG) {
           var dest = String(arguments[2] || '');
           if (dest.indexOf(SLUG) === -1) {
@@ -51,11 +62,11 @@ body:has(#aira-roadmap-root:not([data-rmhide])) section.content-body { max-width
           }
         }
         var r = orig.apply(this, arguments);
-        sync();
+        clearStale(); sync();
         return r;
       };
     });
-    window.addEventListener('popstate', sync);
+    window.addEventListener('popstate', function () { clearStale(); sync(); });
   }
 
   if (!window._rmNavObs) {
