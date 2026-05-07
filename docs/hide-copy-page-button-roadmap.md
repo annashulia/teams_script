@@ -8,9 +8,16 @@
   section.content-toc.grid-25    ← Copy Page button lives here
 ```
 
-## Solution — add a script at the end of the HTML block
+## Solution — two layers inside the HTML block
 
-Just before the closing `</div>` of `#aira-roadmap-root`, add:
+### 1. In the `<style>` tag — instant visual application (zero flash)
+
+```css
+body:has(#aira-roadmap-root) section.content-toc  { display: none !important; }
+body:has(#aira-roadmap-root) section.content-body { max-width: 100% !important; flex: 1 1 100% !important; width: 100% !important; }
+```
+
+### 2. Just before the closing `</div>` of `#aira-roadmap-root` — reliable cleanup
 
 ```html
 <script>
@@ -24,7 +31,6 @@ Just before the closing `</div>` of `#aira-roadmap-root`, add:
   body.style.setProperty('flex',      '1 1 100%', 'important');
   body.style.setProperty('width',     '100%',     'important');
 
-  // Watch for this page's content being unmounted by React
   var obs = new MutationObserver(function () {
     if (document.getElementById('aira-roadmap-root')) return;
     toc.style.removeProperty('display');
@@ -40,9 +46,9 @@ Just before the closing `</div>` of `#aira-roadmap-root`, add:
 
 **Remove any Copy Page script from Admin Settings → Footer HTML** — it is no longer needed.
 
-## Why this works
+## Why two layers
 
-- The script only executes on the roadmap page (it lives inside the HTML block)
-- Cleanup is triggered by `#aira-roadmap-root` disappearing from the DOM — React's own unmount, not navigation events
-- The observer disconnects immediately after cleanup — no ongoing overhead
-- `:has()` CSS was unreliable because ReadMe sometimes keeps `#aira-roadmap-root` briefly in the DOM during page transitions, making the rule fire on other pages
+- **`:has()` CSS** fires before JS runs — no flash of the Copy Page button even on SPA navigation
+- **Inline script** removes the inline styles the moment React actually removes `#aira-roadmap-root` — handles the transition bleed that CSS alone can't prevent
+- `:has()` alone bleeds because ReadMe briefly keeps `#aira-roadmap-root` in the DOM during transitions; the script catches the actual removal and cleans up inline styles immediately
+- The observer disconnects after one use — no ongoing overhead
