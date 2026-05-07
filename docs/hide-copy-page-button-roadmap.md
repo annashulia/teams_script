@@ -37,22 +37,25 @@
   check();
   window.addEventListener('pageshow', check);
 
-  // Share the same flag as the search script — prevents double-patching which
-  // causes app:navigate to fire twice and check() to see intermediate URLs
-  if (!window._historyPatched) {
-    window._historyPatched = true;
-    var fire = function () { window.dispatchEvent(new Event('app:navigate')); };
+  // Own flag — wraps history and calls check() directly.
+  // Does NOT rely on app:navigate from other scripts (search script etc.)
+  // which may be broken or missing. check() is idempotent so double-calls are fine.
+  if (!window._rmCpCheck) {
+    window._rmCpCheck = true;
     ['pushState', 'replaceState'].forEach(function (fn) {
       var orig = history[fn];
-      history[fn] = function () { var r = orig.apply(this, arguments); fire(); return r; };
+      history[fn] = function () {
+        var r = orig.apply(this, arguments); // URL updates first
+        check();                              // then sync body class
+        return r;
+      };
     });
-    window.addEventListener('popstate', fire);
+    window.addEventListener('popstate', check);
   }
-  window.addEventListener('app:navigate', check);
 
-  if (typeof jQuery !== 'undefined') {
-    jQuery(window).on('pageLoad', check);
-  }
+  // Extra safety nets
+  window.addEventListener('app:navigate', check);
+  if (typeof jQuery !== 'undefined') { jQuery(window).on('pageLoad', check); }
 })();
 </script>
 ```
