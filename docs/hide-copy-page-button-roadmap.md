@@ -29,16 +29,18 @@
 
   function check() {
     if (!document.body) return;
-    document.body.classList.toggle(CLS, window.location.pathname.includes(SLUG));
+    // Exact match — includes() is too loose and can match unrelated URLs
+    var path = window.location.pathname.replace(/\/$/, '');
+    document.body.classList.toggle(CLS, path === SLUG);
   }
 
-  // Initial load
   check();
   window.addEventListener('pageshow', check);
 
-  // Own patch with separate flag — works alongside search script without conflict
-  if (!window._rmRoadmapPatch) {
-    window._rmRoadmapPatch = true;
+  // Share the same flag as the search script — prevents double-patching which
+  // causes app:navigate to fire twice and check() to see intermediate URLs
+  if (!window._historyPatched) {
+    window._historyPatched = true;
     var fire = function () { window.dispatchEvent(new Event('app:navigate')); };
     ['pushState', 'replaceState'].forEach(function (fn) {
       var orig = history[fn];
@@ -48,7 +50,6 @@
   }
   window.addEventListener('app:navigate', check);
 
-  // ReadMe's own jQuery pageLoad as extra safety net
   if (typeof jQuery !== 'undefined') {
     jQuery(window).on('pageLoad', check);
   }
