@@ -37,18 +37,30 @@ body:has(#aira-roadmap-root:not([data-rmhide])) section.content-body { max-width
   sync();
   window.addEventListener('pageshow', sync);
 
-  if (!window._rmAttrPatch) {
-    window._rmAttrPatch = true;
+  if (!window._rmNavPatch) {
+    window._rmNavPatch = true;
     ['pushState', 'replaceState'].forEach(function (fn) {
       var orig = history[fn];
-      history[fn] = function () { orig.apply(this, arguments); sync(); };
+      history[fn] = function () {
+        // Set flag BEFORE orig.apply so CSS deactivates before React renders
+        if (window.location.pathname === SLUG) {
+          var dest = String(arguments[2] || '');
+          if (dest.indexOf(SLUG) === -1) {
+            var root = document.getElementById('aira-roadmap-root');
+            if (root) root.setAttribute('data-rmhide', '1');
+          }
+        }
+        var r = orig.apply(this, arguments);
+        sync();
+        return r;
+      };
     });
     window.addEventListener('popstate', sync);
   }
 
-  if (!window._rmAttrObs) {
-    window._rmAttrObs = new MutationObserver(sync);
-    window._rmAttrObs.observe(document.body, { childList: true, subtree: true });
+  if (!window._rmNavObs) {
+    window._rmNavObs = new MutationObserver(sync);
+    window._rmNavObs.observe(document.body, { childList: true, subtree: true });
   }
 })();
 </script>
@@ -56,14 +68,12 @@ body:has(#aira-roadmap-root:not([data-rmhide])) section.content-body { max-width
 
 Remove any inline script from the HTML block.
 
-## Why this is more robust
+## Why setting the flag before `orig.apply` matters
 
-Previous approaches tried to clean up `section.content-toc` and `section.content-body` directly — shared layout nodes that React reuses, making cleanup unreliable.
+All previous approaches called sync AFTER the URL changed (`orig.apply` first, then sync). React schedules rendering immediately after pushState, so by the time sync ran, React may already have started rendering the new page with the CSS still active.
 
-This approach only touches `#aira-roadmap-root` (the HTML block's own element). The CSS `:has(#aira-roadmap-root:not([data-rmhide]))` deactivates in three independent ways:
-
-1. `#aira-roadmap-root` is removed from DOM
-2. `#aira-roadmap-root` has `data-rmhide` attribute set
-3. `#aira-roadmap-root` never existed on this page
-
-Setting an attribute does **not** trigger `childList` mutations so there is no observer loop.
+Setting `data-rmhide` BEFORE `orig.apply` means:
+- URL hasn't changed yet
+- React hasn't started rendering
+- CSS rule `body:has(#aira-roadmap-root:not([data-rmhide]))` becomes false immediately
+- By the time React renders the new page, the layout is already correct — zero window of wrongness
