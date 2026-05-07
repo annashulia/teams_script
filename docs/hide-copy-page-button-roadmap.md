@@ -8,25 +8,41 @@
   section.content-toc.grid-25    ← Copy Page button lives here
 ```
 
-## Solution — add two CSS rules inside the HTML block's existing `<style>` tag
+## Solution — add a script at the end of the HTML block
 
-Edit the roadmap page in ReadMe. The `<HTMLBlock>` already has a large `<style>` tag at the top (starting with `#aira-roadmap-root {`). Add these two rules anywhere inside it:
+Just before the closing `</div>` of `#aira-roadmap-root`, add:
 
-```css
-/* Scoped to roadmap page only via :has() — #aira-roadmap-root only exists here */
-body:has(#aira-roadmap-root) section.content-toc  { display: none !important; }
-body:has(#aira-roadmap-root) section.content-body { max-width: 100% !important; flex: 1 1 100% !important; width: 100% !important; }
+```html
+<script>
+(function () {
+  var toc  = document.querySelector('section.content-toc');
+  var body = document.querySelector('section.content-body');
+  if (!toc || !body) return;
+
+  toc.style.setProperty('display',    'none',     'important');
+  body.style.setProperty('max-width', '100%',     'important');
+  body.style.setProperty('flex',      '1 1 100%', 'important');
+  body.style.setProperty('width',     '100%',     'important');
+
+  // Watch for this page's content being unmounted by React
+  var obs = new MutationObserver(function () {
+    if (document.getElementById('aira-roadmap-root')) return;
+    toc.style.removeProperty('display');
+    body.style.removeProperty('max-width');
+    body.style.removeProperty('flex');
+    body.style.removeProperty('width');
+    obs.disconnect();
+  });
+  obs.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
 ```
 
 **Remove any Copy Page script from Admin Settings → Footer HTML** — it is no longer needed.
 
-## Why CSS inside the HTML block, not JavaScript
+## Why this works
 
-Every JavaScript approach must fight React's render cycle: inject on arrival, clean up on departure, survive SPA navigations. Any timing gap leaks styles to other pages.
-
-CSS inside the HTML block sidesteps this entirely:
-
-- The `<style>` tag lives **inside the page content** (`article.rm-Article`), not in `<head>`
-- When React navigates to a different page it unmounts the roadmap article, removing the `<style>` from the DOM automatically
-- Other pages never see these rules — no cleanup, no history patching, no events
-- The first CSS attempt failed because it targeted `.rm-CopyPageButton` (wrong selector). `section.content-toc` and `section.content-body` are the confirmed correct selectors from DevTools inspection
+- The script only executes on the roadmap page (it lives inside the HTML block)
+- Cleanup is triggered by `#aira-roadmap-root` disappearing from the DOM — React's own unmount, not navigation events
+- The observer disconnects immediately after cleanup — no ongoing overhead
+- `:has()` CSS was unreliable because ReadMe sometimes keeps `#aira-roadmap-root` briefly in the DOM during page transitions, making the rule fire on other pages
