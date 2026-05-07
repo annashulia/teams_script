@@ -10,9 +10,14 @@
 
 ## Solution — two layers inside the HTML block
 
-### Admin Settings → Footer HTML
+### 1. In the HTML block's `<style>` tag — add these two rules
 
-Remove any previous Copy Page script. Remove any inline script from the HTML block. Put only this:
+```css
+body:has(#aira-roadmap-root:not([data-rmhide])) section.content-toc  { display: none !important; }
+body:has(#aira-roadmap-root:not([data-rmhide])) section.content-body { max-width: 100% !important; flex: 1 1 100% !important; width: 100% !important; }
+```
+
+### 2. Admin Settings → Footer HTML — replace everything with this
 
 ```html
 <script>
@@ -20,27 +25,20 @@ Remove any previous Copy Page script. Remove any inline script from the HTML blo
   var SLUG = '/docs/roadmap';
 
   function sync() {
-    var toc  = document.querySelector('section.content-toc');
-    var body = document.querySelector('section.content-body');
-    if (!toc || !body) return;
+    var root = document.getElementById('aira-roadmap-root');
+    if (!root) return;
     if (window.location.pathname === SLUG) {
-      toc.style.setProperty('display',    'none',     'important');
-      body.style.setProperty('max-width', '100%',     'important');
-      body.style.setProperty('flex',      '1 1 100%', 'important');
-      body.style.setProperty('width',     '100%',     'important');
+      root.removeAttribute('data-rmhide');
     } else {
-      toc.style.removeProperty('display');
-      body.style.removeProperty('max-width');
-      body.style.removeProperty('flex');
-      body.style.removeProperty('width');
+      root.setAttribute('data-rmhide', '1');
     }
   }
 
   sync();
   window.addEventListener('pageshow', sync);
 
-  if (!window._rmRoadmapPatched) {
-    window._rmRoadmapPatched = true;
+  if (!window._rmAttrPatch) {
+    window._rmAttrPatch = true;
     ['pushState', 'replaceState'].forEach(function (fn) {
       var orig = history[fn];
       history[fn] = function () { orig.apply(this, arguments); sync(); };
@@ -48,20 +46,24 @@ Remove any previous Copy Page script. Remove any inline script from the HTML blo
     window.addEventListener('popstate', sync);
   }
 
-  if (!window._rmSyncObs) {
-    window._rmSyncObs = new MutationObserver(sync);
-    window._rmSyncObs.observe(document.body, { childList: true, subtree: true });
+  if (!window._rmAttrObs) {
+    window._rmAttrObs = new MutationObserver(sync);
+    window._rmAttrObs.observe(document.body, { childList: true, subtree: true });
   }
 })();
 </script>
 ```
 
-## Why three layers
+Remove any inline script from the HTML block.
 
-React's navigation order (URL change vs DOM change) is non-deterministic:
+## Why this is more robust
 
-- **`pushState`/`replaceState` patch** — `sync()` fires the instant the URL changes, correct when URL updates before DOM
-- **MutationObserver** — `sync()` fires on every DOM change, correct when DOM updates before URL
-- **`pageshow`** — covers hard refresh and bfcache restores
+Previous approaches tried to clean up `section.content-toc` and `section.content-body` directly — shared layout nodes that React reuses, making cleanup unreliable.
 
-Between both timing cases, one of these always fires `sync()` with the correct URL already set. Setting `style` properties does not trigger `childList` mutations so there is no observer loop.
+This approach only touches `#aira-roadmap-root` (the HTML block's own element). The CSS `:has(#aira-roadmap-root:not([data-rmhide]))` deactivates in three independent ways:
+
+1. `#aira-roadmap-root` is removed from DOM
+2. `#aira-roadmap-root` has `data-rmhide` attribute set
+3. `#aira-roadmap-root` never existed on this page
+
+Setting an attribute does **not** trigger `childList` mutations so there is no observer loop.
