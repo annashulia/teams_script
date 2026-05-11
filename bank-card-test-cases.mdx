@@ -1,0 +1,64 @@
+# Bank Card Test Cases
+
+## 3DS Challenge
+
+### Challenge Flow: Diagram
+
+<Image
+  align="center"
+  src="https://files.readme.io/438dacfb1978dbea125429e1febfb0f9e3d0bb3153f6f9c4d5b72f2784a5bca4-Bank_Card_Emulator_-_H2H_-_Challenge.jpg"
+/>
+
+<br />
+
+### Challenge Flow: List of Cases
+
+| No    | Case                                          | Bank Card Number                          | OTP  |
+|-------|-----------------------------------------------|-------------------------------------------|------|
+| CF_1  | Intent Creation: Success                      | Any card that **is** on the challenge list | -   |
+| CF_2  | Intent Creation: Error                        | Any card that **is not** on the list       | -   |
+| CF_3  | 3DS Challenge Authorisation: Success          | Any card that **is** on the challenge list | 1000 |
+| CF_4  | 3DS Challenge Authorisation: Failure          | Any card that **is** on the challenge list | 1001 |
+| CF_5  | 3DS Challenge Authorisation: OTP Expiration   | Any card that **is** on the challenge list | 1002 |
+| CF_6  | 3DS Challenge Authorisation: Success and then expiration in 5 seconds | **CF_Card_3** | - |
+| CF_7  | Completion - Capture or Cancellation: Success | **CF_Card_1**                             | -    |
+| CF_8  | Completion - Capture or Cancellation: Failure | **CF_Card_2**                             | -    |
+
+<br />
+
+### Challenge Flow: Bank Card Test Numbers
+
+| No        | PAN Number           | Usage                                                                                      |
+|-----------|----------------------|--------------------------------------------------------------------------------------------|
+| CF_Card_1 | `5120069996100821`   | **Flow**: Challenge<br />**Authorisation**: Success<br />**Capture/Cancellation**: Success |
+| CF_Card_2 | `5120069996491832`   | **Flow**: Challenge<br />**Authorisation**: Success<br />**Capture/Cancellation**: Failure |
+| CF_Card_3 | `5120069996727748`   | **Flow**: Challenge<br />**Authorisation**: Success, then expiration in 5 seconds<br />**Capture/Cancellation**: Not applicable |
+
+---
+
+## Frictionless / No 3DS
+
+> Scenarios are based on card numbers. All other parameters can be any random values.
+
+### List of Cases
+
+| No   | Case                                                   | Bank Card Number                                         |
+|------|--------------------------------------------------------|----------------------------------------------------------|
+| FF_1 | Intent Creation: Success                               | Any card that **is** on the frictionless list             |
+| FF_2 | Intent Creation: Error                                 | Any card that **is not** on the list                     |
+| FF_3 | Frictionless Authorization: Failure                    | **FF_Card_1:** `4462603042343024`                        |
+| FF_4 | Frictionless Authorization: Success and then expiration (in 5 sec) | **FF_Card_2**: `4462603040318820`          |
+| FF_5 | Frictionless Authorization: Success                    | Any of the listed below: FF_Card_1, FF_Card_2, FF_Card_4 |
+| FF_6 | Completion (Capture or Cancellation): Success          | **FF_Card_3**: `4462603043025620`                        |
+| FF_7 | Completion (Capture or Cancellation): Failure          | **FF_Card_4**: `4462603040971339`                        |
+
+<br />
+
+### Bank Card Test Numbers
+
+| No        | PAN Number           | Usage                                                                                                                   |
+|-----------|----------------------|-------------------------------------------------------------------------------------------------------------------------|
+| FF_Card_1 | `4462603042343024`   | **Flow**: Frictionless<br />**Authorisation**: Failure<br />**Capture/Cancellation**: Not applicable                   |
+| FF_Card_2 | `4462603040318820`   | **Flow**: Frictionless<br />**Authorisation**: Success, then expiration (in 5 sec)<br />**Capture/Cancellation**: Not applicable |
+| FF_Card_3 | `4462603043025620`   | **Flow**: Frictionless<br />**Authorisation**: Success<br />**Capture/Cancellation**: Success                          |
+| FF_Card_4 | `4462603040971339`   | **Flow**: Frictionless<br />**Authorisation**: Success<br />**Capture/Cancellation**: Failure                          |
