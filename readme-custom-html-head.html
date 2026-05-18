@@ -135,40 +135,44 @@
 }
 
 /* Primary button */
-[data-color-mode=light] .container .Button_primary,
-[data-color-mode=light] .Flex .Button_primary {
+[data-color-mode=light] .Button_primary,
+[data-color-mode=system] .Button_primary,
+:not([data-color-mode=dark]) .Button_primary {
   background: #17191D;
   color: #fff;
   border-width: 0;
 }
-[data-color-mode=light] .container .Button_primary:not(:disabled):hover,
-[data-color-mode=light] .Flex .Button_primary:not(:disabled):hover { background: #131B26; }
-[data-color-mode=light] .container .Button_primary:not(:disabled):active,
-[data-color-mode=light] .container .Button_primary:not(:disabled):focus,
-[data-color-mode=light] .container .Button_primary:not(:disabled):focus-visible,
-[data-color-mode=light] .Flex .Button_primary:not(:disabled):active,
-[data-color-mode=light] .Flex .Button_primary:not(:disabled):focus,
-[data-color-mode=light] .Flex .Button_primary:not(:disabled):focus-visible { background: #5B6572; }
-[data-color-mode=light] .container .Button_primary:disabled,
-[data-color-mode=light] .Flex .Button_primary:disabled { background: #E7E9EE; color: #B8C1CD; }
+[data-color-mode=light] .Button_primary:not(:disabled):hover,
+[data-color-mode=system] .Button_primary:not(:disabled):hover,
+:not([data-color-mode=dark]) .Button_primary:not(:disabled):hover { background: #131B26; }
+[data-color-mode=light] .Button_primary:not(:disabled):active,
+[data-color-mode=light] .Button_primary:not(:disabled):focus,
+[data-color-mode=light] .Button_primary:not(:disabled):focus-visible,
+[data-color-mode=system] .Button_primary:not(:disabled):active,
+[data-color-mode=system] .Button_primary:not(:disabled):focus,
+[data-color-mode=system] .Button_primary:not(:disabled):focus-visible { background: #5B6572; }
+[data-color-mode=light] .Button_primary:disabled,
+[data-color-mode=system] .Button_primary:disabled { background: #E7E9EE; color: #B8C1CD; }
 
 /* Secondary outline button */
-[data-color-mode=light] .container .Button_secondary_outline,
-[data-color-mode=light] .Flex .Button_secondary_outline {
+[data-color-mode=light] .Button_secondary_outline,
+[data-color-mode=system] .Button_secondary_outline,
+:not([data-color-mode=dark]) .Button_secondary_outline {
   background: #fff;
   color: #17191D;
   border-color: #17191D;
 }
-[data-color-mode=light] .container .Button_secondary_outline:not(:disabled):hover,
-[data-color-mode=light] .Flex .Button_secondary_outline:not(:disabled):hover {
+[data-color-mode=light] .Button_secondary_outline:not(:disabled):hover,
+[data-color-mode=system] .Button_secondary_outline:not(:disabled):hover,
+:not([data-color-mode=dark]) .Button_secondary_outline:not(:disabled):hover {
   background: #F7F8FB;
   border-color: #17191D;
   color: #17191D;
 }
-[data-color-mode=light] .container .Button_secondary_outline:not(:disabled):active,
-[data-color-mode=light] .container .Button_secondary_outline:not(:disabled):focus-visible,
-[data-color-mode=light] .Flex .Button_secondary_outline:not(:disabled):active,
-[data-color-mode=light] .Flex .Button_secondary_outline:not(:disabled):focus-visible {
+[data-color-mode=light] .Button_secondary_outline:not(:disabled):active,
+[data-color-mode=light] .Button_secondary_outline:not(:disabled):focus-visible,
+[data-color-mode=system] .Button_secondary_outline:not(:disabled):active,
+[data-color-mode=system] .Button_secondary_outline:not(:disabled):focus-visible {
   background: #E7E9EE;
   border-color: #17191D;
 }
@@ -286,27 +290,27 @@
     border-color: #4F4F57;
   }
 
-  [data-color-mode=system] .Flex .Button_primary { background: #FAFAFA; color: #121212; }
-  [data-color-mode=system] .Flex .Button_primary:not(:disabled):hover { background: #E3E3E3; }
-  [data-color-mode=system] .Flex .Button_primary:not(:disabled):active,
-  [data-color-mode=system] .Flex .Button_primary:not(:disabled):focus,
-  [data-color-mode=system] .Flex .Button_primary:not(:disabled):focus-visible { background: #B6B6BD; }
-  [data-color-mode=system] .Flex .Button_primary:disabled { background: #2A2A2E; color: #4F4F57; }
+  [data-color-mode=system] .Button_primary { background: #FAFAFA; color: #121212; }
+  [data-color-mode=system] .Button_primary:not(:disabled):hover { background: #E3E3E3; }
+  [data-color-mode=system] .Button_primary:not(:disabled):active,
+  [data-color-mode=system] .Button_primary:not(:disabled):focus,
+  [data-color-mode=system] .Button_primary:not(:disabled):focus-visible { background: #B6B6BD; }
+  [data-color-mode=system] .Button_primary:disabled { background: #2A2A2E; color: #4F4F57; }
 
-  [data-color-mode=system] .Flex .Button_secondary_outline {
+  [data-color-mode=system] .Button_secondary_outline {
     background: transparent;
     border-color: #FAFAFA;
     color: #FAFAFA;
   }
-  [data-color-mode=system] .Flex .Button_secondary_outline:not(:disabled):hover {
+  [data-color-mode=system] .Button_secondary_outline:not(:disabled):hover {
     background: #151515;
     color: #FAFAFA;
     border-color: #FAFAFA;
   }
-  [data-color-mode=system] .Flex .Button_secondary_outline:not(:disabled):active,
-  [data-color-mode=system] .Flex .Button_secondary_outline:not(:disabled):focus,
-  [data-color-mode=system] .Flex .Button_secondary_outline:not(:disabled):focus-visible { background: #2A2A2E; }
-  [data-color-mode=system] .Flex .Button_secondary_outline:disabled {
+  [data-color-mode=system] .Button_secondary_outline:not(:disabled):active,
+  [data-color-mode=system] .Button_secondary_outline:not(:disabled):focus,
+  [data-color-mode=system] .Button_secondary_outline:not(:disabled):focus-visible { background: #2A2A2E; }
+  [data-color-mode=system] .Button_secondary_outline:disabled {
     background: transparent;
     color: #4F4F57;
     border-color: #4F4F57;
@@ -399,27 +403,27 @@
   border-color: #4F4F57;
 }
 
-[data-color-mode=dark] .Flex .Button_primary { background: #FAFAFA; color: #121212; }
-[data-color-mode=dark] .Flex .Button_primary:not(:disabled):hover { background: #E3E3E3; }
-[data-color-mode=dark] .Flex .Button_primary:not(:disabled):active,
-[data-color-mode=dark] .Flex .Button_primary:not(:disabled):focus,
-[data-color-mode=dark] .Flex .Button_primary:not(:disabled):focus-visible { background: #B6B6BD; }
-[data-color-mode=dark] .Flex .Button_primary:disabled { background: #2A2A2E; color: #4F4F57; }
+[data-color-mode=dark] .Button_primary { background: #FAFAFA; color: #121212; }
+[data-color-mode=dark] .Button_primary:not(:disabled):hover { background: #E3E3E3; }
+[data-color-mode=dark] .Button_primary:not(:disabled):active,
+[data-color-mode=dark] .Button_primary:not(:disabled):focus,
+[data-color-mode=dark] .Button_primary:not(:disabled):focus-visible { background: #B6B6BD; }
+[data-color-mode=dark] .Button_primary:disabled { background: #2A2A2E; color: #4F4F57; }
 
-[data-color-mode=dark] .Flex .Button_secondary_outline {
+[data-color-mode=dark] .Button_secondary_outline {
   background: transparent;
   border-color: #FAFAFA;
   color: #FAFAFA;
 }
-[data-color-mode=dark] .Flex .Button_secondary_outline:not(:disabled):hover {
+[data-color-mode=dark] .Button_secondary_outline:not(:disabled):hover {
   background: #151515;
   color: #FAFAFA;
   border-color: #FAFAFA;
 }
-[data-color-mode=dark] .Flex .Button_secondary_outline:not(:disabled):active,
-[data-color-mode=dark] .Flex .Button_secondary_outline:not(:disabled):focus,
-[data-color-mode=dark] .Flex .Button_secondary_outline:not(:disabled):focus-visible { background: #2A2A2E; }
-[data-color-mode=dark] .Flex .Button_secondary_outline:disabled {
+[data-color-mode=dark] .Button_secondary_outline:not(:disabled):active,
+[data-color-mode=dark] .Button_secondary_outline:not(:disabled):focus,
+[data-color-mode=dark] .Button_secondary_outline:not(:disabled):focus-visible { background: #2A2A2E; }
+[data-color-mode=dark] .Button_secondary_outline:disabled {
   background: transparent;
   color: #4F4F57;
   border-color: #4F4F57;
