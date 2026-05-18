@@ -1,19 +1,13 @@
 <!--
-  Coins.ph API Docs — Custom Styles
-  Paste the contents of this file into:
-    readme.com dashboard → Appearance → CSS/JS/HTML → HTML tab
+  Coins.ph API Docs — HTML head field
+  Paste the entire contents of this file into:
+    readme.com → Appearance → CSS/JS/HTML → HTML tab
     → "Goes under <head> tag" field
 
-  Why here instead of the CSS field:
-  The CSS field is a dynamically-loaded stylesheet managed by React.
-  For unauthenticated users, React hydration clears it, causing dark
-  platform defaults to bleed through in light mode.
-  A <style> tag in this HTML field is server-rendered into <head> as
-  raw HTML — React does not manage it, so hydration cannot remove it.
-
-  With this in place, the Custom CSS field and Custom JS field can both
-  be cleared entirely.
+  Custom CSS field → clear
+  Custom JS field  → clear
 -->
+
 <style>
 /* ── Box-shadow resets ───────────────────────────────────── */
 
@@ -291,3 +285,33 @@
   border-color: #4F4F57;
 }
 </style>
+
+<script>
+/* Safety net: re-injects the styles above if React hydration removes them.
+   Checks for the <style> tag first — if it is present, does nothing. */
+(function () {
+  var STYLE_ID = "coins-hydration-fix";
+
+  var CSS =
+    ".rm-SearchToggle{box-shadow:none}" +
+    ".rm-SearchToggle:focus,.rm-SearchToggle:active{box-shadow:none}" +
+    "[data-color-mode=light] .rm-SearchToggle,[data-color-mode=light] .ThemeContext_line .rm-SearchToggle{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important}" +
+    ".rm-Header-search .rm-SearchToggle,.rm-Header-search .rm-SearchToggle_primary,.ThemeContext_line .rm-Header-search .rm-SearchToggle,.ThemeContext_line .rm-Header-search .rm-SearchToggle_primary{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important;color:#8795A8!important;box-shadow:none!important}" +
+    ".rm-Header-search .rm-SearchToggle *,.rm-Header-search .rm-SearchToggle-placeholder,.ThemeContext_line .rm-Header-search .rm-SearchToggle *,.ThemeContext_line .rm-Header-search .rm-SearchToggle-placeholder{color:#8795A8!important;fill:#8795A8!important;stroke:#8795A8!important}" +
+    ".rm-Header-search .rm-SearchToggle:hover,.rm-Header-search .rm-SearchToggle:focus,.rm-Header-search .rm-SearchToggle:active{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important}" +
+    "[data-color-mode=light] .reference-redesign .rm-Sidebar{--Sidebar-link-background:#EDF4FF!important;--Sidebar-link-color:#1F7AFF!important}" +
+    "[data-color-mode=light] .Card_card{--Card-bg-color:#F7F8FB!important;--Card-bg-color-hover:#F3F5F9!important}" +
+    ".APIMethod{--APIMethod-post-bg-active:#1F7AFF;--APIMethod-post-bg:rgba(200,222,255,0.33);--APIMethod-post-fg:#1F7AFF;--APIMethod-get-bg:rgba(192,245,204,0.38);--APIMethod-get-fg:#00BF30;--APIMethod-del-bg:rgba(255,207,204,0.3);--APIMethod-del-bg-active:#FF3729;--APIMethod-del-fg:#FF3729;--APIMethod-put-bg:#F3F2FF;--APIMethod-put-bg-active:#6B61FF;--APIMethod-put-fg:#6B61FF;--APIMethod-patch-bg:rgba(252,241,176,0.45);--APIMethod-patch-bg-active:#D6AB00;--APIMethod-patch-fg:#D6AB00}";
+
+  function injectIfMissing() {
+    if (document.getElementById(STYLE_ID)) return;
+    var el = document.createElement("style");
+    el.id = STYLE_ID;
+    el.textContent = CSS;
+    document.head.appendChild(el);
+  }
+
+  injectIfMissing();
+  window.addEventListener("load", injectIfMissing);
+})();
+</script>
