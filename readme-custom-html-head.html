@@ -4,11 +4,11 @@
     readme.com → Appearance → CSS/JS/HTML → HTML tab
     → "Goes under <head> tag" field
 
-  Custom CSS field → clear
-  Custom JS field  → clear
+  CSS field → clear
+  JS field  → clear
 -->
 
-<style>
+<style id="coins-custom-styles">
 /* ── Box-shadow resets ───────────────────────────────────── */
 
 .rm-SearchToggle { box-shadow: none; }
@@ -88,6 +88,33 @@
   --SearchToggle-color: #8795A8 !important;
 }
 
+/* Force header search bar light at all times */
+.rm-Header-search .rm-SearchToggle,
+.rm-Header-search .rm-SearchToggle_primary,
+.ThemeContext_line .rm-Header-search .rm-SearchToggle,
+.ThemeContext_line .rm-Header-search .rm-SearchToggle_primary {
+  --SearchToggle-bg: #F5F7FA !important;
+  --SearchToggle-color: #8795A8 !important;
+  background: #F5F7FA !important;
+  color: #8795A8 !important;
+  box-shadow: none !important;
+}
+.rm-Header-search .rm-SearchToggle *,
+.rm-Header-search .rm-SearchToggle-placeholder,
+.ThemeContext_line .rm-Header-search .rm-SearchToggle *,
+.ThemeContext_line .rm-Header-search .rm-SearchToggle-placeholder {
+  color: #8795A8 !important;
+  fill: #8795A8 !important;
+  stroke: #8795A8 !important;
+}
+.rm-Header-search .rm-SearchToggle:hover,
+.rm-Header-search .rm-SearchToggle:focus,
+.rm-Header-search .rm-SearchToggle:active {
+  --SearchToggle-bg: #F5F7FA !important;
+  --SearchToggle-color: #8795A8 !important;
+  background: #F5F7FA !important;
+}
+
 [data-color-mode=light] .reference-redesign .rm-Sidebar,
 :not([data-color-mode=dark]) .reference-redesign .rm-Sidebar {
   --Sidebar-link-background: #EDF4FF !important;
@@ -109,19 +136,14 @@
 }
 [data-color-mode=light] .container .Button_primary:not(:disabled):hover,
 [data-color-mode=light] .Flex .Button_primary:not(:disabled):hover { background: #131B26; }
-
 [data-color-mode=light] .container .Button_primary:not(:disabled):active,
 [data-color-mode=light] .container .Button_primary:not(:disabled):focus,
 [data-color-mode=light] .container .Button_primary:not(:disabled):focus-visible,
 [data-color-mode=light] .Flex .Button_primary:not(:disabled):active,
 [data-color-mode=light] .Flex .Button_primary:not(:disabled):focus,
 [data-color-mode=light] .Flex .Button_primary:not(:disabled):focus-visible { background: #5B6572; }
-
 [data-color-mode=light] .container .Button_primary:disabled,
-[data-color-mode=light] .Flex .Button_primary:disabled {
-  background: #E7E9EE;
-  color: #B8C1CD;
-}
+[data-color-mode=light] .Flex .Button_primary:disabled { background: #E7E9EE; color: #B8C1CD; }
 
 /* Secondary outline button */
 [data-color-mode=light] .container .Button_secondary_outline,
@@ -264,10 +286,7 @@
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):active,
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):focus,
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):focus-visible { background: #B6B6BD; }
-[data-color-mode=dark] .Flex .Button_primary:disabled {
-  background: #2A2A2E;
-  color: #4F4F57;
-}
+[data-color-mode=dark] .Flex .Button_primary:disabled { background: #2A2A2E; color: #4F4F57; }
 
 /* Secondary outline button */
 [data-color-mode=dark] .Flex .Button_secondary_outline {
@@ -291,31 +310,51 @@
 </style>
 
 <script>
-/* Safety net: re-injects the styles above if React hydration removes them.
-   Checks for the <style> tag first — if it is present, does nothing. */
+/*
+  Safety net: re-injects the <style> above if React hydration removes it.
+  Uses ReadMe's pageLoad event (fires after hydration) when available,
+  falls back to DOMContentLoaded. Does nothing if the tag is already present.
+*/
 (function () {
-  var STYLE_ID = "coins-hydration-fix";
-
-  var CSS =
-    ".rm-SearchToggle{box-shadow:none}" +
-    ".rm-SearchToggle:focus,.rm-SearchToggle:active{box-shadow:none}" +
-    "[data-color-mode=light] .rm-SearchToggle,[data-color-mode=light] .ThemeContext_line .rm-SearchToggle{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important}" +
-    ".rm-Header-search .rm-SearchToggle,.rm-Header-search .rm-SearchToggle_primary,.ThemeContext_line .rm-Header-search .rm-SearchToggle,.ThemeContext_line .rm-Header-search .rm-SearchToggle_primary{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important;color:#8795A8!important;box-shadow:none!important}" +
-    ".rm-Header-search .rm-SearchToggle *,.rm-Header-search .rm-SearchToggle-placeholder,.ThemeContext_line .rm-Header-search .rm-SearchToggle *,.ThemeContext_line .rm-Header-search .rm-SearchToggle-placeholder{color:#8795A8!important;fill:#8795A8!important;stroke:#8795A8!important}" +
-    ".rm-Header-search .rm-SearchToggle:hover,.rm-Header-search .rm-SearchToggle:focus,.rm-Header-search .rm-SearchToggle:active{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important}" +
-    "[data-color-mode=light] .reference-redesign .rm-Sidebar{--Sidebar-link-background:#EDF4FF!important;--Sidebar-link-color:#1F7AFF!important}" +
-    "[data-color-mode=light] .Card_card{--Card-bg-color:#F7F8FB!important;--Card-bg-color-hover:#F3F5F9!important}" +
-    ".APIMethod{--APIMethod-post-bg-active:#1F7AFF;--APIMethod-post-bg:rgba(200,222,255,0.33);--APIMethod-post-fg:#1F7AFF;--APIMethod-get-bg:rgba(192,245,204,0.38);--APIMethod-get-fg:#00BF30;--APIMethod-del-bg:rgba(255,207,204,0.3);--APIMethod-del-bg-active:#FF3729;--APIMethod-del-fg:#FF3729;--APIMethod-put-bg:#F3F2FF;--APIMethod-put-bg-active:#6B61FF;--APIMethod-put-fg:#6B61FF;--APIMethod-patch-bg:rgba(252,241,176,0.45);--APIMethod-patch-bg-active:#D6AB00;--APIMethod-patch-fg:#D6AB00}";
+  var STYLE_ID = "coins-custom-styles";
 
   function injectIfMissing() {
     if (document.getElementById(STYLE_ID)) return;
+
     var el = document.createElement("style");
     el.id = STYLE_ID;
-    el.textContent = CSS;
+    el.textContent = [
+      ".rm-SearchToggle{box-shadow:none}",
+      ".rm-SearchToggle:focus,.rm-SearchToggle:active{box-shadow:none}",
+      ".Input:not(:disabled):active,.Input:not(:disabled):focus,.Input:not(:disabled):focus-visible{box-shadow:none!important}",
+      ".Button:focus,.Button:not(:disabled):focus-visible,.Button:active{box-shadow:none!important}",
+      ":not([data-color-mode=dark]) .APIMethod{--APIMethod-post-bg-active:#1F7AFF!important;--APIMethod-post-bg:rgba(200,222,255,0.33)!important;--APIMethod-post-fg:#1F7AFF!important;--APIMethod-get-bg:rgba(192,245,204,0.38)!important;--APIMethod-get-fg:#00BF30!important;--APIMethod-del-bg:rgba(255,207,204,0.3)!important;--APIMethod-del-bg-active:#FF3729!important;--APIMethod-del-fg:#FF3729!important;--APIMethod-put-bg:#F3F2FF!important;--APIMethod-put-bg-active:#6B61FF!important;--APIMethod-put-fg:#6B61FF!important;--APIMethod-patch-bg:rgba(252,241,176,0.45)!important;--APIMethod-patch-bg-active:#D6AB00!important;--APIMethod-patch-fg:#D6AB00!important}",
+      "[data-color-mode=light] .rm-SearchToggle,:not([data-color-mode=dark]) .rm-SearchToggle,[data-color-mode=light] .ThemeContext_line .rm-SearchToggle,:not([data-color-mode=dark]) .ThemeContext_line .rm-SearchToggle{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important}",
+      ".rm-Header-search .rm-SearchToggle,.rm-Header-search .rm-SearchToggle_primary,.ThemeContext_line .rm-Header-search .rm-SearchToggle,.ThemeContext_line .rm-Header-search .rm-SearchToggle_primary{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important;color:#8795A8!important;box-shadow:none!important}",
+      ".rm-Header-search .rm-SearchToggle *,.rm-Header-search .rm-SearchToggle-placeholder,.ThemeContext_line .rm-Header-search .rm-SearchToggle *,.ThemeContext_line .rm-Header-search .rm-SearchToggle-placeholder{color:#8795A8!important;fill:#8795A8!important;stroke:#8795A8!important}",
+      ".rm-Header-search .rm-SearchToggle:hover,.rm-Header-search .rm-SearchToggle:focus,.rm-Header-search .rm-SearchToggle:active{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important}",
+      "[data-color-mode=light] .reference-redesign .rm-Sidebar,:not([data-color-mode=dark]) .reference-redesign .rm-Sidebar{--Sidebar-link-background:#EDF4FF!important;--Sidebar-link-color:#1F7AFF!important}",
+      "[data-color-mode=light] .Card_card,:not([data-color-mode=dark]) .Card_card{--Card-bg-color:#F7F8FB!important;--Card-bg-color-hover:#F3F5F9!important}",
+      "[data-color-mode=dark]{--color-bg-page-layer:#1B1B1C;--color-input-background:#1B1B1C;--color-input-background-disabled:#2A2A2E;--color-input-border:rgba(255,255,255,0.1);--color-input-text:#fff;--color-input-text-disabled:#4F4F57;--color-input-placeholder:#4F4F57;--color-code-dark-bg:#1B1B1C;--Input-border-hover:#FAFAFA;--Input-border-active:#FAFAFA;--Input-border-focus:#FAFAFA;--color-border-default:#1B1B1C;--green30:#00C227;--color-text-muted:#FAFAFA}",
+      "[data-color-mode=dark] .APIMethod{--APIMethod-post-bg-active:#4D8EFF;--APIMethod-post-bg:rgba(30,50,85,0.5);--APIMethod-post-fg:#4D8EFF;--APIMethod-get-bg:rgba(30,50,85,0.5);--APIMethod-get-fg:#00C227;--APIMethod-del-bg:rgba(83,31,28,0.45);--APIMethod-del-bg-active:#FF4824;--APIMethod-del-fg:#FF4824;--APIMethod-put-bg:#1B192E;--APIMethod-put-bg-active:#6B61FF;--APIMethod-put-fg:#6B61FF;--APIMethod-patch-bg:rgba(70,57,7,0.42);--APIMethod-patch-bg-active:#D6AB00;--APIMethod-patch-fg:#D6AB00}",
+      "[data-color-mode=dark] .ThemeContext_line .rm-SearchToggle{--SearchToggle-bg:#1B1B1C;--SearchToggle-color:#4F4F57}",
+      "[data-color-mode=dark] .reference-redesign .rm-Sidebar{--Sidebar-link-background:#131C2B;--Sidebar-link-color:#1F7AFF}",
+      "[data-color-mode=dark] .Card_card{--Card-bg-color:#151515;--Card-bg-color-hover:#19191A}"
+    ].join("");
     document.head.appendChild(el);
   }
 
-  injectIfMissing();
+  /* 1. Use ReadMe's pageLoad event — fires after React hydration */
+  if (typeof window.ReadMe !== "undefined" && window.ReadMe.on) {
+    window.ReadMe.on("pageLoad", injectIfMissing);
+  }
+
+  /* 2. Also run on DOMContentLoaded and load as fallbacks */
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", injectIfMissing);
+  } else {
+    injectIfMissing();
+  }
   window.addEventListener("load", injectIfMissing);
 })();
 </script>

@@ -1,9 +1,10 @@
 /* ==========================================================
-   Coins.ph API Docs — Custom Styles
-   Flat selectors (no nesting) for direct <style> injection.
-   Place this inside a <style> tag in the HTML > Head field
-   on readme.com so it is server-rendered and survives React
-   hydration for unauthenticated users.
+   Coins.ph API Docs — Custom CSS
+   Paste into: readme.com → Appearance → CSS/JS/HTML → CSS tab
+   (optional — for logged-in / admin preview only)
+
+   The authoritative source for public users is the <style> tag
+   inside readme-custom-html-head.html (HTML tab → head field).
    ========================================================== */
 
 /* ── Box-shadow resets ───────────────────────────────────── */
@@ -56,6 +57,7 @@
 
 
 /* ── API method badges — light defaults ──────────────────── */
+/* :not([data-color-mode=dark]) catches both explicit light and unset */
 
 :not([data-color-mode=dark]) .APIMethod {
   --APIMethod-post-bg-active: #1F7AFF !important;
@@ -85,6 +87,33 @@
   --SearchToggle-color: #8795A8 !important;
 }
 
+/* Force header search bar light at all times */
+.rm-Header-search .rm-SearchToggle,
+.rm-Header-search .rm-SearchToggle_primary,
+.ThemeContext_line .rm-Header-search .rm-SearchToggle,
+.ThemeContext_line .rm-Header-search .rm-SearchToggle_primary {
+  --SearchToggle-bg: #F5F7FA !important;
+  --SearchToggle-color: #8795A8 !important;
+  background: #F5F7FA !important;
+  color: #8795A8 !important;
+  box-shadow: none !important;
+}
+.rm-Header-search .rm-SearchToggle *,
+.rm-Header-search .rm-SearchToggle-placeholder,
+.ThemeContext_line .rm-Header-search .rm-SearchToggle *,
+.ThemeContext_line .rm-Header-search .rm-SearchToggle-placeholder {
+  color: #8795A8 !important;
+  fill: #8795A8 !important;
+  stroke: #8795A8 !important;
+}
+.rm-Header-search .rm-SearchToggle:hover,
+.rm-Header-search .rm-SearchToggle:focus,
+.rm-Header-search .rm-SearchToggle:active {
+  --SearchToggle-bg: #F5F7FA !important;
+  --SearchToggle-color: #8795A8 !important;
+  background: #F5F7FA !important;
+}
+
 [data-color-mode=light] .reference-redesign .rm-Sidebar,
 :not([data-color-mode=dark]) .reference-redesign .rm-Sidebar {
   --Sidebar-link-background: #EDF4FF !important;
@@ -106,19 +135,14 @@
 }
 [data-color-mode=light] .container .Button_primary:not(:disabled):hover,
 [data-color-mode=light] .Flex .Button_primary:not(:disabled):hover { background: #131B26; }
-
 [data-color-mode=light] .container .Button_primary:not(:disabled):active,
 [data-color-mode=light] .container .Button_primary:not(:disabled):focus,
 [data-color-mode=light] .container .Button_primary:not(:disabled):focus-visible,
 [data-color-mode=light] .Flex .Button_primary:not(:disabled):active,
 [data-color-mode=light] .Flex .Button_primary:not(:disabled):focus,
 [data-color-mode=light] .Flex .Button_primary:not(:disabled):focus-visible { background: #5B6572; }
-
 [data-color-mode=light] .container .Button_primary:disabled,
-[data-color-mode=light] .Flex .Button_primary:disabled {
-  background: #E7E9EE;
-  color: #B8C1CD;
-}
+[data-color-mode=light] .Flex .Button_primary:disabled { background: #E7E9EE; color: #B8C1CD; }
 
 /* Secondary outline button */
 [data-color-mode=light] .container .Button_secondary_outline,
@@ -261,10 +285,7 @@
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):active,
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):focus,
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):focus-visible { background: #B6B6BD; }
-[data-color-mode=dark] .Flex .Button_primary:disabled {
-  background: #2A2A2E;
-  color: #4F4F57;
-}
+[data-color-mode=dark] .Flex .Button_primary:disabled { background: #2A2A2E; color: #4F4F57; }
 
 /* Secondary outline button */
 [data-color-mode=dark] .Flex .Button_secondary_outline {
