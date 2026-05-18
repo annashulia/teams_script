@@ -178,28 +178,36 @@
 }
 
 /* Landing page header */
-[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader {
-  --LandingPageHeader-button-primary-background: #17191D;
-  --LandingPageHeader-button-primary-color: #ffffff;
-  --LandingPageHeader-button-secondary-color: #17191D;
-  --LandingPageHeader-button-primary-background-hover: #131B26;
-  --LandingPageHeader-button-secondary-border-hover: #17191D;
-  --LandingPageHeader-button-primary-background-focus: #5B6572;
-  --LandingPageHeader-button-primary-background-25: rgba(91, 101, 114, 0.25);
-  --LandingPageHeader-button-secondary-border-focus: #17191D;
-  --LandingPageHeader-button-secondary-shadow-hover: rgba(23, 25, 29, 0.28);
+[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader,
+[data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader,
+:not([data-color-mode=dark]) .ThemeContext_line .rm-LandingPageHeader {
+  --LandingPageHeader-button-primary-background: #17191D !important;
+  --LandingPageHeader-button-primary-color: #ffffff !important;
+  --LandingPageHeader-button-secondary-color: #17191D !important;
+  --LandingPageHeader-button-primary-background-hover: #131B26 !important;
+  --LandingPageHeader-button-secondary-border-hover: #17191D !important;
+  --LandingPageHeader-button-primary-background-focus: #5B6572 !important;
+  --LandingPageHeader-button-primary-background-25: rgba(91, 101, 114, 0.25) !important;
+  --LandingPageHeader-button-secondary-border-focus: #17191D !important;
+  --LandingPageHeader-button-secondary-shadow-hover: rgba(23, 25, 29, 0.28) !important;
 }
-[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B {
-  border-color: #17191D;
-  background: #fff;
+[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B,
+[data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B,
+:not([data-color-mode=dark]) .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B {
+  border-color: #17191D !important;
+  background: #fff !important;
 }
-[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:hover { background: #F7F8FB; }
+[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:hover,
+[data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:hover { background: #F7F8FB !important; }
 [data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:active,
-[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:focus { background: #E7E9EE; }
-[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:disabled {
-  background: #fff;
-  color: #B8C1CD;
-  border-color: #B8C1CD;
+[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:focus,
+[data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:active,
+[data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:focus { background: #E7E9EE !important; }
+[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:disabled,
+[data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:disabled {
+  background: #fff !important;
+  color: #B8C1CD !important;
+  border-color: #B8C1CD !important;
 }
 
 
@@ -452,6 +460,9 @@
     "[data-color-mode=light] .reference-redesign .rm-Sidebar,[data-color-mode=system] .reference-redesign .rm-Sidebar,:not([data-color-mode=dark]) .reference-redesign .rm-Sidebar{--Sidebar-link-background:#EDF4FF!important;--Sidebar-link-color:#1F7AFF!important}" +
     /* Cards — light + system + not-dark */
     "[data-color-mode=light] .Card_card,[data-color-mode=system] .Card_card,:not([data-color-mode=dark]) .Card_card{--Card-bg-color:#F7F8FB!important;--Card-bg-color-hover:#F3F5F9!important}" +
+    /* Landing page header button variables */
+    "[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader,[data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader,:not([data-color-mode=dark]) .ThemeContext_line .rm-LandingPageHeader{--LandingPageHeader-button-primary-background:#17191D!important;--LandingPageHeader-button-primary-color:#fff!important;--LandingPageHeader-button-secondary-color:#17191D!important;--LandingPageHeader-button-primary-background-hover:#131B26!important;--LandingPageHeader-button-secondary-border-hover:#17191D!important;--LandingPageHeader-button-primary-background-focus:#5B6572!important}" +
+    "[data-color-mode=light] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B,[data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B,:not([data-color-mode=dark]) .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B{border-color:#17191D!important;background:#fff!important}" +
     /* API badges — light + system + not-dark */
     "[data-color-mode=light] .APIMethod,[data-color-mode=system] .APIMethod,:not([data-color-mode=dark]) .APIMethod{--APIMethod-post-bg-active:#1F7AFF!important;--APIMethod-post-bg:rgba(200,222,255,0.33)!important;--APIMethod-post-fg:#1F7AFF!important;--APIMethod-get-bg:rgba(192,245,204,0.38)!important;--APIMethod-get-fg:#00BF30!important;--APIMethod-del-bg:rgba(255,207,204,0.3)!important;--APIMethod-del-bg-active:#FF3729!important;--APIMethod-del-fg:#FF3729!important;--APIMethod-put-bg:#F3F2FF!important;--APIMethod-put-bg-active:#6B61FF!important;--APIMethod-put-fg:#6B61FF!important;--APIMethod-patch-bg:rgba(252,241,176,0.45)!important;--APIMethod-patch-bg-active:#D6AB00!important;--APIMethod-patch-fg:#D6AB00!important}" +
     /* Dark mode */
