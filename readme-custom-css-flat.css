@@ -57,40 +57,44 @@
 
 /* ── API method badges — light defaults ──────────────────── */
 
-.APIMethod {
-  --APIMethod-post-bg-active: #1F7AFF;
-  --APIMethod-post-bg: rgba(200, 222, 255, 0.33);
-  --APIMethod-post-fg: #1F7AFF;
-  --APIMethod-get-bg: rgba(192, 245, 204, 0.38);
-  --APIMethod-get-fg: #00BF30;
-  --APIMethod-del-bg: rgba(255, 207, 204, 0.3);
-  --APIMethod-del-bg-active: #FF3729;
-  --APIMethod-del-fg: #FF3729;
-  --APIMethod-put-bg: #F3F2FF;
-  --APIMethod-put-bg-active: #6B61FF;
-  --APIMethod-put-fg: #6B61FF;
-  --APIMethod-patch-bg: rgba(252, 241, 176, 0.45);
-  --APIMethod-patch-bg-active: #D6AB00;
-  --APIMethod-patch-fg: #D6AB00;
+:not([data-color-mode=dark]) .APIMethod {
+  --APIMethod-post-bg-active: #1F7AFF !important;
+  --APIMethod-post-bg: rgba(200, 222, 255, 0.33) !important;
+  --APIMethod-post-fg: #1F7AFF !important;
+  --APIMethod-get-bg: rgba(192, 245, 204, 0.38) !important;
+  --APIMethod-get-fg: #00BF30 !important;
+  --APIMethod-del-bg: rgba(255, 207, 204, 0.3) !important;
+  --APIMethod-del-bg-active: #FF3729 !important;
+  --APIMethod-del-fg: #FF3729 !important;
+  --APIMethod-put-bg: #F3F2FF !important;
+  --APIMethod-put-bg-active: #6B61FF !important;
+  --APIMethod-put-fg: #6B61FF !important;
+  --APIMethod-patch-bg: rgba(252, 241, 176, 0.45) !important;
+  --APIMethod-patch-bg-active: #D6AB00 !important;
+  --APIMethod-patch-fg: #D6AB00 !important;
 }
 
 
 /* ── Light mode ──────────────────────────────────────────── */
 
 [data-color-mode=light] .rm-SearchToggle,
-[data-color-mode=light] .ThemeContext_line .rm-SearchToggle {
-  --SearchToggle-bg: #F5F7FA;
-  --SearchToggle-color: #8795A8;
+[data-color-mode=light] .ThemeContext_line .rm-SearchToggle,
+:not([data-color-mode=dark]) .rm-SearchToggle,
+:not([data-color-mode=dark]) .ThemeContext_line .rm-SearchToggle {
+  --SearchToggle-bg: #F5F7FA !important;
+  --SearchToggle-color: #8795A8 !important;
 }
 
-[data-color-mode=light] .reference-redesign .rm-Sidebar {
-  --Sidebar-link-background: #EDF4FF;
-  --Sidebar-link-color: #1F7AFF;
+[data-color-mode=light] .reference-redesign .rm-Sidebar,
+:not([data-color-mode=dark]) .reference-redesign .rm-Sidebar {
+  --Sidebar-link-background: #EDF4FF !important;
+  --Sidebar-link-color: #1F7AFF !important;
 }
 
-[data-color-mode=light] .Card_card {
-  --Card-bg-color: #F7F8FB;
-  --Card-bg-color-hover: #F3F5F9;
+[data-color-mode=light] .Card_card,
+:not([data-color-mode=dark]) .Card_card {
+  --Card-bg-color: #F7F8FB !important;
+  --Card-bg-color-hover: #F3F5F9 !important;
 }
 
 /* Primary button */
