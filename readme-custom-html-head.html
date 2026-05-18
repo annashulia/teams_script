@@ -59,7 +59,10 @@
 
 
 /* ── API method badges — light defaults ──────────────────── */
+/* Covers: explicit light + system-with-light-OS + no attribute set */
 
+[data-color-mode=light] .APIMethod,
+[data-color-mode=system] .APIMethod,
 :not([data-color-mode=dark]) .APIMethod {
   --APIMethod-post-bg-active: #1F7AFF !important;
   --APIMethod-post-bg: rgba(200, 222, 255, 0.33) !important;
@@ -78,10 +81,12 @@
 }
 
 
-/* ── Light mode ──────────────────────────────────────────── */
+/* ── Light mode (explicit + system-with-light-OS) ────────── */
 
 [data-color-mode=light] .rm-SearchToggle,
 [data-color-mode=light] .ThemeContext_line .rm-SearchToggle,
+[data-color-mode=system] .rm-SearchToggle,
+[data-color-mode=system] .ThemeContext_line .rm-SearchToggle,
 :not([data-color-mode=dark]) .rm-SearchToggle,
 :not([data-color-mode=dark]) .ThemeContext_line .rm-SearchToggle {
   --SearchToggle-bg: #F5F7FA !important;
@@ -116,12 +121,14 @@
 }
 
 [data-color-mode=light] .reference-redesign .rm-Sidebar,
+[data-color-mode=system] .reference-redesign .rm-Sidebar,
 :not([data-color-mode=dark]) .reference-redesign .rm-Sidebar {
   --Sidebar-link-background: #EDF4FF !important;
   --Sidebar-link-color: #1F7AFF !important;
 }
 
 [data-color-mode=light] .Card_card,
+[data-color-mode=system] .Card_card,
 :not([data-color-mode=dark]) .Card_card {
   --Card-bg-color: #F7F8FB !important;
   --Card-bg-color-hover: #F3F5F9 !important;
@@ -192,7 +199,122 @@
 }
 
 
-/* ── Dark mode ───────────────────────────────────────────── */
+/* ── System mode + dark OS preference ───────────────────── */
+/* Mirrors dark mode — handles when user's OS is in dark mode */
+
+@media (prefers-color-scheme: dark) {
+  [data-color-mode=system] {
+    --color-bg-page-layer: #1B1B1C;
+    --color-input-background: #1B1B1C;
+    --color-input-background-disabled: #2A2A2E;
+    --color-input-border: rgba(255, 255, 255, 0.1);
+    --color-input-text: #FFFFFF;
+    --color-input-text-disabled: #4F4F57;
+    --color-input-placeholder: #4F4F57;
+    --color-code-dark-bg: #1B1B1C;
+    --Input-border-hover: #FAFAFA;
+    --Input-border-active: #FAFAFA;
+    --Input-border-focus: #FAFAFA;
+    --color-border-default: #1B1B1C;
+    --green30: #00C227;
+    --color-text-muted: #FAFAFA;
+  }
+
+  [data-color-mode=system] .APIMethod {
+    --APIMethod-post-bg-active: #4D8EFF !important;
+    --APIMethod-post-bg: rgba(30, 50, 85, 0.5) !important;
+    --APIMethod-post-fg: #4D8EFF !important;
+    --APIMethod-get-bg: rgba(30, 50, 85, 0.5) !important;
+    --APIMethod-get-fg: #00C227 !important;
+    --APIMethod-del-bg: rgba(83, 31, 28, 0.45) !important;
+    --APIMethod-del-bg-active: #FF4824 !important;
+    --APIMethod-del-fg: #FF4824 !important;
+    --APIMethod-put-bg: #1B192E !important;
+    --APIMethod-put-bg-active: #6B61FF !important;
+    --APIMethod-put-fg: #6B61FF !important;
+    --APIMethod-patch-bg: rgba(70, 57, 7, 0.42) !important;
+    --APIMethod-patch-bg-active: #D6AB00 !important;
+    --APIMethod-patch-fg: #D6AB00 !important;
+  }
+
+  [data-color-mode=system] .ThemeContext_line .rm-SearchToggle {
+    --SearchToggle-bg: #1B1B1C !important;
+    --SearchToggle-color: #4F4F57 !important;
+  }
+
+  [data-color-mode=system] .reference-redesign .rm-Sidebar {
+    --Sidebar-link-background: #131C2B !important;
+    --Sidebar-link-color: #1F7AFF !important;
+  }
+
+  [data-color-mode=system] .Card_card {
+    --Card-bg-color: #151515 !important;
+    --Card-bg-color-hover: #19191A !important;
+  }
+
+  [data-color-mode=system] .Input { border-width: 0; }
+  [data-color-mode=system] .Input:disabled { border-width: 0; }
+  [data-color-mode=system] .Input:not(:disabled):hover { background-color: #19191A; }
+  [data-color-mode=system] .Input:not(:disabled):active,
+  [data-color-mode=system] .Input:not(:disabled):focus {
+    border-width: 1px;
+    border-color: #FAFAFA;
+    box-shadow: none;
+  }
+
+  [data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader {
+    --LandingPageHeader-button-primary-background: #FAFAFA;
+    --LandingPageHeader-button-primary-color: #121212;
+    --LandingPageHeader-button-secondary-color: #FAFAFA;
+    --LandingPageHeader-button-primary-background-hover: #E3E3E3;
+    --LandingPageHeader-button-secondary-border-hover: #FAFAFA;
+    --LandingPageHeader-button-primary-background-focus: #B6B6BD;
+    --LandingPageHeader-button-secondary-color-focus: #FAFAFA;
+    --LandingPageHeader-button-primary-background-25: rgba(91, 101, 114, 0.25);
+    --LandingPageHeader-button-secondary-shadow-hover: rgba(250, 250, 250, 0.28);
+  }
+  [data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B {
+    border-color: #FAFAFA;
+    background: transparent;
+  }
+  [data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:not(:disabled):hover { background: #151515; }
+  [data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:not(:disabled):active,
+  [data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:not(:disabled):focus { background: #2A2A2E; }
+  [data-color-mode=system] .ThemeContext_line .rm-LandingPageHeader .LandingPageHeader-button_secondary3s2XpkqwCz8B:disabled {
+    background: transparent;
+    color: #4F4F57;
+    border-color: #4F4F57;
+  }
+
+  [data-color-mode=system] .Flex .Button_primary { background: #FAFAFA; color: #121212; }
+  [data-color-mode=system] .Flex .Button_primary:not(:disabled):hover { background: #E3E3E3; }
+  [data-color-mode=system] .Flex .Button_primary:not(:disabled):active,
+  [data-color-mode=system] .Flex .Button_primary:not(:disabled):focus,
+  [data-color-mode=system] .Flex .Button_primary:not(:disabled):focus-visible { background: #B6B6BD; }
+  [data-color-mode=system] .Flex .Button_primary:disabled { background: #2A2A2E; color: #4F4F57; }
+
+  [data-color-mode=system] .Flex .Button_secondary_outline {
+    background: transparent;
+    border-color: #FAFAFA;
+    color: #FAFAFA;
+  }
+  [data-color-mode=system] .Flex .Button_secondary_outline:not(:disabled):hover {
+    background: #151515;
+    color: #FAFAFA;
+    border-color: #FAFAFA;
+  }
+  [data-color-mode=system] .Flex .Button_secondary_outline:not(:disabled):active,
+  [data-color-mode=system] .Flex .Button_secondary_outline:not(:disabled):focus,
+  [data-color-mode=system] .Flex .Button_secondary_outline:not(:disabled):focus-visible { background: #2A2A2E; }
+  [data-color-mode=system] .Flex .Button_secondary_outline:disabled {
+    background: transparent;
+    color: #4F4F57;
+    border-color: #4F4F57;
+  }
+}
+
+
+/* ── Dark mode (explicit) ────────────────────────────────── */
 
 [data-color-mode=dark] {
   --color-bg-page-layer: #1B1B1C;
@@ -277,18 +399,13 @@
   border-color: #4F4F57;
 }
 
-/* Primary button */
-[data-color-mode=dark] .Flex .Button_primary {
-  background: #FAFAFA;
-  color: #121212;
-}
+[data-color-mode=dark] .Flex .Button_primary { background: #FAFAFA; color: #121212; }
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):hover { background: #E3E3E3; }
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):active,
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):focus,
 [data-color-mode=dark] .Flex .Button_primary:not(:disabled):focus-visible { background: #B6B6BD; }
 [data-color-mode=dark] .Flex .Button_primary:disabled { background: #2A2A2E; color: #4F4F57; }
 
-/* Secondary outline button */
 [data-color-mode=dark] .Flex .Button_secondary_outline {
   background: transparent;
   border-color: #FAFAFA;
@@ -311,50 +428,75 @@
 
 <script>
 /*
-  Safety net: re-injects the <style> above if React hydration removes it.
-  Uses ReadMe's pageLoad event (fires after hydration) when available,
-  falls back to DOMContentLoaded. Does nothing if the tag is already present.
+  Fires on every page load/navigation AFTER React hydration.
+  Uses window pageLoad event (same as Moneris approach, no jQuery needed).
+  Tries to append to the platform's rm-custom-css tag first — this is the
+  most reliable method since appended CSS wins via source order.
+  Falls back to creating a new <style> tag if rm-custom-css doesn't exist.
 */
 (function () {
+  var INJECT_MARKER = "--coins-injected";
   var STYLE_ID = "coins-custom-styles";
 
-  function injectIfMissing() {
-    if (document.getElementById(STYLE_ID)) return;
+  var CSS =
+    /* SearchToggle — covers light, system, and not-dark */
+    "[data-color-mode=light] .rm-SearchToggle,[data-color-mode=system] .rm-SearchToggle,:not([data-color-mode=dark]) .rm-SearchToggle,[data-color-mode=light] .ThemeContext_line .rm-SearchToggle,[data-color-mode=system] .ThemeContext_line .rm-SearchToggle,:not([data-color-mode=dark]) .ThemeContext_line .rm-SearchToggle{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important}" +
+    ".rm-Header-search .rm-SearchToggle,.rm-Header-search .rm-SearchToggle_primary,.ThemeContext_line .rm-Header-search .rm-SearchToggle,.ThemeContext_line .rm-Header-search .rm-SearchToggle_primary{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important;color:#8795A8!important;box-shadow:none!important}" +
+    ".rm-Header-search .rm-SearchToggle *,.rm-Header-search .rm-SearchToggle-placeholder,.ThemeContext_line .rm-Header-search .rm-SearchToggle *,.ThemeContext_line .rm-Header-search .rm-SearchToggle-placeholder{color:#8795A8!important;fill:#8795A8!important;stroke:#8795A8!important}" +
+    ".rm-Header-search .rm-SearchToggle:hover,.rm-Header-search .rm-SearchToggle:focus,.rm-Header-search .rm-SearchToggle:active{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important}" +
+    /* Sidebar — light + system + not-dark */
+    "[data-color-mode=light] .reference-redesign .rm-Sidebar,[data-color-mode=system] .reference-redesign .rm-Sidebar,:not([data-color-mode=dark]) .reference-redesign .rm-Sidebar{--Sidebar-link-background:#EDF4FF!important;--Sidebar-link-color:#1F7AFF!important}" +
+    /* Cards — light + system + not-dark */
+    "[data-color-mode=light] .Card_card,[data-color-mode=system] .Card_card,:not([data-color-mode=dark]) .Card_card{--Card-bg-color:#F7F8FB!important;--Card-bg-color-hover:#F3F5F9!important}" +
+    /* API badges — light + system + not-dark */
+    "[data-color-mode=light] .APIMethod,[data-color-mode=system] .APIMethod,:not([data-color-mode=dark]) .APIMethod{--APIMethod-post-bg-active:#1F7AFF!important;--APIMethod-post-bg:rgba(200,222,255,0.33)!important;--APIMethod-post-fg:#1F7AFF!important;--APIMethod-get-bg:rgba(192,245,204,0.38)!important;--APIMethod-get-fg:#00BF30!important;--APIMethod-del-bg:rgba(255,207,204,0.3)!important;--APIMethod-del-bg-active:#FF3729!important;--APIMethod-del-fg:#FF3729!important;--APIMethod-put-bg:#F3F2FF!important;--APIMethod-put-bg-active:#6B61FF!important;--APIMethod-put-fg:#6B61FF!important;--APIMethod-patch-bg:rgba(252,241,176,0.45)!important;--APIMethod-patch-bg-active:#D6AB00!important;--APIMethod-patch-fg:#D6AB00!important}" +
+    /* Dark mode */
+    "[data-color-mode=dark]{--color-bg-page-layer:#1B1B1C;--color-input-background:#1B1B1C;--color-input-background-disabled:#2A2A2E;--color-input-border:rgba(255,255,255,0.1);--color-input-text:#fff;--color-input-text-disabled:#4F4F57;--color-input-placeholder:#4F4F57;--color-code-dark-bg:#1B1B1C;--Input-border-hover:#FAFAFA;--Input-border-active:#FAFAFA;--Input-border-focus:#FAFAFA;--color-border-default:#1B1B1C;--green30:#00C227;--color-text-muted:#FAFAFA}" +
+    "[data-color-mode=dark] .APIMethod{--APIMethod-post-bg-active:#4D8EFF;--APIMethod-post-bg:rgba(30,50,85,0.5);--APIMethod-post-fg:#4D8EFF;--APIMethod-get-bg:rgba(30,50,85,0.5);--APIMethod-get-fg:#00C227;--APIMethod-del-bg:rgba(83,31,28,0.45);--APIMethod-del-bg-active:#FF4824;--APIMethod-del-fg:#FF4824;--APIMethod-put-bg:#1B192E;--APIMethod-put-bg-active:#6B61FF;--APIMethod-put-fg:#6B61FF;--APIMethod-patch-bg:rgba(70,57,7,0.42);--APIMethod-patch-bg-active:#D6AB00;--APIMethod-patch-fg:#D6AB00}" +
+    "[data-color-mode=dark] .ThemeContext_line .rm-SearchToggle{--SearchToggle-bg:#1B1B1C;--SearchToggle-color:#4F4F57}" +
+    "[data-color-mode=dark] .reference-redesign .rm-Sidebar{--Sidebar-link-background:#131C2B;--Sidebar-link-color:#1F7AFF}" +
+    "[data-color-mode=dark] .Card_card{--Card-bg-color:#151515;--Card-bg-color-hover:#19191A}" +
+    /* System + dark OS */
+    "@media(prefers-color-scheme:dark){[data-color-mode=system] .APIMethod{--APIMethod-post-bg-active:#4D8EFF!important;--APIMethod-post-bg:rgba(30,50,85,0.5)!important;--APIMethod-post-fg:#4D8EFF!important;--APIMethod-get-bg:rgba(30,50,85,0.5)!important;--APIMethod-get-fg:#00C227!important;--APIMethod-del-bg:rgba(83,31,28,0.45)!important;--APIMethod-del-bg-active:#FF4824!important;--APIMethod-del-fg:#FF4824!important;--APIMethod-put-bg:#1B192E!important;--APIMethod-put-bg-active:#6B61FF!important;--APIMethod-put-fg:#6B61FF!important;--APIMethod-patch-bg:rgba(70,57,7,0.42)!important;--APIMethod-patch-bg-active:#D6AB00!important;--APIMethod-patch-fg:#D6AB00!important}" +
+    "[data-color-mode=system] .ThemeContext_line .rm-SearchToggle{--SearchToggle-bg:#1B1B1C!important;--SearchToggle-color:#4F4F57!important}" +
+    "[data-color-mode=system] .reference-redesign .rm-Sidebar{--Sidebar-link-background:#131C2B!important;--Sidebar-link-color:#1F7AFF!important}" +
+    "[data-color-mode=system] .Card_card{--Card-bg-color:#151515!important;--Card-bg-color-hover:#19191A!important}}";
 
-    var el = document.createElement("style");
-    el.id = STYLE_ID;
-    el.textContent = [
-      ".rm-SearchToggle{box-shadow:none}",
-      ".rm-SearchToggle:focus,.rm-SearchToggle:active{box-shadow:none}",
-      ".Input:not(:disabled):active,.Input:not(:disabled):focus,.Input:not(:disabled):focus-visible{box-shadow:none!important}",
-      ".Button:focus,.Button:not(:disabled):focus-visible,.Button:active{box-shadow:none!important}",
-      ":not([data-color-mode=dark]) .APIMethod{--APIMethod-post-bg-active:#1F7AFF!important;--APIMethod-post-bg:rgba(200,222,255,0.33)!important;--APIMethod-post-fg:#1F7AFF!important;--APIMethod-get-bg:rgba(192,245,204,0.38)!important;--APIMethod-get-fg:#00BF30!important;--APIMethod-del-bg:rgba(255,207,204,0.3)!important;--APIMethod-del-bg-active:#FF3729!important;--APIMethod-del-fg:#FF3729!important;--APIMethod-put-bg:#F3F2FF!important;--APIMethod-put-bg-active:#6B61FF!important;--APIMethod-put-fg:#6B61FF!important;--APIMethod-patch-bg:rgba(252,241,176,0.45)!important;--APIMethod-patch-bg-active:#D6AB00!important;--APIMethod-patch-fg:#D6AB00!important}",
-      "[data-color-mode=light] .rm-SearchToggle,:not([data-color-mode=dark]) .rm-SearchToggle,[data-color-mode=light] .ThemeContext_line .rm-SearchToggle,:not([data-color-mode=dark]) .ThemeContext_line .rm-SearchToggle{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important}",
-      ".rm-Header-search .rm-SearchToggle,.rm-Header-search .rm-SearchToggle_primary,.ThemeContext_line .rm-Header-search .rm-SearchToggle,.ThemeContext_line .rm-Header-search .rm-SearchToggle_primary{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important;color:#8795A8!important;box-shadow:none!important}",
-      ".rm-Header-search .rm-SearchToggle *,.rm-Header-search .rm-SearchToggle-placeholder,.ThemeContext_line .rm-Header-search .rm-SearchToggle *,.ThemeContext_line .rm-Header-search .rm-SearchToggle-placeholder{color:#8795A8!important;fill:#8795A8!important;stroke:#8795A8!important}",
-      ".rm-Header-search .rm-SearchToggle:hover,.rm-Header-search .rm-SearchToggle:focus,.rm-Header-search .rm-SearchToggle:active{--SearchToggle-bg:#F5F7FA!important;--SearchToggle-color:#8795A8!important;background:#F5F7FA!important}",
-      "[data-color-mode=light] .reference-redesign .rm-Sidebar,:not([data-color-mode=dark]) .reference-redesign .rm-Sidebar{--Sidebar-link-background:#EDF4FF!important;--Sidebar-link-color:#1F7AFF!important}",
-      "[data-color-mode=light] .Card_card,:not([data-color-mode=dark]) .Card_card{--Card-bg-color:#F7F8FB!important;--Card-bg-color-hover:#F3F5F9!important}",
-      "[data-color-mode=dark]{--color-bg-page-layer:#1B1B1C;--color-input-background:#1B1B1C;--color-input-background-disabled:#2A2A2E;--color-input-border:rgba(255,255,255,0.1);--color-input-text:#fff;--color-input-text-disabled:#4F4F57;--color-input-placeholder:#4F4F57;--color-code-dark-bg:#1B1B1C;--Input-border-hover:#FAFAFA;--Input-border-active:#FAFAFA;--Input-border-focus:#FAFAFA;--color-border-default:#1B1B1C;--green30:#00C227;--color-text-muted:#FAFAFA}",
-      "[data-color-mode=dark] .APIMethod{--APIMethod-post-bg-active:#4D8EFF;--APIMethod-post-bg:rgba(30,50,85,0.5);--APIMethod-post-fg:#4D8EFF;--APIMethod-get-bg:rgba(30,50,85,0.5);--APIMethod-get-fg:#00C227;--APIMethod-del-bg:rgba(83,31,28,0.45);--APIMethod-del-bg-active:#FF4824;--APIMethod-del-fg:#FF4824;--APIMethod-put-bg:#1B192E;--APIMethod-put-bg-active:#6B61FF;--APIMethod-put-fg:#6B61FF;--APIMethod-patch-bg:rgba(70,57,7,0.42);--APIMethod-patch-bg-active:#D6AB00;--APIMethod-patch-fg:#D6AB00}",
-      "[data-color-mode=dark] .ThemeContext_line .rm-SearchToggle{--SearchToggle-bg:#1B1B1C;--SearchToggle-color:#4F4F57}",
-      "[data-color-mode=dark] .reference-redesign .rm-Sidebar{--Sidebar-link-background:#131C2B;--Sidebar-link-color:#1F7AFF}",
-      "[data-color-mode=dark] .Card_card{--Card-bg-color:#151515;--Card-bg-color-hover:#19191A}"
-    ].join("");
+  function inject() {
+    /* Try Moneris-style: append to platform's rm-custom-css tag.
+       CSS appended last wins via source order — no !important needed there. */
+    var rmStyle = document.querySelector('style[title="rm-custom-css"]');
+    if (rmStyle) {
+      if (rmStyle.textContent.includes(INJECT_MARKER)) return;
+      rmStyle.textContent += "/*" + INJECT_MARKER + "*/" + CSS;
+      return;
+    }
+
+    /* Fallback: create/update our own tag */
+    var el = document.getElementById(STYLE_ID);
+    if (el && el.textContent.includes(INJECT_MARKER)) return;
+    if (!el) {
+      el = document.createElement("style");
+      el.id = STYLE_ID;
+    }
+    el.textContent = "/*" + INJECT_MARKER + "*/" + CSS;
     document.head.appendChild(el);
   }
 
-  /* 1. Use ReadMe's pageLoad event — fires after React hydration */
+  /* pageLoad fires after React hydration on every navigation */
+  window.addEventListener("pageLoad", inject);
+
+  /* Also try ReadMe's own API if available */
   if (typeof window.ReadMe !== "undefined" && window.ReadMe.on) {
-    window.ReadMe.on("pageLoad", injectIfMissing);
+    window.ReadMe.on("pageLoad", inject);
   }
 
-  /* 2. Also run on DOMContentLoaded and load as fallbacks */
+  /* Fallback for initial page load */
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", injectIfMissing);
+    document.addEventListener("DOMContentLoaded", inject);
   } else {
-    injectIfMissing();
+    inject();
   }
-  window.addEventListener("load", injectIfMissing);
+  window.addEventListener("load", inject);
 })();
 </script>
