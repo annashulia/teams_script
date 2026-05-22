@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
-    "generate": "ts-node scripts/generate-from-csv.ts sheet.csv"
+    "generate": "ts-node scripts/generate-from-csv.ts sheet.csv",
+    "update-slugs": "ts-node scripts/update-readme-slugs.ts",
+    "update-slugs:dry": "ts-node scripts/update-readme-slugs.ts --dry-run"
   },
   "repository": {
     "type": "git",
