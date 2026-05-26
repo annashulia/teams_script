@@ -29839,7 +29839,7 @@ paths:
   /ProspectActivity.svc/CreateCustom__2:
     post:
       summary: Create a Lead and Activity
-      operationId: create-lead-and-activity
+      operationId: create-lead-and-activity-2
       tags:
       - Lead Management
       responses:
@@ -45476,7 +45476,7 @@ paths:
   /ProspectActivity.svc/Create__4:
     post:
       summary: Post an Activity on an Opportunity
-      operationId: post-an-activity-on-an-opportunity
+      operationId: post-an-activity-on-an-opportunity-2
       tags:
       - Opportunity Management
       responses:
@@ -45614,7 +45614,7 @@ paths:
   /ProspectActivity.svc/Bulk/CustomActivity/Add/ByOpportunityId__2:
     post:
       summary: Post Bulk Activities on Opportunities
-      operationId: post-bulk-activities-on-opportunities
+      operationId: post-bulk-activities-on-opportunities-2
       tags:
       - Opportunity Management
       responses:
